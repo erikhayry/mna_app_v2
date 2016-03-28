@@ -1,0 +1,35 @@
+<ion-header-bar>
+    <h1 class="title">Settings</h1>
+</ion-header-bar>
+<ion-content padding>
+    <div class="list">
+        <div class="item item-divider"> 
+        Ignore List
+        </div>
+
+        <div class="item item-button-right" *ngFor="#album of ignore">
+            {{album.name}}
+            <button class="button button-clear button-assertive" (click)="deleteIgnoreListItem(album.id)">
+                <i class="icon ion-ios-minus"></i>
+            </button>
+        </div> 
+                                       
+        <div class="item item-divider"> 
+        Settings
+        </div>                
+<!--                 <ion-toggle ng-repeat="preference in preferences"
+                    ng-model="preference.checked" 
+                    ng-checked="preference.checked"
+                    ng-change="vm.preferenceChanged()">
+        {{preference.text}}
+        </ion-toggle>  -->             
+    </div>       
+</ion-content>
+<ion-toolbar position="bottom">
+    <ion-buttons >
+        <button (click)="close()">
+            Close
+        </button>
+    </ion-buttons>
+</ion-toolbar>
+
