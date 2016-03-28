@@ -29,20 +29,7 @@ export class Result {
         console.time('getNextAlbum');
         
         this.albums.getNextAlbum(shouldRefreshData)
-            .then(function(data){
-            	        console.log('success')
-
-            	console.log(data)
-            }, function(data){
-            	        console.log('success')
-
-            	console.log(data)
-            })
-               .catch(
-        // Log the rejection reason
-        function(reason) {
-            console.log('Handle rejected promise ('+reason+') here.');
-        });      
+            .then(data => this.onSuccess(data), null)     
     };
 
 	constructor(nav: NavController, albums: Albums){
@@ -53,7 +40,7 @@ export class Result {
 			artist: 'Artist Name'
 		}
 
-		this.albums.getNextAlbum(true)
+		this.getNextAlbum(true)
 	}
 
 	getImage = (src) => 'data:image/png;base64,' + src
