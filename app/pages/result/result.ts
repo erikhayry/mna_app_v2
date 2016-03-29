@@ -14,6 +14,7 @@ export class Result {
 
 	private onSuccess(data:any){
         console.log('success')
+		console.log(data)
         //console.table(data)
         console.timeEnd('getNextAlbum');
         this.album = data;
@@ -29,7 +30,10 @@ export class Result {
         console.time('getNextAlbum');
         
         this.albums.getNextAlbum(shouldRefreshData)
-            .then(data => this.onSuccess(data), null)     
+            .then(data => {
+				console.log(data)
+				this.onSuccess(data)
+			})
     };
 
 	constructor(nav: NavController, albums: Albums){

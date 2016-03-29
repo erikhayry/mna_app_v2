@@ -1,5 +1,5 @@
 import {Injectable} from 'angular2/core';
-import {AudioInfoService} from './audioInfoService';
+import {AudioInfoService} from './audioInfoImpl';
 
 @Injectable()
 export class AudioInfo implements AudioInfoService {

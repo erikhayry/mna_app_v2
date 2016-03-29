@@ -1,5 +1,4 @@
 import {Injectable} from 'angular2/core';
-import {AudioInfoService} from './audioInfoService';
 import {StorageService} from "./storageService";
 
 @Injectable()

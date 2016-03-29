@@ -8,6 +8,7 @@ import {Storage} from "../../services/storage.mock";
 export class Settings extends Storage{
 	viewCtrl: ViewController;
 	constructor(viewCtrl: ViewController) {
+		super();
 		this.viewCtrl = viewCtrl;
 	}
 

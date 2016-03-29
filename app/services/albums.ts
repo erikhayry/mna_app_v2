@@ -1,6 +1,7 @@
 import {Injectable} from 'angular2/core';
 import {AudioInfo} from './audioInfo.mock';
 import {Sort} from './sort';
+import reject = Promise.reject;
 
 @Injectable()
 export class Albums{
@@ -11,19 +12,24 @@ export class Albums{
 	sort: Sort;
 
 	constructor(audioInfo: AudioInfo, sort: Sort) {
+		console.log(sort)
 		this.audioInfo = audioInfo;
 		this.sort = sort;
 	}
 
-	private getAlbum(albumsSorted) {
+	getAlbum(albumsSorted) {
 		console.log('_getAlbum')
+		console.log(albumsSorted)
 		this.currentAlbumIndex++;
 		return this.audioInfo.getTrack(albumsSorted[this.currentAlbumIndex][0].persistentID);
 	}  
 
-	private sortToAlbums(trackData) {
+	sortToAlbums(trackData) {
 		console.log('_sortToAlbums')
-		return this.sort.sortToAlbums(trackData)
+		console.log(trackData)
+		let albums = this.sort.sortToAlbums(trackData);
+		console.log(albums)
+		return Promise.resolve(albums)
 	}
 
 
@@ -41,7 +47,7 @@ export class Albums{
 		}
 
 		return this.audioInfo.getTracks(shouldRefreshData)
-			.then(this.sortToAlbums)
-			.then(this.getAlbum);
+			.then((data) => this.sortToAlbums(data))
+			.then((data) => this.getAlbum(data));
 	}
 }
