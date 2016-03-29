@@ -3,13 +3,14 @@ import {StatusBar} from 'ionic-native';
 import {TabsPage} from './pages/tabs/tabs';
 import {Albums} from './services/albums';
 import {AudioInfo} from './services/audioInfo';
+import {AudioInfoMock} from './services/audioInfo.mock';
 import {Sort} from './services/sort';
 
 
 @App({
   template: '<ion-nav [root]="rootPage"></ion-nav>',
   config: {}, // http://ionicframework.com/docs/v2/api/config/Config/
-  providers: [Albums, AudioInfo, Sort]
+  providers: [Albums, AudioInfo, AudioInfoMock, Sort]
 })
 
 export class MnaApp {

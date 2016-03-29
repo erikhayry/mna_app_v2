@@ -1,4 +1,4 @@
 export  interface AudioInfoService {
 	getTrack(id: number)
-	getTracks()
+	getTracks(shouldRefreshData:boolean)
 }

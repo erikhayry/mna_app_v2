@@ -6,6 +6,6 @@ export class AudioInfo implements AudioInfoService {
 	getTrack(id){
 
 	}
-	getTracks() {
+	getTracks(shouldRefreshData:boolean) {
 	}
 }
