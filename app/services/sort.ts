@@ -1,22 +1,29 @@
+/// <reference path="../../typings/lodash/lodash.d.ts" />
 import {Injectable} from 'angular2/core';
+import * as _ from 'lodash';
+
+interface Track {
+	totalRating: string;
+	rating: string;
+}
 
 @Injectable()
 export class Sort{
-	sortToAlbums(tracks:Array<any>) {
+	sortToAlbums(tracks:Array<Track>) {
 		console.log('_sortToAlbums')
-		return lodash.chain(tracks).groupBy('albumPersistentID').sortBy(function(a) {
+		return _.chain(tracks).groupBy('albumPersistentID').sortBy(function(a) {
 			return -a.length;
 		}).value()
 	}
-	sortByRating(tracks: Array<any>) {
+	sortByRating(tracks: Array<Track>) {
 		console.log('_sortByRating')
-		return lodash.chain(tracks).groupBy('albumPersistentID').map(function(a) {
-			return lodash.extend({}, a[0], {
-				totalRating: lodash.reduce(a, function(b, c) {
+		return _.chain(tracks).groupBy('albumPersistentID').map(function(a) {
+			return _.extend({}, a[0], {
+				totalRating: _.reduce(a, function(b, c: Track) {
 					return b + parseInt(c.rating);
 				}, 0)
 			})
-		}).sortBy(function(a) {
+		}).sortBy(function(a:Track) {
 			return -a.totalRating;
 		}).value()
 	}

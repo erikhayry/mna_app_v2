@@ -34,7 +34,7 @@ var copyScripts = require('ionic-gulp-scripts-copy');
 gulp.task('watch', ['sass', 'html', 'fonts', 'scripts'], function(){
   gulpWatch('app/**/*.scss', function(){ gulp.start('sass'); });
   gulpWatch('app/**/*.html', function(){ gulp.start('html'); });
-  return buildBrowserify({ watch: true });
+  return buildBrowserify({ watch: true })
 });
 
 gulp.task('build', ['sass', 'html', 'fonts', 'scripts'], buildBrowserify);
