@@ -1,5 +1,5 @@
 import {Injectable} from 'angular2/core';
-import {AudioInfo} from './audioInfo.mock';
+import {AudioInfo} from './audioInfo';
 import {Sort} from './sort';
 import reject = Promise.reject;
 

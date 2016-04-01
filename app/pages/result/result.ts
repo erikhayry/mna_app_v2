@@ -1,7 +1,6 @@
-import {Page, Modal, NavController} from 'ionic-angular';
+import {Page, Modal, NavController, Platform} from 'ionic-angular';
 import {Albums} from '../../services/albums';
 import {Settings} from '../../modals/settings/settings';
-import {OnInit} from 'angular2/core';
 
 @Page({
   templateUrl: 'build/pages/result/result.html',
@@ -11,6 +10,7 @@ export class Result {
 	album: any;
 	private nav: NavController;
 	private albums: Albums;
+	private platform:Platform;
 
 	private onSuccess(data:any){
         console.log('success')
@@ -33,18 +33,23 @@ export class Result {
             .then(data => {
 				console.log(data)
 				this.onSuccess(data)
-			})
+			}, error => this.onError)
     };
 
-	constructor(nav: NavController, albums: Albums){
+	constructor(nav: NavController, platform: Platform, albums: Albums){
 		this.nav = nav;
 		this.albums = albums;
 		this.album = {
 			title: 'Album Name',
 			artist: 'Artist Name'
-		}
+		};
 
-		this.getNextAlbum(true)
+		this.platform = platform;
+
+		this.platform.ready().then(() => {
+			this.getNextAlbum(true);
+		})
+
 	}
 
 	getImage = (src) => 'data:image/png;base64,' + src

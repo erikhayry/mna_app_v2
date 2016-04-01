@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='utf-8'?>
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        id="erikportin.plugins.audio-info"
+        version="0.0.1">
+
+        <name>iOSAudioInfo</name>
+        <description>Get track info from iTunes Library</description>
+
+        <author>Erik Portin</author>
+
+        <engines>
+            <engine name="cordova" version=">=3.0.0" />
+        </engines>
+
+        <js-module name="iOSAudioInfo" src="www/iOSAudioInfo.js">
+            <clobbers target="window.plugins.iOSAudioInfo" />
+        </js-module>
+
+        <platform name="ios">
+
+            <config-file parent="/*" target="config.xml">
+                <feature name="iOSAudioInfo">
+                    <param name="ios-package" value="iOSAudioInfo" />
+                </feature>
+            </config-file>
+
+            <header-file src="src/ios/iOSAudioInfo.h" />
+            <source-file src="src/ios/iOSAudioInfo.m" />
+
+            <framework src="MediaPlayer.framework" weak="true" />
+
+        </platform>
+</plugin>
