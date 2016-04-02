@@ -7,11 +7,23 @@ import {Storage} from "../../services/storage";
 
 export class Settings{
 	viewCtrl: ViewController;
-	constructor(viewCtrl: ViewController) {
+	storage: Storage;
+	ignore: Array<any>;
+	preferences: Array<any>;
+
+	constructor(viewCtrl: ViewController, storage:Storage) {
+		console.log('Settings init')
 		this.viewCtrl = viewCtrl;
+		this.storage = storage;
+		this.storage.getIgnoreList().then(data => this.ignore = data);
+		this.storage.getPreferences().then(data => this.preferences = data);
 	}
 
 	close() {
 		this.viewCtrl.dismiss();
+	}
+
+	deleteIgnoreListItem = (id) => {
+		this.storage.deleteIgnoreListItem(id).then(data => this.ignore = data)
 	}
 }

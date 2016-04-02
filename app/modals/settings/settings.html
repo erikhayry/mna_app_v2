@@ -7,16 +7,23 @@
         Ignore List
         </div>
 
-<!--        <div class="item item-button-right" *ngFor="#album of ignore">
+        <div class="item item-button-right" *ngFor="#album of ignore">
             {{album.name}}
             <button class="button button-clear button-assertive" (click)="deleteIgnoreListItem(album.id)">
                 <i class="icon ion-ios-minus"></i>
             </button>
-        </div> -->
+        </div>
 
         <div class="item item-divider">
         Settings
         </div>
+
+
+        <ion-item *ngFor="#preference of preferences">
+            <ion-label> {{preference}}</ion-label>
+            <ion-toggle disabled checked="preference.checked"></ion-toggle>
+        </ion-item>
+
 <!--                 <ion-toggle ng-repeat="preference in preferences"
                     ng-model="preference.checked"
                     ng-checked="preference.checked"
