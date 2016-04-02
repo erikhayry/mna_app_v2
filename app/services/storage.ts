@@ -8,14 +8,16 @@ export class Storage implements StorageImpl {
     platform:Platform;
 
     constructor(platform:Platform){
+        console.log('Storage init')
         this.platform = platform;
         this.platform.ready().then(() => {
             this.onDeviceReady()
         })
     }
 
+
     private onDeviceReady() {
-        this.db = window.sqlitePlugin.openDatabase({name: "mna.db"});
+        this.db = window.sqlitePlugin.openDatabase({name: "mna.db", iosDatabaseLocation: 'default'});
         this.db.transaction(this.populateDB, this.errorCB, this.successCB);
     }
 
@@ -24,7 +26,7 @@ export class Storage implements StorageImpl {
     }
 
     private successCB() {
-        this.db = window.sqlitePlugin.openDatabase({name: "mna.db"});
+        this.db = window.sqlitePlugin.openDatabase({name: "mna.db", iosDatabaseLocation: 'default'});
         this.db.transaction(this.queryDB, this.errorCB);
     }
 
@@ -32,10 +34,10 @@ export class Storage implements StorageImpl {
         //tx.executeSql("DROP TABLE Settings")
         tx.executeSql("CREATE TABLE IF NOT EXISTS Settings (text PRIMARY KEY, checked BOOLEAN NOT NULL)", this.errorCB, function(tx, res){
             tx.executeSql('INSERT OR IGNORE INTO Settings (text, checked) VALUES(?, ?)', ["Use Ratings", 1]);
-            tx.executeSql('INSERT OR IGNORE INTO Settings (text, checked) VALUES(?, ?)', ["Another Setting", 1]);
+            tx.executeSql('INSERT OR IGNORE INTO Settings (text, checked) VALUES(?, ?)', ["Another Setting", 0]);
         });
 
-        //tx.executeSql("DROP TABLE Ignore")
+        tx.executeSql("DROP TABLE Ignore")
         tx.executeSql("CREATE TABLE IF NOT EXISTS Ignore (id TEXT PRIMARY KEY, name TEXT)")
     }
 
@@ -48,7 +50,8 @@ export class Storage implements StorageImpl {
     }
 
     getPreferences(){
-        this.db = window.sqlitePlugin.openDatabase({name: "mna.db"});
+        console.log('storage: getPreferences')
+        this.db = window.sqlitePlugin.openDatabase({name: "mna.db", iosDatabaseLocation: 'default'});
 
         return new Promise((resolve, reject) => {
             this.db.transaction(function(tx){
@@ -65,7 +68,7 @@ export class Storage implements StorageImpl {
     }
 
     getIgnoreList(){
-        this.db = window.sqlitePlugin.openDatabase({name: "mna.db"});
+        this.db = window.sqlitePlugin.openDatabase({name: "mna.db", iosDatabaseLocation: 'default'});
 
         return new Promise((resolve, reject) => {
             this.db.transaction(function (tx) {
@@ -83,7 +86,7 @@ export class Storage implements StorageImpl {
 
     addIgnoreListItem(id:any, name:any) {
         console.log(id, name)
-        this.db = window.sqlitePlugin.openDatabase({name: "mna.db"});
+        this.db = window.sqlitePlugin.openDatabase({name: "mna.db", iosDatabaseLocation: 'default'});
         return new Promise((resolve, reject) => {
             this.db.transaction(function(tx){
                 tx.executeSql('INSERT OR IGNORE INTO Ignore (id, name) VALUES(?, ?)', [id, name], function(tx, res){
@@ -94,7 +97,7 @@ export class Storage implements StorageImpl {
     }
 
     deleteIgnoreListItem(id:any) {
-        this.db = window.sqlitePlugin.openDatabase({name: "mna.db"});
+        this.db = window.sqlitePlugin.openDatabase({name: "mna.db", iosDatabaseLocation: 'default'});
         return new Promise((resolve, reject) => {
             this.db.transaction(function(tx){
                 tx.executeSql('DELETE FROM Ignore WHERE id = ?', [id], function(tx, res){
@@ -106,14 +109,18 @@ export class Storage implements StorageImpl {
 
 
     setPreferences(key:any, value:any) {
+        let that = this;
+        console.log('storage: setPreferences')
         console.log(key, value)
 
-        this.db = window.sqlitePlugin.openDatabase({name: "mna.db"});
+        this.db = window.sqlitePlugin.openDatabase({name: "mna.db", iosDatabaseLocation: 'default'});
         return new Promise((resolve, reject) => {
             this.db.transaction(function(tx){
                 tx.executeSql('UPDATE Settings SET checked = ? WHERE text = ?', [value, key], function(tx, res){
-                    resolve(this.getPreferences());
-                }, this.errorCB);
+                    console.log('storage: setPreferences - done')
+                    console.log(that)
+                    resolve(that.getPreferences());
+                },(error) => console.log(error));
             }, this.errorCB);
         })
     }

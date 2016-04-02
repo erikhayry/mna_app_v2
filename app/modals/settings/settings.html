@@ -20,16 +20,9 @@
 
 
         <ion-item *ngFor="#preference of preferences">
-            <ion-label> {{preference}}</ion-label>
-            <ion-toggle disabled checked="preference.checked"></ion-toggle>
+            <ion-label>{{preference.text}}</ion-label>
+            <ion-toggle [ngModel]="preference.checked" (ngModelChange)="preferenceChanged($event, preference.text)"></ion-toggle>
         </ion-item>
-
-<!--                 <ion-toggle ng-repeat="preference in preferences"
-                    ng-model="preference.checked"
-                    ng-checked="preference.checked"
-                    ng-change="vm.preferenceChanged()">
-        {{preference.text}}
-        </ion-toggle>  -->
     </div>
 </ion-content>
 <ion-toolbar position="bottom">

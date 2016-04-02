@@ -1,4 +1,4 @@
-import {Page, ViewController} from 'ionic-angular';
+import {Page, ViewController, Platform} from 'ionic-angular';
 import {Storage} from "../../services/storage";
 
 @Page({
@@ -11,12 +11,22 @@ export class Settings{
 	ignore: Array<any>;
 	preferences: Array<any>;
 
-	constructor(viewCtrl: ViewController, storage:Storage) {
+	constructor(viewCtrl: ViewController, storage:Storage, platform:Platform) {
 		console.log('Settings init')
 		this.viewCtrl = viewCtrl;
 		this.storage = storage;
-		this.storage.getIgnoreList().then(data => this.ignore = data);
-		this.storage.getPreferences().then(data => this.preferences = data);
+
+		platform.ready().then(() => {
+			//this.storage.getIgnoreList().then(data => this.ignore = data);
+			this.storage.getPreferences().then(data => {
+				console.log(data)
+				this.preferences = data.map(function(pref){
+					pref.checked = pref.checked ? true : false;
+					return pref
+				});
+			});
+		});
+
 	}
 
 	close() {
@@ -25,5 +35,19 @@ export class Settings{
 
 	deleteIgnoreListItem = (id) => {
 		this.storage.deleteIgnoreListItem(id).then(data => this.ignore = data)
+	};
+
+	preferenceChanged = (value, id) => {
+		console.log(value, id)
+		console.log(this.preferences)
+
+		this.storage.setPreferences(id, value ? 1 : 0)
+			.then(function(preferences) {
+				console.log(preferences)
+				this.preference = preferences[0].map(function(pref){
+					pref.checked = pref.checked ? true : false;
+					return pref
+				});
+			});
 	}
 }
