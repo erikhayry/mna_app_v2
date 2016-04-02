@@ -1,4 +1,4 @@
-export  interface StorageService {
+export  interface StorageImpl {
     getIgnoreList()
     addIgnoreListItem(id:any, name:any)
     deleteIgnoreListItem(id:any)

@@ -10,6 +10,7 @@ export class Settings extends Storage{
 	constructor(viewCtrl: ViewController) {
 		super();
 		this.viewCtrl = viewCtrl;
+		
 	}
 
 	close() {
