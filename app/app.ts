@@ -4,12 +4,13 @@ import {TabsPage} from './pages/tabs/tabs';
 import {Albums} from './services/albums';
 import {Sort} from './services/sort';
 import {AudioInfo} from "./services/audioInfo";
+import {Storage} from "./services/storage";
 
 
 @App({
   template: '<ion-nav [root]="rootPage"></ion-nav>',
   config: {}, // http://ionicframework.com/docs/v2/api/config/Config/
-  providers: [Albums, AudioInfo, Sort]
+  providers: [Albums, AudioInfo, Sort, Storage]
 })
 
 export class MnaApp {

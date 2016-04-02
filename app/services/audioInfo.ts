@@ -21,9 +21,10 @@ export class AudioInfo implements AudioInfoImpl {
 		console.log(window.plugins)
 		return  new Promise((resolve, reject) =>{
 			window.plugins.iOSAudioInfo.getTracks((tracks) => {
-				console.table(tracks, ['albumTitle', 'artist', 'rating', 'playCount'])
+				console.log(tracks, ['albumTitle', 'artist', 'rating', 'playCount'])
 				resolve(tracks);
 			}, (error) => {
+				console.log(error)
 				reject(error);
 			})
 		})

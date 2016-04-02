@@ -1,11 +1,18 @@
+import {Platform} from 'ionic-angular';
 import {Injectable} from 'angular2/core';
 import {StorageImpl} from "./storageImpl";
 
 @Injectable()
 export class Storage implements StorageImpl {
-    db, _this = this;
+    db;
+    platform:Platform;
 
-    document.addEventListener('deviceready', () => this.onDeviceReady(), false);
+    constructor(platform:Platform){
+        this.platform = platform;
+        this.platform.ready().then(() => {
+            this.onDeviceReady()
+        })
+    }
 
     private onDeviceReady() {
         this.db = window.sqlitePlugin.openDatabase({name: "mna.db"});
@@ -40,7 +47,7 @@ export class Storage implements StorageImpl {
         return results;
     }
 
-    private getPreferences(){
+    getPreferences(){
         this.db = window.sqlitePlugin.openDatabase({name: "mna.db"});
 
         return new Promise((resolve, reject) => {
@@ -57,7 +64,7 @@ export class Storage implements StorageImpl {
         })
     }
 
-    private getIgnoreList(){
+    getIgnoreList(){
         this.db = window.sqlitePlugin.openDatabase({name: "mna.db"});
 
         return new Promise((resolve, reject) => {
@@ -72,10 +79,6 @@ export class Storage implements StorageImpl {
                 }, this.errorCB);
             }, this.errorCB);
         })
-    }
-
-    getIgnoreList() {
-        return this.getIgnoreList
     }
 
     addIgnoreListItem(id:any, name:any) {
@@ -101,9 +104,6 @@ export class Storage implements StorageImpl {
         })
     }
 
-    getPreferences() {
-        return this.getPreferences
-    }
 
     setPreferences(key:any, value:any) {
         console.log(key, value)
