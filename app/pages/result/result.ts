@@ -2,68 +2,57 @@ import {Page, Modal, NavController, Platform} from 'ionic-angular';
 import {Albums} from '../../services/albums';
 import {Storage} from '../../services/storage';
 import {Settings} from '../../modals/settings/settings';
+import {Album} from "../../domain/albums";
 
 @Page({
   templateUrl: 'build/pages/result/result.html',
 })
 
 export class Result {
-	album: any;
+	private album: Album;
 	private nav: NavController;
 	private albums: Albums;
-	private platform:Platform;
-	private storage:Storage;
+	private storage: Storage;
 
-	private onSuccess(data:any){
-        console.log('success')
-		console.log(data)
-        //console.table(data)
+	private onSuccess(album:Album): void{
+        console.log('Result.onSuccess', album);
         console.timeEnd('getNextAlbum');
-        this.album = data;
+        this.album = album;
     }
 
-    private onError(error:any){
-        console.log(error)
+    private onError(error:String): void{
+		console.error('Result.onError', error);
         console.timeEnd('getNextAlbum');
     }
-
-	getNextAlbum(shouldRefreshData){
-        console.log('Try getting Album')
-        console.time('getNextAlbum');
-
-        this.albums.getNextAlbum(shouldRefreshData)
-            .then(data => {
-				console.log(data)
-				this.onSuccess(data)
-			}, error => this.onError)
-    };
-
-	addIgnoreListItem = (id, name) => {
-		this.storage.addIgnoreListItem(id, name).then(this.getNextAlbum)
-	};
 
 	constructor(nav: NavController, platform: Platform, albums: Albums, storage:Storage){
+		console.log('Result.constructor')
 		this.nav = nav;
 		this.albums = albums;
-		this.album = {
-			title: 'Album Name',
-			artist: 'Artist Name'
-		};
-
 		this.storage = storage;
 
-		this.platform = platform;
-
-		this.platform.ready().then(() => {
+		platform.ready().then(() => {
 			this.getNextAlbum(true);
 		})
-
 	}
 
-	getImage = (src) => 'data:image/png;base64,' + src
+	getNextAlbum(shouldRefreshData: boolean): void{
+		console.log('Result.getNextAlbum');
+		console.time('getNextAlbum');
 
-	showSettings() {
-		console.log('Show settings')
+		this.albums.getNextAlbum(shouldRefreshData)
+			.then(album => this.onSuccess(album), error => this.onError)
+	};
+
+	addIgnoreListItem = (albumId:String, albumName:String): void => {
+		console.log('Result.addIgnoreListItem')
+		this.storage.addIgnoreListItem(albumId, albumName).then(this.getNextAlbum)
+	};
+
+	getImage = (src:String): String => 'data:image/png;base64,' + src;
+
+	showSettings(): void {
+		console.log('Result.showSettings');
 		let settingsModal = Modal.create(Settings);
 		this.nav.present(settingsModal);
 	}

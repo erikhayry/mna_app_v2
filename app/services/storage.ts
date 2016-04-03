@@ -1,23 +1,23 @@
 import {Platform} from 'ionic-angular';
 import {Injectable} from 'angular2/core';
 import {StorageImpl} from "./storageImpl";
+import {Database} from "../domain/databaseImpl";
 
 @Injectable()
 export class Storage implements StorageImpl {
-    db;
-    platform:Platform;
+    private db:Database;
 
     constructor(platform:Platform){
-        console.log('Storage init')
-        this.platform = platform;
-        this.platform.ready().then(() => {
+        console.log('Storage.constructor')
+        platform.ready().then(() => {
             this.onDeviceReady()
         })
     }
 
-
+    private openDB = (): Database => window.sqlitePlugin.openDatabase({name: "mna.db", iosDatabaseLocation: 'default'});
+    
     private onDeviceReady() {
-        this.db = window.sqlitePlugin.openDatabase({name: "mna.db", iosDatabaseLocation: 'default'});
+        this.db = this.openDB();
         this.db.transaction(this.populateDB, this.errorCB, this.successCB);
     }
 
@@ -26,7 +26,7 @@ export class Storage implements StorageImpl {
     }
 
     private successCB() {
-        this.db = window.sqlitePlugin.openDatabase({name: "mna.db", iosDatabaseLocation: 'default'});
+        this.db = this.openDB();
         this.db.transaction(this.queryDB, this.errorCB);
     }
 
@@ -52,7 +52,7 @@ export class Storage implements StorageImpl {
     getPreferences(){
         let that = this;
         console.log('storage: getPreferences')
-        this.db = window.sqlitePlugin.openDatabase({name: "mna.db", iosDatabaseLocation: 'default'});
+        this.db = this.openDB();
 
         return new Promise((resolve, reject) => {
             this.db.transaction(function(tx){
@@ -70,7 +70,7 @@ export class Storage implements StorageImpl {
 
     getIgnoreList(){
         let that = this;
-        this.db = window.sqlitePlugin.openDatabase({name: "mna.db", iosDatabaseLocation: 'default'});
+        this.db = this.openDB();
 
         return new Promise((resolve, reject) => {
             this.db.transaction(function (tx) {
@@ -89,7 +89,7 @@ export class Storage implements StorageImpl {
     addIgnoreListItem(id:any, name:any) {
         let that = this;
         console.log(id, name)
-        this.db = window.sqlitePlugin.openDatabase({name: "mna.db", iosDatabaseLocation: 'default'});
+        this.db = this.openDB();
         return new Promise((resolve, reject) => {
             this.db.transaction(function(tx){
                 tx.executeSql('INSERT OR IGNORE INTO Ignore (id, name) VALUES(?, ?)', [id, name], function(tx, res){
@@ -101,7 +101,7 @@ export class Storage implements StorageImpl {
 
     deleteIgnoreListItem(id:any) {
         let that = this;
-        this.db = window.sqlitePlugin.openDatabase({name: "mna.db", iosDatabaseLocation: 'default'});
+        this.db = this.openDB();
         return new Promise((resolve, reject) => {
             this.db.transaction(function(tx){
                 tx.executeSql('DELETE FROM Ignore WHERE id = ?', [id], function(tx, res){
@@ -117,7 +117,7 @@ export class Storage implements StorageImpl {
         console.log('storage: setPreferences')
         console.log(key, value)
 
-        this.db = window.sqlitePlugin.openDatabase({name: "mna.db", iosDatabaseLocation: 'default'});
+        this.db = this.openDB();
         return new Promise((resolve, reject) => {
             this.db.transaction(function(tx){
                 tx.executeSql('UPDATE Settings SET checked = ? WHERE text = ?', [value, key], function(tx, res){

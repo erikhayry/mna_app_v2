@@ -1,7 +1,7 @@
-export  interface StorageImpl {
-    getIgnoreList()
-    addIgnoreListItem(id:any, name:any)
-    deleteIgnoreListItem(id:any)
-    getPreferences()
-    setPreferences(key:any, value:any)
+export interface StorageImpl {
+    getIgnoreList():Promise<{}>
+    addIgnoreListItem(id:any, name:any):Promise<{}>
+    deleteIgnoreListItem(id:any):Promise<{}>
+    getPreferences():Promise<{}>
+    setPreferences(key:any, value:any):Promise<{}>
 }
