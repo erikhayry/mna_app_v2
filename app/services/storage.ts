@@ -37,7 +37,7 @@ export class Storage implements StorageImpl {
             tx.executeSql('INSERT OR IGNORE INTO Settings (text, checked) VALUES(?, ?)', ["Another Setting", 0]);
         });
 
-        tx.executeSql("DROP TABLE Ignore")
+        //tx.executeSql("DROP TABLE Ignore")
         tx.executeSql("CREATE TABLE IF NOT EXISTS Ignore (id TEXT PRIMARY KEY, name TEXT)")
     }
 
@@ -50,6 +50,7 @@ export class Storage implements StorageImpl {
     }
 
     getPreferences(){
+        let that = this;
         console.log('storage: getPreferences')
         this.db = window.sqlitePlugin.openDatabase({name: "mna.db", iosDatabaseLocation: 'default'});
 
@@ -62,12 +63,13 @@ export class Storage implements StorageImpl {
                         _ret.push(res.rows.item(i))
                     }
                     resolve(_ret);
-                }, this.errorCB);
+                }, that.errorCB);
             }, this.errorCB);
         })
     }
 
     getIgnoreList(){
+        let that = this;
         this.db = window.sqlitePlugin.openDatabase({name: "mna.db", iosDatabaseLocation: 'default'});
 
         return new Promise((resolve, reject) => {
@@ -79,30 +81,32 @@ export class Storage implements StorageImpl {
                         _ret.push(res.rows.item(i))
                     }
                     resolve(_ret);
-                }, this.errorCB);
+                }, that.errorCB);
             }, this.errorCB);
         })
     }
 
     addIgnoreListItem(id:any, name:any) {
+        let that = this;
         console.log(id, name)
         this.db = window.sqlitePlugin.openDatabase({name: "mna.db", iosDatabaseLocation: 'default'});
         return new Promise((resolve, reject) => {
             this.db.transaction(function(tx){
                 tx.executeSql('INSERT OR IGNORE INTO Ignore (id, name) VALUES(?, ?)', [id, name], function(tx, res){
-                    resolve(this.getIgnoreList());
-                }, this.errorCB);
+                    resolve(that.getIgnoreList());
+                }, that.errorCB);
             }, this.errorCB);
         })
     }
 
     deleteIgnoreListItem(id:any) {
+        let that = this;
         this.db = window.sqlitePlugin.openDatabase({name: "mna.db", iosDatabaseLocation: 'default'});
         return new Promise((resolve, reject) => {
             this.db.transaction(function(tx){
                 tx.executeSql('DELETE FROM Ignore WHERE id = ?', [id], function(tx, res){
-                    resolve(this.getIgnoreList());
-                }, this.errorCB);
+                    resolve(that.getIgnoreList());
+                }, that.errorCB);
             }, this.errorCB);
         })
     }
@@ -120,7 +124,7 @@ export class Storage implements StorageImpl {
                     console.log('storage: setPreferences - done')
                     console.log(that)
                     resolve(that.getPreferences());
-                },(error) => console.log(error));
+                }, that.errorCB);
             }, this.errorCB);
         })
     }

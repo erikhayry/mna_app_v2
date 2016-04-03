@@ -9,8 +9,8 @@
 
         <div class="item item-button-right" *ngFor="#album of ignore">
             {{album.name}}
-            <button class="button button-clear button-assertive" (click)="deleteIgnoreListItem(album.id)">
-                <i class="icon ion-ios-minus"></i>
+            <button (click)="deleteIgnoreListItem(album.id)">
+                delete
             </button>
         </div>
 

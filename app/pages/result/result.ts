@@ -55,7 +55,7 @@ export class Result {
 		this.platform = platform;
 
 		this.platform.ready().then(() => {
-			//this.getNextAlbum(true);
+			this.getNextAlbum(true);
 		})
 
 	}

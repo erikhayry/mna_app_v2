@@ -8,6 +8,7 @@ export class AudioInfo implements AudioInfoImpl {
 
 		return new Promise((resolve, reject) =>{
 			window.plugins.iOSAudioInfo.getTrack((track) => {
+				console.log('audioInfo', track)
 				resolve(track);
 			}, (error) => {
 				reject(error);
@@ -18,7 +19,6 @@ export class AudioInfo implements AudioInfoImpl {
 	}
 	getTracks(shouldRefreshData:boolean) {
 		console.log('Get tracks - shouldRefreshData: ', shouldRefreshData)
-		console.log(window.plugins)
 		return  new Promise((resolve, reject) =>{
 			window.plugins.iOSAudioInfo.getTracks((tracks) => {
 				console.log(tracks, ['albumTitle', 'artist', 'rating', 'playCount'])

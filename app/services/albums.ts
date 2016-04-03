@@ -13,8 +13,8 @@ export class Albums{
 
 	constructor(audioInfo: AudioInfo, sort: Sort) {
 		console.log(sort)
-		//this.audioInfo = audioInfo;
-		//this.sort = sort;
+		this.audioInfo = audioInfo;
+		this.sort = sort;
 	}
 
 	getAlbum(albumsSorted) {

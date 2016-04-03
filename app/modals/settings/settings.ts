@@ -17,7 +17,7 @@ export class Settings{
 		this.storage = storage;
 
 		platform.ready().then(() => {
-			//this.storage.getIgnoreList().then(data => this.ignore = data);
+			this.storage.getIgnoreList().then(data => this.ignore = data);
 			this.storage.getPreferences().then(data => {
 				console.log(data)
 				this.preferences = data.map(function(pref){
@@ -44,7 +44,7 @@ export class Settings{
 		this.storage.setPreferences(id, value ? 1 : 0)
 			.then(function(preferences) {
 				console.log(preferences)
-				this.preference = preferences[0].map(function(pref){
+				this.preference = preferences.map(function(pref){
 					pref.checked = pref.checked ? true : false;
 					return pref
 				});
