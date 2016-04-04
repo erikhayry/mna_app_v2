@@ -2,6 +2,7 @@ import {Injectable} from 'angular2/core';
 import {AudioInfoImpl} from './audioInfoImpl';
 import {iOSAudioInfoImpl} from "../domain/iOSAudioInfoImpl";
 import {CordovaWindowImpl} from "../domain/CordovaWindowImpl";
+import {TrackImpl as Track} from "../domain/trackImpl";
 
 @Injectable()
 export class AudioInfo implements AudioInfoImpl {
@@ -14,7 +15,7 @@ export class AudioInfo implements AudioInfoImpl {
 	getTrack(id:String){
 		console.log('AudioInfo.getTrack', id);
 
-		return new Promise((resolve, reject) =>{
+		return new Promise<Track>((resolve, reject) =>{
 			this.iOSAudioInfo.getTrack((track) => {
 				console.log('audioInfo', track)
 				resolve(track);
@@ -26,7 +27,7 @@ export class AudioInfo implements AudioInfoImpl {
 	
 	getTracks(shouldRefreshData:boolean) {
 		console.log('Get tracks - shouldRefreshData: ', shouldRefreshData)
-		return  new Promise((resolve, reject) =>{
+		return  new Promise<Array<Track>>((resolve, reject) =>{
 			this.iOSAudioInfo.getTracks((tracks) => {
 				console.log(tracks, ['albumTitle', 'artist', 'rating', 'playCount'])
 				resolve(tracks);

@@ -6,23 +6,22 @@ import {TrackImpl} from "../domain/trackImpl";
 @Injectable()
 export class Sort{
 
-	sortToAlbums(tracks:Array<TrackImpl>) {
+	sortToAlbums(tracks:Array<TrackImpl>):Array<TrackImpl> {
 		console.log('Sort.sortToAlbums', tracks);
-		return _.chain(tracks).groupBy('albumPersistentID').sortBy(function(a) {
-			return -a.length;
-		}).value()
+		return _.chain(tracks)
+			.groupBy('albumPersistentID')
+			.sortBy(a => -a.length)
+			.value()
 	}
 
-	sortByRating(tracks: Array<TrackImpl>) {
+	sortByRating(tracks:Array<TrackImpl>):Array<TrackImpl> {
 		console.log('Sort.sortByRating', tracks);
-		return _.chain(tracks).groupBy('albumPersistentID').map(function(a) {
-			return _.extend({}, a[0], {
-				totalRating: _.reduce(a, function(b, c: TrackImpl) {
-					return b + parseInt(c.rating);
+		return _.chain(tracks).groupBy('albumPersistentID').map((a) => {
+			return _.extend((<TrackImpl>{}), a[0], {
+				totalRating: _.reduce(a, (b:number, c: TrackImpl):number  => {
+					return b + Number(c.rating);
 				}, 0)
 			})
-		}).sortBy(function(a:TrackImpl) {
-			return -a.totalRating;
-		}).value()
+		}).sortBy((a:TrackImpl) => -a.totalRating).value()
 	}
 }

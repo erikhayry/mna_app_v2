@@ -3,18 +3,19 @@ import {Albums} from '../../services/albums';
 import {Storage} from '../../services/storage';
 import {Settings} from '../../modals/settings/settings';
 import {Album} from "../../domain/album";
+import {TrackImpl} from "../../domain/trackImpl";
 
 @Page({
   templateUrl: 'build/pages/result/result.html',
 })
 
 export class Result {
-	private album: Album;
+	private album: TrackImpl;
 	private nav: NavController;
 	private albums: Albums;
 	private storage: Storage;
 
-	private onSuccess(album:Album): void{
+	private onSuccess(album:TrackImpl): void{
         console.log('Result.onSuccess', album);
         console.timeEnd('getNextAlbum');
         this.album = album;

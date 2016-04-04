@@ -2,7 +2,7 @@ import {Injectable} from 'angular2/core';
 import {AudioInfo} from './audioInfo';
 import {Sort} from './sort';
 import {Album} from "../domain/album";
-import {TrackImpl} from "../domain/trackImpl";
+import {TrackImpl as Track, TrackImpl} from "../domain/trackImpl";
 
 @Injectable()
 export class Albums{
@@ -17,20 +17,20 @@ export class Albums{
 		this.audioInfo = audioInfo;
 		this.sort = sort;
 	}
+	
 
-	getAlbum(albumsSorted:Array<Album>) {
+	getAlbum(albumsSorted:Array<Track>):Promise<TrackImpl> {
 		console.log('Albums.getAlbum', albumsSorted);
 		this.currentAlbumIndex++;
 		return this.audioInfo.getTrack(albumsSorted[this.currentAlbumIndex][0].persistentID);
-	}  
+	}
 
-	sortToAlbums(trackData:Array<TrackImpl>) {
+	sortToAlbums(trackData:Array<Track>):Promise<Array<Track>> {
 		console.log('Albums.sortToAlbums', trackData);
 		return Promise.resolve(this.sort.sortToAlbums(trackData))
 	}
 
-
-	getNextAlbum(shouldRefreshData:boolean){
+	getNextAlbum(shouldRefreshData:boolean):Promise<TrackImpl>{
 		console.log('Albums.getNextAlbum', shouldRefreshData);
 
 		if(shouldRefreshData){
@@ -44,7 +44,7 @@ export class Albums{
 		}
 
 		return this.audioInfo.getTracks(shouldRefreshData)
-			.then((tracks) => this.sortToAlbums((<Array<TrackImpl>>tracks)))
-			.then((albums) => this.getAlbum((<Array<Album>>albums)));
+			.then((tracks) => this.sortToAlbums((<Array<Track>>tracks)))
+			.then((albums) => this.getAlbum((<Array<Track>>albums)));
 	}
 }
