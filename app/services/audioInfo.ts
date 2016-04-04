@@ -9,14 +9,14 @@ export class AudioInfo implements AudioInfoImpl {
 	private iOSAudioInfo:iOSAudioInfoImpl;
 
 	constructor(){
-		this.iOSAudioInfo = (<CordovaWindowImpl>window).plugins.iOSAudioInfo;
+		//this.iOSAudioInfo = window.plugins.iOSAudioInfo;
 	}
 	
 	getTrack(id:String){
 		console.log('AudioInfo.getTrack', id);
 
 		return new Promise<Track>((resolve, reject) =>{
-			this.iOSAudioInfo.getTrack((track) => {
+			window.plugins.iOSAudioInfo.getTrack((track) => {
 				console.log('audioInfo', track)
 				resolve(track);
 			}, (error) => {
@@ -28,7 +28,7 @@ export class AudioInfo implements AudioInfoImpl {
 	getTracks(shouldRefreshData:boolean) {
 		console.log('Get tracks - shouldRefreshData: ', shouldRefreshData)
 		return  new Promise<Array<Track>>((resolve, reject) =>{
-			this.iOSAudioInfo.getTracks((tracks) => {
+			window.plugins.iOSAudioInfo.getTracks((tracks) => {
 				console.log(tracks, ['albumTitle', 'artist', 'rating', 'playCount'])
 				resolve(tracks);
 			}, (error) => {
