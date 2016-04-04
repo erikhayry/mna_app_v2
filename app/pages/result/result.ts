@@ -2,7 +2,7 @@ import {Page, Modal, NavController, Platform} from 'ionic-angular';
 import {Albums} from '../../services/albums';
 import {Storage} from '../../services/storage';
 import {Settings} from '../../modals/settings/settings';
-import {Album} from "../../domain/albums";
+import {Album} from "../../domain/album";
 
 @Page({
   templateUrl: 'build/pages/result/result.html',

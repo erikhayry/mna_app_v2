@@ -1,4 +1,4 @@
 export  interface AudioInfoImpl {
-	getTrack(id: number)
+	getTrack(id: String)
 	getTracks(shouldRefreshData:boolean)
 }

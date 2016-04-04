@@ -6,7 +6,6 @@ import {Database} from "../domain/databaseImpl";
 @Injectable()
 export class Storage implements StorageImpl {
     private db:Database;
-
     constructor(platform:Platform){
         console.log('Storage.constructor')
         platform.ready().then(() => {
@@ -14,8 +13,7 @@ export class Storage implements StorageImpl {
         })
     }
 
-    private openDB = (): Database => window.sqlitePlugin.openDatabase({name: "mna.db", iosDatabaseLocation: 'default'});
-    
+    private openDB = (): Database => (<any>window).sqlitePlugin.openDatabase({name: "mna.db", iosDatabaseLocation: 'default'});
     private onDeviceReady() {
         this.db = this.openDB();
         this.db.transaction(this.populateDB, this.errorCB, this.successCB);

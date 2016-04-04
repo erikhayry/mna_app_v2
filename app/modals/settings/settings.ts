@@ -14,17 +14,16 @@ export class Settings{
 	preferences: Array<Preference>;
 
 	constructor(viewCtrl: ViewController, storage:Storage, platform:Platform) {
-		console.log('Settings.constructor')
+		console.log('Settings.constructor');
 		this.viewCtrl = viewCtrl;
 		this.storage = storage;
 
 		platform.ready().then(() => {
-			this.storage.getIgnoreList().then(ignoredAlbumList => this.ignoredAlbumList = ignoredAlbumList);
-			this.storage.getPreferences().then(data => {
-				console.log(data)
-				this.preferences = data.map(function(pref){
-					pref.checked = pref.checked ? true : false;
-					return pref
+			this.storage.getIgnoreList().then(ignoredAlbumList => this.ignoredAlbumList = (<Array<IgnoredAlbum>>ignoredAlbumList));
+			this.storage.getPreferences().then(preferences => {
+				this.preferences = (Array<Preference>preferences).map(preference => {
+					(<Preference>preference).checked = (<Preference>preference).checked ? true : false;
+					return preference
 				});
 			});
 		});
