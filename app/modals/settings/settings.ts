@@ -20,37 +20,22 @@ export class Settings{
 
 		platform.ready().then(() => {
 			this.storage.getIgnoreList().then(ignoredAlbumList => this.ignoredAlbumList = (<Array<IgnoredAlbum>>ignoredAlbumList));
-			this.storage.getPreferences().then(preferences => {
-				this.preferences = (Array<Preference>preferences).map(preference => {
-					(<Preference>preference).checked = (<Preference>preference).checked ? true : false;
-					return preference
-				});
-			});
+			this.storage.getPreferences().then(preferences => this.preferences = preferences);
 		});
-
 	}
 
-	close() {
+	close(): void {
 		console.log('Settings.close');
 		this.viewCtrl.dismiss();
 	}
 
-	deleteIgnoreListItem = (id:String) => {
+	deleteIgnoreListItem = (id:String): void => {
 		console.log('Settings.deleteIgnoreListItem');
 		this.storage.deleteIgnoreListItem(id).then(ignoredAlbumList => this.ignoredAlbumList = ignoredAlbumList)
 	};
 
-	preferenceChanged = (value:String, id:String) => {
-		console.log(value, id)
-		console.log(this.preferences)
-
-		this.storage.setPreferences(id, value ? 1 : 0)
-			.then(function(preferences) {
-				console.log(preferences)
-				this.preference = preferences.map(function(pref){
-					pref.checked = pref.checked ? true : false;
-					return pref
-				});
-			});
+	preferenceChanged = (value:String, id:String): void => {
+		console.log('Settings.preferenceChanged', value, id);
+		this.storage.setPreferences(id, value).then(preferences => this.preferences = preferences);
 	}
 }
