@@ -1,37 +1,9 @@
 import {Platform} from 'ionic-angular';
 import {Injectable} from 'angular2/core';
 import {StorageImpl} from './storageImpl';
-import {Database} from '../domain/databaseImpl';
+import {Database, DbError, TX} from '../domain/databaseImpl';
 import {Preference} from '../domain/preference';
-
-interface TX{
-    executeSql(query:String, errorCb:ErrorCb, successCb:SuccessCb)
-    executeSql(query:String, values:Array<any>)
-    executeSql(query:String, values:Array<any>, successCb:SuccessCb, errorCb:ErrorCb)
-}
-
-
-interface DbItem {
-    item:Function
-}
-
-interface DbResult {
-    rows:Array<DbItem>
-}
-
-interface DbError {
-    code:String
-}
-
-interface ErrorCb {
-    (error: DbError): void;
-}
-
-
-interface SuccessCb {
-    (tx: TX, res:DbResult): void;
-}
-
+import {IgnoredAlbum} from "../domain/ignoredAlbum";
 
 @Injectable()
 export class Storage implements StorageImpl {
@@ -46,7 +18,7 @@ export class Storage implements StorageImpl {
 
     private openDB = (): Database => (<any>window).sqlitePlugin.openDatabase({name: 'mna.db', iosDatabaseLocation: 'default'});
 
-    private onDeviceReady() {
+    private onDeviceReady():void {
         this.db = this.openDB();
         this.db.transaction(this.populateDB, this.errorCB, this.successCB);
     }
@@ -79,13 +51,15 @@ export class Storage implements StorageImpl {
         return results;
     }
     
+    
+    
     getIgnoreList(){
         let that = this;
         this.db = this.openDB();
 
-        return new Promise((resolve, reject) => {
+        return new Promise<Array<IgnoredAlbum>>((resolve, reject) => {
             this.db.transaction(function (tx) {
-                tx.executeSql('SELECT * FROM Ignore', [], function (tx, res) {
+                tx.executeSql('SELECT * FROM Ignore', [],  (tx, res)  => {
                     let _len = res.rows.length,
                         _ret = [];
                     for (let i = 0; i < _len; i++) {
@@ -101,9 +75,9 @@ export class Storage implements StorageImpl {
         let that = this;
         console.log(id, name)
         this.db = this.openDB();
-        return new Promise((resolve, reject) => {
-            this.db.transaction(function(tx){
-                tx.executeSql('INSERT OR IGNORE INTO Ignore (id, name) VALUES(?, ?)', [id, name], function(tx, res){
+        return new Promise<Array<IgnoredAlbum>>((resolve, reject) => {
+            this.db.transaction((tx) => {
+                tx.executeSql('INSERT OR IGNORE INTO Ignore (id, name) VALUES(?, ?)', [id, name], (tx, res) => {
                     resolve(that.getIgnoreList());
                 }, that.errorCB);
             }, this.errorCB);
@@ -113,9 +87,9 @@ export class Storage implements StorageImpl {
     deleteIgnoreListItem(id:any) {
         let that = this;
         this.db = this.openDB();
-        return new Promise((resolve, reject) => {
-            this.db.transaction(function(tx){
-                tx.executeSql('DELETE FROM Ignore WHERE id = ?', [id], function(tx, res){
+        return new Promise<Array<IgnoredAlbum>>((resolve, reject) => {
+            this.db.transaction((tx) => {
+                tx.executeSql('DELETE FROM Ignore WHERE id = ?', [id], (tx, res) => {
                     resolve(that.getIgnoreList());
                 }, that.errorCB);
             }, this.errorCB);
@@ -128,8 +102,8 @@ export class Storage implements StorageImpl {
         let that = this;
         this.db = this.openDB();
 
-        return new Promise((resolve, reject) => {
-            this.db.transaction(function(tx){
+        return new Promise<Array<Preference>>((resolve, reject) => {
+            this.db.transaction((tx) => {
                 tx.executeSql('SELECT * FROM Settings', [], (tx, res) => {
                     var _len = res.rows.length,
                         _ret = [];
@@ -152,9 +126,9 @@ export class Storage implements StorageImpl {
         let val = value ? 1 : 0;
         this.db = this.openDB();
 
-        return new Promise((resolve, reject) => {
+        return new Promise<Array<Preference>>((resolve, reject) => {
             this.db.transaction((tx) => {
-                tx.executeSql('UPDATE Settings SET checked = ? WHERE text = ?', [val, key], function(tx, res){
+                tx.executeSql('UPDATE Settings SET checked = ? WHERE text = ?', [val, key], (tx, res) => {
                     resolve(that.getPreferences());
                 }, that.errorCB);
             }, this.errorCB);

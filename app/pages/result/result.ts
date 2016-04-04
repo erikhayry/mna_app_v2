@@ -46,7 +46,8 @@ export class Result {
 
 	addIgnoreListItem = (albumId:String, albumName:String): void => {
 		console.log('Result.addIgnoreListItem')
-		this.storage.addIgnoreListItem(albumId, albumName).then(this.getNextAlbum)
+		this.storage.addIgnoreListItem(albumId, albumName)
+			.then(() => this.getNextAlbum(false))
 	};
 
 	getImage = (src:String): String => 'data:image/png;base64,' + src;

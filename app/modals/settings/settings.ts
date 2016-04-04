@@ -19,9 +19,10 @@ export class Settings{
 		this.storage = storage;
 
 		platform.ready().then(() => {
-			this.storage.getIgnoreList().then(ignoredAlbumList => this.ignoredAlbumList = (<Array<IgnoredAlbum>>ignoredAlbumList));
+			this.storage.getIgnoreList().then(ignoredAlbumList => this.ignoredAlbumList = ignoredAlbumList);
 			this.storage.getPreferences().then(preferences => this.preferences = preferences);
 		});
+
 	}
 
 	close(): void {
