@@ -7,9 +7,9 @@
         Ignore List
         </div>
 
-        <div class="item item-button-right" *ngFor="#album of ignore">
-            {{album.name}}
-            <button (click)="deleteIgnoreListItem(album.id)">
+        <div class="item item-button-right" *ngFor="#ignoredAlbum of ignoredAlbumList">
+            {{ignoredAlbum.name}}
+            <button (click)="deleteIgnoreListItem(ignoredAlbum.id)">
                 delete
             </button>
         </div>

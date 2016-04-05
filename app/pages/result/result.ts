@@ -30,7 +30,6 @@ export class Result {
 		this.nav = nav;
 		this.albums = albums;
 		this.storage = storage;
-
 		platform.ready().then(() => {
 			this.getNextAlbum(true);
 		})

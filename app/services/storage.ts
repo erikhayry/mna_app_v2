@@ -19,7 +19,7 @@ export class Storage implements StorageImpl {
     private openDB = ():Database => {
         console.log('Storage.openDB');
         return (<any>window).sqlitePlugin.openDatabase({name: 'mna.db', iosDatabaseLocation: 'default'});
-    }
+    };
 
     private onDeviceReady():void {
         console.log('Storage.constructor');
@@ -38,7 +38,7 @@ export class Storage implements StorageImpl {
     }
 
     private populateDB(tx:TX):void {
-        console.log('Storage.populateDB', tx);        
+        console.log('Storage.populateDB', tx);
         //tx.executeSql('DROP TABLE Settings')
         (<TX>tx).executeSql('CREATE TABLE IF NOT EXISTS Settings (text PRIMARY KEY, checked BOOLEAN NOT NULL)', this.errorCB, function (tx, res) {
             tx.executeSql('INSERT OR IGNORE INTO Settings (text, checked) VALUES(?, ?)', ['Use Ratings', 1]);
@@ -81,9 +81,7 @@ export class Storage implements StorageImpl {
 
     addIgnoreListItem(id:String, name:String):Promise<Array<IgnoredAlbum>> {
         console.log('Storage.addIgnoreListItem', id, name);
-
         let that = this;
-        console.log(id, name)
         this.db = this.openDB();
         return new Promise<Array<IgnoredAlbum>>((resolve, reject) => {
             this.db.transaction((tx) => {
