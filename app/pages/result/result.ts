@@ -2,7 +2,6 @@ import {Page, Modal, NavController, Platform} from 'ionic-angular';
 import {Albums} from '../../services/albums';
 import {Storage} from '../../services/storage';
 import {Settings} from '../../modals/settings/settings';
-import {Album} from "../../domain/album";
 import {TrackImpl} from "../../domain/trackImpl";
 
 @Page({
@@ -46,7 +45,7 @@ export class Result {
 	};
 
 	addIgnoreListItem = (albumId:String, albumName:String): void => {
-		console.log('Result.addIgnoreListItem')
+		console.log('Result.addIgnoreListItem', albumId, albumName)
 		this.storage.addIgnoreListItem(albumId, albumName)
 			.then(() => this.getNextAlbum(false))
 	};

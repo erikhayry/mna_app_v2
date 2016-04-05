@@ -3,20 +3,26 @@ import {AudioInfoImpl} from './audioInfoImpl';
 import {iOSAudioInfoImpl} from "../domain/iOSAudioInfoImpl";
 import {CordovaWindowImpl} from "../domain/CordovaWindowImpl";
 import {TrackImpl as Track} from "../domain/trackImpl";
+import {Platform} from "ionic-angular";
+
+interface log extends Console{
+	table(...args: any[])
+}
 
 @Injectable()
 export class AudioInfo implements AudioInfoImpl {
 	private iOSAudioInfo:iOSAudioInfoImpl;
 
-	constructor(){
-		//this.iOSAudioInfo = window.plugins.iOSAudioInfo;
+	constructor(platform: Platform){
+		platform.ready().then(() => {
+			this.iOSAudioInfo = (<CordovaWindowImpl>window).plugins.iOSAudioInfo;
+		})
 	}
 	
 	getTrack(id:String){
 		console.log('AudioInfo.getTrack', id);
-
 		return new Promise<Track>((resolve, reject) =>{
-			window.plugins.iOSAudioInfo.getTrack((track) => {
+			this.iOSAudioInfo.getTrack((track) => {
 				console.log('audioInfo', track)
 				resolve(track);
 			}, (error) => {
@@ -26,13 +32,11 @@ export class AudioInfo implements AudioInfoImpl {
 	}
 	
 	getTracks(shouldRefreshData:boolean) {
-		console.log('Get tracks - shouldRefreshData: ', shouldRefreshData)
+		console.log('AudioInfo.getTracks', shouldRefreshData);
 		return  new Promise<Array<Track>>((resolve, reject) =>{
-			window.plugins.iOSAudioInfo.getTracks((tracks) => {
-				console.log(tracks, ['albumTitle', 'artist', 'rating', 'playCount'])
+			this.iOSAudioInfo.getTracks((tracks) => {
 				resolve(tracks);
 			}, (error) => {
-				console.log(error)
 				reject(error);
 			})
 		})

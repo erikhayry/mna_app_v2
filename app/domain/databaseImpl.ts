@@ -5,7 +5,7 @@ export interface Database{
 
 export interface TX{
     executeSql(query:String, errorCb:ErrorCb, successCb:SuccessCb)
-    executeSql(query:String, values:Array<any>)
+    executeSql(query:String, values?:Array<any>)
     executeSql(query:String, values:Array<any>, successCb:SuccessCb, errorCb:ErrorCb)
 }
 

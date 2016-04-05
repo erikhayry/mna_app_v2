@@ -31,7 +31,7 @@ export class Settings{
 	}
 
 	deleteIgnoreListItem = (id:String): void => {
-		console.log('Settings.deleteIgnoreListItem');
+		console.log('Settings.deleteIgnoreListItem', id);
 		this.storage.deleteIgnoreListItem(id).then(ignoredAlbumList => this.ignoredAlbumList = ignoredAlbumList)
 	};
 
