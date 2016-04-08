@@ -1,5 +1,5 @@
-import {IgnoredAlbum} from "../domain/ignoredAlbum";
-import {Preference} from "../domain/preference";
+import {IgnoredAlbum} from "../../domain/ignoredAlbum";
+import {Preference} from "../../domain/preference";
 export interface StorageImpl {
     getIgnoreList():Promise<Array<IgnoredAlbum>>
     addIgnoreListItem(id:any, name:any):Promise<Array<IgnoredAlbum>>

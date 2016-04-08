@@ -1,9 +1,11 @@
 import {Platform} from 'ionic-angular';
 import {Injectable} from 'angular2/core';
 import {StorageImpl} from './storageImpl';
-import {Database, DbError, TX} from '../domain/databaseImpl';
-import {Preference} from '../domain/preference';
-import {IgnoredAlbum} from "../domain/ignoredAlbum";
+import {Database, DbError, TX} from '../../domain/databaseImpl';
+import {Preference} from '../../domain/preference';
+import {IgnoredAlbum} from "../../domain/ignoredAlbum";
+import {Sort} from "../sort/sort";
+
 
 @Injectable()
 export class Storage implements StorageImpl {

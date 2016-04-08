@@ -1,8 +1,8 @@
 import {Injectable} from 'angular2/core';
 import {AudioInfoImpl} from './audioInfoImpl';
-import {iOSAudioInfoImpl} from "../domain/iOSAudioInfoImpl";
-import {CordovaWindowImpl} from "../domain/CordovaWindowImpl";
-import {TrackImpl as Track} from "../domain/trackImpl";
+import {iOSAudioInfoImpl} from "../../domain/iOSAudioInfoImpl";
+import {CordovaWindowImpl} from "../../domain/CordovaWindowImpl";
+import {TrackImpl as Track} from "../../domain/trackImpl";
 import {Platform} from "ionic-angular";
 
 interface log extends Console{

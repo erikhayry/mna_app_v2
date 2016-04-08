@@ -1,6 +1,6 @@
 import {Injectable} from 'angular2/core';
-import {AudioInfo} from './audioInfo';
-import {Sort} from './sort';
+import {AudioInfo} from './audioInfo/audioInfo';
+import {Sort} from './sort/sort';
 import {Album} from "../domain/album";
 import {TrackImpl as Track, TrackImpl} from "../domain/trackImpl";
 

@@ -1,7 +1,7 @@
-/// <reference path="../../typings/lodash/lodash.d.ts" />
+/// <reference path="../../../typings/lodash/lodash.d.ts" />
 import {Injectable} from 'angular2/core';
 import * as _ from 'lodash';
-import {TrackImpl} from "../domain/trackImpl";
+import {TrackImpl} from "../../domain/trackImpl";
 
 @Injectable()
 export class Sort{

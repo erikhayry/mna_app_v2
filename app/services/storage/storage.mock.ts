@@ -2,7 +2,7 @@ import {Injectable} from 'angular2/core';
 import {StorageImpl} from "./storageImpl";
 
 @Injectable()
-export class Storage implements StorageImpl {
+export class Storage {
     ignore: Array<any>;
     preferences: Array<any>;
 

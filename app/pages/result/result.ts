@@ -1,6 +1,6 @@
 import {Page, Modal, NavController, Platform} from 'ionic-angular';
 import {Albums} from '../../services/albums';
-import {Storage} from '../../services/storage';
+import {Storage} from '../../services/storage/storage';
 import {Settings} from '../../modals/settings/settings';
 import {TrackImpl} from "../../domain/trackImpl";
 
