@@ -12,5 +12,6 @@
 
 - (void) getTracks:(CDVInvokedUrlCommand*)command;
 - (void) getTrack:(CDVInvokedUrlCommand*)command;
+- (void) getAlbum:(CDVInvokedUrlCommand*)command;
 
 @end

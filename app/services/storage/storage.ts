@@ -43,8 +43,9 @@ export class Storage implements StorageImpl {
         console.log('Storage.populateDB', tx);
         //tx.executeSql('DROP TABLE Settings')
         (<TX>tx).executeSql('CREATE TABLE IF NOT EXISTS Settings (text PRIMARY KEY, checked BOOLEAN NOT NULL)', this.errorCB, function (tx, res) {
-            tx.executeSql('INSERT OR IGNORE INTO Settings (text, checked) VALUES(?, ?)', ['Use Ratings', 1]);
-            tx.executeSql('INSERT OR IGNORE INTO Settings (text, checked) VALUES(?, ?)', ['Another Setting', 0]);
+            tx.executeSql('INSERT OR IGNORE INTO Settings (text, checked) VALUES(?, ?)', ['relevance.rating', 0]);
+            tx.executeSql('INSERT OR IGNORE INTO Settings (text, checked) VALUES(?, ?)', ['relevance.play-count', 0]);
+            tx.executeSql('INSERT OR IGNORE INTO Settings (text, checked) VALUES(?, ?)', ['relevance.number-of-items', 1]);
         });
 
         //tx.executeSql('DROP TABLE Ignore')

@@ -4,6 +4,7 @@ import {iOSAudioInfoImpl} from "../../domain/iOSAudioInfoImpl";
 import {CordovaWindowImpl} from "../../domain/CordovaWindowImpl";
 import {TrackImpl as Track} from "../../domain/trackImpl";
 import {Platform} from "ionic-angular";
+import {Album} from "../../domain/album";
 
 interface log extends Console{
 	table(...args: any[])
@@ -23,8 +24,18 @@ export class AudioInfo implements AudioInfoImpl {
 		console.log('AudioInfo.getTrack', id);
 		return new Promise<Track>((resolve, reject) =>{
 			this.iOSAudioInfo.getTrack((track) => {
-				console.log('audioInfo', track)
 				resolve(track);
+			}, (error) => {
+				reject(error);
+			}, id)
+		})
+	}
+
+	getAlbum(id:String){
+		console.log('AudioInfo.getAlbum', id);
+		return new Promise<Album>((resolve, reject) =>{
+			this.iOSAudioInfo.getTrack((album) => {
+				resolve(album);
 			}, (error) => {
 				reject(error);
 			}, id)

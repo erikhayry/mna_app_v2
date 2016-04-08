@@ -48,6 +48,34 @@
     }];
 }
 
+- (void) getAlbum:(CDVInvokedUrlCommand *)command
+{
+    [self.commandDelegate runInBackground:^{
+      NSString *persistentAlbumID = [command argumentAtIndex:0];
+
+    if(persistentAlbumID == nil){
+      pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"No ID found"];
+    } else {
+      MPMediaItem *album;
+      MPMediaPropertyPredicate *predicate;
+      MPMediaQuery *albumQuery;
+
+      predicate = [MPMediaPropertyPredicate predicateWithValue: persistentAlbumID forProperty:MPMediaItemPropertyAlbumPersistentID];
+      albumQuery = [[MPMediaQuery alloc] init];
+    [albumQuery addFilterPredicate: predicate];
+
+    if (albumQuery.items.count > 0){
+      album = [albumQuery.items objectAtIndex:0];
+    pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:[self buildSongInfo:album:YES]];
+    } else {
+      pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"album not found"];
+    }
+    }
+
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+    }];
+}
+
 - (NSMutableDictionary *)buildSongInfo :(MPMediaItem*)song :(BOOL)addImage
 {
     NSString *title = [song valueForProperty:MPMediaItemPropertyTitle];
