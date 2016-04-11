@@ -1,5 +1,5 @@
 import {Page, ViewController, Platform} from 'ionic-angular';
-import {Storage} from "../../services/storage";
+import {Storage} from "../../services/storage/storage";
 import {IgnoredAlbum} from "../../domain/ignoredAlbum";
 import {Preference} from "../../domain/preference";
 
@@ -22,7 +22,6 @@ export class Settings{
 			this.storage.getIgnoreList().then(ignoredAlbumList => this.ignoredAlbumList = ignoredAlbumList);
 			this.storage.getPreferences().then(preferences => this.preferences = preferences);
 		});
-
 	}
 
 	close(): void {

@@ -52,7 +52,7 @@
 {
     [self.commandDelegate runInBackground:^{
       NSString *persistentAlbumID = [command argumentAtIndex:0];
-
+    NSLog(@"persistentAlbumID to get = %@",persistentAlbumID);
     if(persistentAlbumID == nil){
       pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"No ID found"];
     } else {

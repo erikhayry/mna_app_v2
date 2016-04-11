@@ -40,7 +40,7 @@ export class Result {
 		console.time('getNextAlbum');
 
 		this.albumService.getNextAlbum(shouldRefreshData)
-			.then(album => this.onSuccess(album), error => this.onError)
+			.then(album => this.onSuccess(album), error => this.onError(error))
 	};
 
 	addIgnoreListItem = (albumId:String, albumName:String): void => {

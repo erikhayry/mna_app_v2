@@ -21,7 +21,7 @@ export class AlbumService{
 	private _getAlbum(albumsSorted:Array<Track>):Promise<TrackImpl> {
 		console.log('AlbumService._getAlbum', albumsSorted);
 		this.currentAlbumIndex++;
-		return this.audioInfo.getAlbum(albumsSorted[this.currentAlbumIndex][0].persistentID);
+		return this.audioInfo.getAlbum(albumsSorted[this.currentAlbumIndex][0].albumPersistentID);
 	}
 
 	private _sortToAlbums(trackData:Array<Track>):Promise<Array<Track>> {

@@ -34,7 +34,7 @@ export class AudioInfo implements AudioInfoImpl {
 	getAlbum(id:String){
 		console.log('AudioInfo.getAlbum', id);
 		return new Promise<Album>((resolve, reject) =>{
-			this.iOSAudioInfo.getTrack((album) => {
+			this.iOSAudioInfo.getAlbum((album) => {
 				resolve(album);
 			}, (error) => {
 				reject(error);
