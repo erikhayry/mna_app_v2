@@ -5,46 +5,44 @@ import {Album} from "../domain/album";
 import {TrackImpl as Track, TrackImpl} from "../domain/trackImpl";
 
 @Injectable()
-export class Albums{
-	groupedAndSortedTracks:Array<any>;
-	tracksWithImage = {};
+export class AlbumService{
+	groupedAndSortedTracks:Array<Track>;
 	currentAlbumIndex = -1;
 	audioInfo: AudioInfo;
 	sort: Sort;
 
 	constructor(audioInfo: AudioInfo, sort: Sort) {
-		console.log('Albums.constructor');
+		console.log('AlbumService.constructor');
 		this.audioInfo = audioInfo;
 		this.sort = sort;
 	}
 	
 
-	getAlbum(albumsSorted:Array<Track>):Promise<TrackImpl> {
-		console.log('Albums.getAlbum', albumsSorted);
+	private _getAlbum(albumsSorted:Array<Track>):Promise<TrackImpl> {
+		console.log('AlbumService._getAlbum', albumsSorted);
 		this.currentAlbumIndex++;
-		return this.audioInfo.getTrack(albumsSorted[this.currentAlbumIndex][0].persistentID);
+		return this.audioInfo.getAlbum(albumsSorted[this.currentAlbumIndex][0].persistentID);
 	}
 
-	sortToAlbums(trackData:Array<Track>):Promise<Array<Track>> {
-		console.log('Albums.sortToAlbums', trackData);
+	private _sortToAlbums(trackData:Array<Track>):Promise<Array<Track>> {
+		console.log('AlbumService._sortToAlbums', trackData);
 		return Promise.resolve(this.sort.sortToAlbums(trackData))
 	}
 
 	getNextAlbum(shouldRefreshData:boolean):Promise<TrackImpl>{
-		console.log('Albums.getNextAlbum', shouldRefreshData);
+		console.log('AlbumService.getNextAlbum', shouldRefreshData);
 
 		if(shouldRefreshData){
 			this.groupedAndSortedTracks = [];
-			this.tracksWithImage = {};
 			this.currentAlbumIndex = -1;
 		}
 
 		if(this.groupedAndSortedTracks.length > 0){
-			return this.getAlbum(this.groupedAndSortedTracks)
+			return this._getAlbum(this.groupedAndSortedTracks)
 		}
 
 		return this.audioInfo.getTracks(shouldRefreshData)
-			.then((tracks) => this.sortToAlbums((<Array<Track>>tracks)))
-			.then((albums) => this.getAlbum((<Array<Track>>albums)));
+			.then((tracks) => this._sortToAlbums((<Array<Track>>tracks)))
+			.then((albums) => this._getAlbum((<Array<Track>>albums)));
 	}
 }

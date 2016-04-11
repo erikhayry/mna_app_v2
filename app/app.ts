@@ -1,7 +1,7 @@
 import {App, Platform} from 'ionic-angular';
 import {StatusBar} from 'ionic-native';
 import {TabsPage} from './pages/tabs/tabs';
-import {Albums} from './services/albums';
+import {Albums} from './services/albumService';
 import {Sort} from './services/sort';
 import {AudioInfo} from "./services/audioInfo";
 import {Storage} from "./services/storage";

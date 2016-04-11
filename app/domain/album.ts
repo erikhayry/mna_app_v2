@@ -1,3 +1,16 @@
-import {TrackImpl} from "./trackImpl";
+import {Track} from "./track";
 
-export interface Album { [key:string]:Array<TrackImpl>; }
+export class Album {
+    //iOSAudioInfo data
+    title:String;
+    artist:String;
+    genre:String;
+    persistentID:String;
+    playCount:String;
+    rating:String;
+    image:String;
+
+    //MNA data
+    totalRating:number;
+    tracks:Array<Track>;
+}

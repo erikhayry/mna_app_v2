@@ -1,5 +1,5 @@
 import {Page, Modal, NavController, Platform} from 'ionic-angular';
-import {Albums} from '../../services/albums';
+import {AlbumService} from '../../services/albumService';
 import {Storage} from '../../services/storage/storage';
 import {Settings} from '../../modals/settings/settings';
 import {TrackImpl} from "../../domain/trackImpl";
@@ -11,7 +11,7 @@ import {TrackImpl} from "../../domain/trackImpl";
 export class Result {
 	private album: TrackImpl;
 	private nav: NavController;
-	private albums: Albums;
+	private albumService: AlbumService;
 	private storage: Storage;
 
 	private onSuccess(album:TrackImpl): void{
@@ -25,10 +25,10 @@ export class Result {
         console.timeEnd('getNextAlbum');
     }
 
-	constructor(nav: NavController, platform: Platform, albums: Albums, storage:Storage){
+	constructor(nav: NavController, platform: Platform, albumService: AlbumService, storage:Storage){
 		console.log('Result.constructor')
 		this.nav = nav;
-		this.albums = albums;
+		this.albumService = albumService;
 		this.storage = storage;
 		platform.ready().then(() => {
 			this.getNextAlbum(true);
@@ -39,7 +39,7 @@ export class Result {
 		console.log('Result.getNextAlbum');
 		console.time('getNextAlbum');
 
-		this.albums.getNextAlbum(shouldRefreshData)
+		this.albumService.getNextAlbum(shouldRefreshData)
 			.then(album => this.onSuccess(album), error => this.onError)
 	};
 
