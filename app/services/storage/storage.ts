@@ -5,6 +5,7 @@ import {Database, DbError, TX} from '../../domain/databaseImpl';
 import {Preference} from '../../domain/preference';
 import {IgnoredAlbum} from "../../domain/ignoredAlbum";
 import {Sort} from "../sort/sort";
+import {Rows} from "./domain/rows";
 
 
 @Injectable()
@@ -42,13 +43,13 @@ export class Storage implements StorageImpl {
     private _populateDB(tx:TX):void {
         console.log('Storage._populateDB', tx);
         //tx.executeSql('DROP TABLE Settings')
-        (<TX>tx).executeSql('CREATE TABLE IF NOT EXISTS Settings (text PRIMARY KEY, checked BOOLEAN NOT NULL)', this._errorCB, function (tx, res) {
+        (<TX>tx).executeSql('CREATE TABLE IF NOT EXISTS Settings (text PRIMARY KEY, checked BOOLEAN NOT NULL)', this._errorCB, (tx, res) => {
             tx.executeSql('INSERT OR IGNORE INTO Settings (text, checked) VALUES(?, ?)', ['relevance.rating', 0]);
             tx.executeSql('INSERT OR IGNORE INTO Settings (text, checked) VALUES(?, ?)', ['relevance.play-count', 0]);
             tx.executeSql('INSERT OR IGNORE INTO Settings (text, checked) VALUES(?, ?)', ['relevance.number-of-items', 1]);
         });
 
-        //tx.executeSql('DROP TABLE Ignore')
+        tx.executeSql('DROP TABLE Ignore')
         tx.executeSql('CREATE TABLE IF NOT EXISTS Ignore (id TEXT PRIMARY KEY, title TEXT, artist TEXT)')
     }
 
@@ -62,20 +63,25 @@ export class Storage implements StorageImpl {
         return results;
     }
 
+    private _getItems(rows:Rows):Array<any>{
+        let _len = rows.length,
+            _ret = [];
+        for (let i = 0; i < _len; i++) {
+            _ret.push(rows.item(i))
+        }
+
+        return _ret;
+    }
+
     getIgnoreList() {
         console.log('Storage.getIgnoreList');
         let that = this;
         this.db = this._openDB();
 
         return new Promise<Array<IgnoredAlbum>>((resolve, reject) => {
-            this.db.transaction(function (tx) {
+            this.db.transaction((tx) => {
                 tx.executeSql('SELECT * FROM Ignore', [], (tx, res) => {
-                    let _len = res.rows.length,
-                        _ret = [];
-                    for (let i = 0; i < _len; i++) {
-                        _ret.push(res.rows.item(i))
-                    }
-                    resolve(_ret);
+                    resolve(this._getItems(res.rows));
                 }, that._errorCB);
             }, this._errorCB);
         })
@@ -108,7 +114,6 @@ export class Storage implements StorageImpl {
         })
     }
 
-
     getPreferences():Promise<Array<Preference>> {
         console.log('Storage.getPreferences');
         let that = this;
@@ -117,13 +122,7 @@ export class Storage implements StorageImpl {
         return new Promise<Array<Preference>>((resolve, reject) => {
             this.db.transaction((tx) => {
                 tx.executeSql('SELECT * FROM Settings', [], (tx, res) => {
-                    var _len = res.rows.length,
-                        _ret = [];
-                    for (var i = 0; i < _len; i++) {
-                        _ret.push(res.rows.item(i))
-                    }
-
-                    resolve(_ret.map(preference => {
+                    resolve(this._getItems(res.rows).map(preference => {
                         (<Preference>preference).checked = preference.checked ? true : false;
                         return preference
                     }));

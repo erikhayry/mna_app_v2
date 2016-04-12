@@ -34,7 +34,7 @@ export class Settings{
 		this.storage.deleteIgnoreListItem(id).then(ignoredAlbumList => this.ignoredAlbumList = ignoredAlbumList)
 	};
 
-	preferenceChanged = (value:String, id:String): void => {
+	preferenceChanged = (value:Boolean, id:String): void => {
 		console.log('Settings.preferenceChanged', value, id);
 		this.storage.setPreferences(id, value).then(preferences => this.preferences = preferences);
 	}
