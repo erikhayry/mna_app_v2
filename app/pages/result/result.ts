@@ -43,9 +43,9 @@ export class Result {
 			.then(album => this.onSuccess(album), error => this.onError(error))
 	};
 
-	addIgnoreListItem = (albumId:String, albumName:String): void => {
-		console.log('Result.addIgnoreListItem', albumId, albumName)
-		this.storage.addIgnoreListItem(albumId, albumName)
+	addIgnoreListItem = (albumId:String, albumName:String, artist:String): void => {
+		console.log('Result.addIgnoreListItem', albumId, albumName, artist)
+		this.storage.addIgnoreListItem(albumId, albumName, artist)
 			.then(() => this.getNextAlbum(false))
 	};
 

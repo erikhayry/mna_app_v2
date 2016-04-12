@@ -25,8 +25,8 @@
 </ion-content>
 
 <ion-toolbar position="bottom">
-  <ion-buttons >
-    <button item-left (click)="addIgnoreListItem(album.albumPersistentID, album.albumTitle)">Ignore</button>
+  <ion-buttons>
+    <button item-left (click)="addIgnoreListItem(album.albumPersistentID, album.title, album.artist)">Ignore</button>
     <button button-right (click)="getNextAlbum()">Next</button>
   </ion-buttons>
 </ion-toolbar>
