@@ -18,15 +18,15 @@
 
   <div type="item-text-wrap" *ngIf="album" class="text-center">
       <img [src]="getImage(album.image)">
-      <h2>{{album.title}}</h2>
-      <h3>{{album.artist}}</h3>
+      <h2>{{album.albumTitle}}</h2>
+      <h3>{{album.albumArtist}}</h3>
   </div> 
 
 </ion-content>
 
 <ion-toolbar position="bottom">
   <ion-buttons>
-    <button item-left (click)="addIgnoreListItem(album.albumPersistentID, album.title, album.artist)">Ignore</button>
-    <button button-right (click)="getNextAlbum()">Next</button>
+    <button item-left (click)="addIgnoreListItem(album.albumPersistentID, album.albumTitle, album.albumArtist)">Ignore</button>
+    <button button-right (click)="getNextAlbum(false)">Next</button>
   </ion-buttons>
 </ion-toolbar>

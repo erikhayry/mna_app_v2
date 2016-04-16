@@ -6,9 +6,8 @@
         <div class="item item-divider">
         Ignore List
         </div>
-
         <div class="item item-button-right" *ngFor="#ignoredAlbum of ignoredAlbumList">
-            {{ignoredAlbum.name}}
+            {{ignoredAlbum.title}} - {{ignoredAlbum.artist}}
             <button (click)="deleteIgnoreListItem(ignoredAlbum.id)">
                 delete
             </button>
@@ -17,8 +16,6 @@
         <div class="item item-divider">
         Settings
         </div>
-
-
         <ion-item *ngFor="#preference of preferences">
             <ion-label>{{preference.text}}</ion-label>
             <ion-toggle [ngModel]="preference.checked" (ngModelChange)="preferenceChanged($event, preference.text)"></ion-toggle>

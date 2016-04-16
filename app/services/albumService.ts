@@ -6,7 +6,7 @@ import {TrackImpl as Track, TrackImpl} from "../domain/trackImpl";
 
 @Injectable()
 export class AlbumService{
-	groupedAndSortedTracks:Array<Track>;
+	albums:Array<Album>;
 	currentAlbumIndex = -1;
 	audioInfo: AudioInfo;
 	sort: Sort;
@@ -18,31 +18,32 @@ export class AlbumService{
 	}
 	
 
-	private _getAlbum(albumsSorted:Array<Track>):Promise<TrackImpl> {
+	private _getAlbum(albumsSorted:Array<Album>):Promise<Album> {
 		console.log('AlbumService._getAlbum', albumsSorted);
+		this.albums = albumsSorted;
 		this.currentAlbumIndex++;
-		return this.audioInfo.getAlbum(albumsSorted[this.currentAlbumIndex][0].albumPersistentID);
+		return this.audioInfo.getAlbum(this.albums[this.currentAlbumIndex][0].albumPersistentID);
 	}
 
-	private _sortToAlbums(trackData:Array<Track>):Promise<Array<Track>> {
+	private _sortToAlbums(trackData:Array<Track>):Promise<Array<Album>> {
 		console.log('AlbumService._sortToAlbums', trackData);
-		return Promise.resolve(this.sort.sortToAlbums(trackData))
+		return this.sort.sortToAlbums(trackData)
 	}
 
-	getNextAlbum(shouldRefreshData:boolean):Promise<TrackImpl>{
+	getNextAlbum(shouldRefreshData:boolean):Promise<Album>{
 		console.log('AlbumService.getNextAlbum', shouldRefreshData);
 
 		if(shouldRefreshData){
-			this.groupedAndSortedTracks = [];
+			this.albums = [];
 			this.currentAlbumIndex = -1;
 		}
 
-		if(this.groupedAndSortedTracks.length > 0){
-			return this._getAlbum(this.groupedAndSortedTracks)
+		if(this.albums.length > 0){
+			return this._getAlbum(this.albums)
 		}
 
 		return this.audioInfo.getTracks(shouldRefreshData)
 			.then((tracks) => this._sortToAlbums((<Array<Track>>tracks)))
-			.then((albums) => this._getAlbum((<Array<Track>>albums)));
+			.then((albums) => this._getAlbum((<Array<Album>>albums)));
 	}
 }

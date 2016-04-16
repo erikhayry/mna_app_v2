@@ -2,19 +2,19 @@ import {Page, Modal, NavController, Platform} from 'ionic-angular';
 import {AlbumService} from '../../services/albumService';
 import {Storage} from '../../services/storage/storage';
 import {Settings} from '../../modals/settings/settings';
-import {TrackImpl} from "../../domain/trackImpl";
+import {Album} from "../../domain/album";
 
 @Page({
   templateUrl: 'build/pages/result/result.html',
 })
 
 export class Result {
-	private album: TrackImpl;
+	private album: Album;
 	private nav: NavController;
 	private albumService: AlbumService;
 	private storage: Storage;
 
-	private onSuccess(album:TrackImpl): void{
+	private onSuccess(album:Album): void{
         console.log('Result.onSuccess', album);
         console.timeEnd('getNextAlbum');
         this.album = album;
@@ -43,9 +43,9 @@ export class Result {
 			.then(album => this.onSuccess(album), error => this.onError(error))
 	};
 
-	addIgnoreListItem = (albumId:String, albumName:String, artist:String): void => {
-		console.log('Result.addIgnoreListItem', albumId, albumName, artist)
-		this.storage.addIgnoreListItem(albumId, albumName, artist)
+	addIgnoreListItem = (albumId:String, albumName:String, albumArtist:String): void => {
+		console.log('Result.addIgnoreListItem', albumId, albumName, albumArtist)
+		this.storage.addIgnoreListItem(albumId, albumName, albumArtist)
 			.then(() => this.getNextAlbum(false))
 	};
 

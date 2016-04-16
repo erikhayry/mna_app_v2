@@ -49,7 +49,7 @@ export class Storage implements StorageImpl {
             tx.executeSql('INSERT OR IGNORE INTO Settings (text, checked) VALUES(?, ?)', ['relevance.number-of-items', 1]);
         });
 
-        tx.executeSql('DROP TABLE Ignore')
+        //tx.executeSql('DROP TABLE Ignore')
         tx.executeSql('CREATE TABLE IF NOT EXISTS Ignore (id TEXT PRIMARY KEY, title TEXT, artist TEXT)')
     }
 
