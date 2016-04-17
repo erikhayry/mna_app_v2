@@ -1,10 +1,10 @@
 import {App, Platform} from 'ionic-angular';
 import {StatusBar} from 'ionic-native';
-import {TabsPage} from './pages/tabs/tabs';
 import {AlbumService} from './services/albumService';
 import {Sort} from './services/sort/sort';
 import {AudioInfo} from "./services/audioInfo/audioInfo";
 import {Storage} from "./services/storage/storage";
+import {Result} from "./pages/result/result";
 
 
 @App({
@@ -14,7 +14,7 @@ import {Storage} from "./services/storage/storage";
 })
 
 export class MnaApp {
-  rootPage: any = TabsPage;
+  rootPage: any = Result;
 
   constructor(platform: Platform) {
     platform.ready().then(() => {

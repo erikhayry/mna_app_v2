@@ -1,32 +1,31 @@
-<ion-navbar *navbar>
-  <ion-title>Result</ion-title>
-</ion-navbar>
-
-<ion-toolbar position="top">
-    <ion-buttons start>
-        <button (click)="showSettings($event)">
-          Settings
-          <ion-icon name="send"></ion-icon>
+<ion-toolbar position="top" primary>
+    <ion-buttons end>
+        <button (click)="showSettings($event)" light>
+            <ion-icon name="settings"></ion-icon>
         </button>
     </ion-buttons>
 </ion-toolbar>
 
 <ion-content padding class="result padding-vertical">
-  <div type="item-text-wrap" *ngIf="error" class="text-center">
-      <p>{{error}}</p>
-  </div>
+    <div type="item-text-wrap" *ngIf="error" class="text-center">
+        <p>{{error}}</p>
+    </div>
 
-  <div type="item-text-wrap" *ngIf="album" class="text-center">
-      <img [src]="getImage(album.image)">
-      <h2>{{album.albumTitle}}</h2>
-      <h3>{{album.albumArtist}}</h3>
-  </div> 
+    <div *ngIf="!album" text-center>
+        <loader></loader>
+        <h1 class="text-center">Getting Data</h1>
+    </div>
 
+    <div *ngIf="album">
+        <div type="item-text-wrap" text-center>
+            <img [src]="getImage(album.image)">
+            <h1>{{album.albumTitle}} - {{album.albumArtist}}</h1>
+        </div>
+
+        <ion-buttons>
+            <button (click)="getNextAlbum(false)" full primary-dark>Show me next</button>
+            <button (click)="getPreviousAlbum(false)" full secondary>Show me previous</button>
+            <button (click)="addIgnoreListItem(album.albumPersistentID, album.albumTitle, album.albumArtist)" full third>Add to ignore list</button>
+        </ion-buttons>
+    </div>
 </ion-content>
-
-<ion-toolbar position="bottom">
-  <ion-buttons>
-    <button item-left (click)="addIgnoreListItem(album.albumPersistentID, album.albumTitle, album.albumArtist)">Ignore</button>
-    <button button-right (click)="getNextAlbum(false)">Next</button>
-  </ion-buttons>
-</ion-toolbar>

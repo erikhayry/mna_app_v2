@@ -30,6 +30,13 @@ export class Result {
 		this.nav = nav;
 		this.albumService = albumService;
 		this.storage = storage;
+
+		this.album = {
+			albumTitle: "Pablo Honey",
+			albumArtist: "Radiohead",
+			image: "https://ukutabs.com/uploads/2012/04/49158523.jpg"
+		}
+
 		platform.ready().then(() => {
 			this.getNextAlbum(true);
 		})
@@ -49,7 +56,8 @@ export class Result {
 			.then(() => this.getNextAlbum(false))
 	};
 
-	getImage = (src:String): String => 'data:image/png;base64,' + src;
+	//getImage = (src:String): String => 'data:image/png;base64,' + src;
+	getImage = (src:String): String => src;
 
 	showSettings(): void {
 		console.log('Result.showSettings');

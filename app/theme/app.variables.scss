@@ -21,10 +21,22 @@
 // are different per mode.
 
 $colors: (
-  primary:    #387ef5,
-  secondary:  #32db64,
-  danger:     #f53d3d,
-  light:      #f4f4f4,
-  dark:       #222,
-  favorite:   #69BB7B
+        primary:    (
+                base: rgb(199, 228, 218),
+                contrast: rgb(255, 254, 250)
+        ),
+        primary-dark:    (
+                base: rgb(199, 228, 218),
+                contrast: rgb(0, 0, 0)
+        ),
+        secondary:  rgb(213, 236, 235),
+        third:      rgb(247, 229, 199),
+        danger:     #f53d3d,
+        light:      rgb(255, 254, 250),
+        dark:       #222,
+        favorite:   #69BB7B
 );
+
+$background-color: rgb(255, 254, 250);
+
+$navbar-ios-height:	0;
