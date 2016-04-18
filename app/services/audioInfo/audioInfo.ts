@@ -42,8 +42,8 @@ export class AudioInfo implements AudioInfoImpl {
 		})
 	}
 	
-	getTracks(shouldRefreshData:boolean) {
-		console.log('AudioInfo.getTracks', shouldRefreshData);
+	getTracks():Promise<Array<Track>>{
+		console.log('AudioInfo.getTracks');
 		return  new Promise<Array<Track>>((resolve, reject) =>{
 			this.iOSAudioInfo.getTracks((tracks) => {
 				resolve(tracks);
