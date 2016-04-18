@@ -40,7 +40,7 @@ export class Result {
 		}*/
 
 		platform.ready().then(() => {
-			this.albumService.getAlbums()
+			this.albumService.getNext()
 				.then(album => this.onSuccess(album), error => this.onError(error))
 		})
 	}

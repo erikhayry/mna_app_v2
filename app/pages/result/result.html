@@ -23,8 +23,8 @@
         </div>
 
         <ion-buttons>
-            <button (click)="getNextAlbum()" full primary-dark>Show me next</button>
-            <button (click)="getPrevAlbum()" full secondary>Show me previous</button>
+            <button [disabled]="!album.next" (click)="getNextAlbum()" full primary-dark>Show me next</button>
+            <button [disabled]="!album.prev" (click)="getPrevAlbum()" full secondary>Show me previous</button>
             <button (click)="addIgnoreListItem(album)" full third>Add to ignore list</button>
         </ion-buttons>
     </div>
