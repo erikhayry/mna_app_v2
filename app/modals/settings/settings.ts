@@ -2,6 +2,7 @@ import {Page, ViewController, Platform} from 'ionic-angular';
 import {Storage} from "../../services/storage/storage";
 import {IgnoredAlbum} from "../../domain/ignoredAlbum";
 import {Preference} from "../../domain/preference";
+import {Copy} from "../../services/copy";
 
 @Page({
   templateUrl: 'build/modals/settings/settings.html',
@@ -12,11 +13,13 @@ export class Settings{
 	storage: Storage;
 	ignoredAlbumList: Array<IgnoredAlbum>;
 	preferences: Array<Preference>;
+	copy:Object;
 
-	constructor(viewCtrl: ViewController, storage:Storage, platform:Platform) {
+	constructor(viewCtrl: ViewController, storage:Storage, platform:Platform, copy:Copy) {
 		console.log('Settings.constructor');
 		this.viewCtrl = viewCtrl;
 		this.storage = storage;
+		this.copy = copy.en;
 
 		platform.ready().then(() => {
 			this.storage.getIgnoreList().then(ignoredAlbumList => this.ignoredAlbumList = ignoredAlbumList);

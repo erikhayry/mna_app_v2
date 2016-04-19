@@ -6,7 +6,7 @@
     </ion-buttons>
 </ion-toolbar>
 
-<ion-content padding class="result padding-vertical">
+<ion-content padding class="l-result padding-vertical">
     <div type="item-text-wrap" *ngIf="error" class="text-center">
         <p>{{error}}</p>
     </div>
@@ -16,16 +16,16 @@
         <h1 class="text-center">Getting Data</h1>
     </div>
 
-    <div *ngIf="album">
-        <div type="item-text-wrap" text-center>
+    <div *ngIf="album" class="l-result-album">
+        <div class="l-result-album-info" type="item-text-wrap" text-center>
             <img [src]="getImage(album.value.image)">
             <h1>{{album.value.albumTitle}} - {{album.value.albumArtist}}</h1>
         </div>
 
-        <ion-buttons>
-            <button [disabled]="!album.next" (click)="getNextAlbum()" full primary-dark>Show me next</button>
-            <button [disabled]="!album.prev" (click)="getPrevAlbum()" full secondary>Show me previous</button>
-            <button (click)="addIgnoreListItem(album)" full third>Add to ignore list</button>
+        <ion-buttons class="l-result-album-btns">
+            <button class="l-result-album-btn" [disabled]="!album.next" (click)="getNextAlbum()" full primary-dark>Show me next</button>
+            <button class="l-result-album-btn" [disabled]="!album.prev" (click)="getPrevAlbum()" full secondary>Show me previous</button>
+            <button class="l-result-album-btn" (click)="addIgnoreListItem(album)" full third>Add to ignore list</button>
         </ion-buttons>
     </div>
 </ion-content>

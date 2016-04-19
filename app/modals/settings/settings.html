@@ -18,7 +18,7 @@
         </ion-list>
         <ion-list *ngSwitchWhen="'kittens'">
             <ion-item *ngFor="#preference of preferences">
-                <ion-label>{{preference.text}}</ion-label>
+                <ion-label>{{copy[preference.text]}}</ion-label>
                 <ion-toggle [ngModel]="preference.checked" (ngModelChange)="preferenceChanged($event, preference.text)"></ion-toggle>
             </ion-item>
         </ion-list>
@@ -31,4 +31,3 @@
         </button>
     </ion-buttons>
 </ion-toolbar>
-
