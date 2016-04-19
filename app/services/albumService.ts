@@ -47,18 +47,20 @@ export class AlbumService{
 			.then((tracks) => that._sortToAlbums((<Array<Track>>tracks)))
 			.then((albums) => {
 				that.albums = new AlbumIterator(<Array<Album>>albums);
-				return äthat._getAlbum(that.albums.next())
+				return that._getAlbum(that.albums.next())
+			}, error => {
+				console.log(error)
 			});
 	}
 
 	getNext = ():Promise<IteratorResultImpl> => {
 		console.log('AlbumService.getNext', this.albums);
-		return this.albums ? this._init() : this._getAlbum(this.albums.next());
+		return !this.albums ? this._init() : this._getAlbum(this.albums.next());
 	};
 
 	getPrev = ():Promise<IteratorResultImpl> => {
 		console.log('AlbumService.getPrev', this.albums);
-		return this.albums ? this._init() : this._getAlbum(this.albums.prev());
+		return !this.albums ? this._init() : this._getAlbum(this.albums.prev());
 	};
 
 	ignore = (album:Album):Promise<IteratorResultImpl> => {
