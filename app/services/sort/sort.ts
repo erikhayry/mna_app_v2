@@ -19,12 +19,10 @@ export class Sort{
 		console.log('Sort.sortToAlbums', tracks);
 
 		if(tracks.length == 0){
-			return new Promise<Array<Album>>((resolve) => resolve(tracks))
+			return new Promise<Array<Album>>((resolve) => resolve([]))
 		}
 
 		return new Promise<Array<Album>>((resolve, reject) =>{
-
-
 			this.storage.getIgnoreList().then(ignoredAlbumList => {
 				resolve(
 					_.chain(tracks)

@@ -2,7 +2,6 @@ import {Track} from "./track";
 
 export class Album {
     //iOSAudioInfo data
-    title:String;
     artist:String;
     genre:String;
     persistentID:String;
@@ -10,6 +9,7 @@ export class Album {
     playCount:String;
     rating:String;
     image:String;
+    albumTitle:String;
 
     //MNA data
     totalRating:number;
