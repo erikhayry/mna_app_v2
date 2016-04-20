@@ -3,6 +3,7 @@ import {Storage} from "../../services/storage/storage";
 import {IgnoredAlbum} from "../../domain/ignoredAlbum";
 import {Preference} from "../../domain/preference";
 import {Copy} from "../../services/copy";
+import {SettingsSegment} from "./domain/settingsSegment";
 
 @Page({
   templateUrl: 'build/modals/settings/settings.html',
@@ -14,12 +15,14 @@ export class Settings{
 	ignoredAlbumList: Array<IgnoredAlbum>;
 	preferences: Array<Preference>;
 	copy:Object;
+	currentSegment: String;
 
 	constructor(viewCtrl: ViewController, storage:Storage, platform:Platform, copy:Copy) {
 		console.log('Settings.constructor');
 		this.viewCtrl = viewCtrl;
 		this.storage = storage;
 		this.copy = copy.en;
+		this.currentSegment = SettingsSegment[SettingsSegment.ignoreList];
 
 		platform.ready().then(() => {
 			this.storage.getIgnoreList().then(ignoredAlbumList => this.ignoredAlbumList = ignoredAlbumList);

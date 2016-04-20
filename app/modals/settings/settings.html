@@ -1,22 +1,27 @@
 <ion-toolbar>
-    <ion-segment [(ngModel)]="pet">
-        <ion-segment-button value="kittens">
-            Kittens
+    <ion-buttons left>
+        <button (click)="close()">
+            <ion-icon name="ios-close" item-left></ion-icon>
+        </button>
+    </ion-buttons>
+    <ion-segment [(ngModel)]="currentSegment">
+        <ion-segment-button value="preferences">
+            Preferences
         </ion-segment-button>
-        <ion-segment-button value="puppies">
-            Puppies
+        <ion-segment-button value="ignoreList">
+            Ignore List
         </ion-segment-button>
     </ion-segment>
 </ion-toolbar>
 <ion-content padding>
-    <div [ngSwitch]="pet">
-        <ion-list *ngSwitchWhen="'puppies'">
+    <div [ngSwitch]="currentSegment">
+        <ion-list *ngSwitchWhen="'ignoreList'">
             <button ion-item *ngFor="#ignoredAlbum of ignoredAlbumList" (click)="deleteIgnoreListItem(ignoredAlbum.id)" >
                 <ion-icon name="leaf" item-left></ion-icon>
                 {{ignoredAlbum.title}} - {{ignoredAlbum.artist}}
             </button>
         </ion-list>
-        <ion-list *ngSwitchWhen="'kittens'">
+        <ion-list *ngSwitchWhen="'preferences'">
             <ion-item *ngFor="#preference of preferences">
                 <ion-label>{{copy[preference.text]}}</ion-label>
                 <ion-toggle [ngModel]="preference.checked" (ngModelChange)="preferenceChanged($event, preference.text)"></ion-toggle>
@@ -24,10 +29,3 @@
         </ion-list>
     </div>
 </ion-content>
-<ion-toolbar position="bottom">
-    <ion-buttons>
-        <button (click)="close()">
-            Close
-        </button>
-    </ion-buttons>
-</ion-toolbar>

@@ -33,10 +33,12 @@ export class Result {
 		this.albumService = albumService;
 		this.storage = storage;
 
-/*		this.album = {
-			albumTitle: "Pablo Honey",
-			albumArtist: "Radiohead",
-			image: "https://ukutabs.com/uploads/2012/04/49158523.jpg"
+		/*this.album = {
+			value: {
+				albumTitle: "Pablo Honey",
+				albumArtist: "Radiohead",
+				image: "https://ukutabs.com/uploads/2012/04/49158523.jpg"
+			}
 		}*/
 
 		platform.ready().then(() => {

@@ -30,7 +30,7 @@ $colors: (
                 contrast: rgb(0, 0, 0)
         ),
         secondary:  rgb(213, 236, 235),
-        third:      rgb(247, 229, 199),
+        tertiary:   rgb(247, 229, 199),
         danger:     #f53d3d,
         light:      rgb(255, 254, 250),
         dark:       #222,
@@ -38,5 +38,6 @@ $colors: (
 );
 
 $background-color: rgb(255, 254, 250);
+$toolbar-background: map-get($colors, light);
 
 $navbar-ios-height:	26px;
