@@ -26,6 +26,11 @@ export class AlbumIterator{
 
     };
 
+    remove = ():IteratorResultImpl => {
+        this._arr.splice(this._index, 1);
+        return this._ret();
+    };
+
     next = ():IteratorResultImpl => this._next();
     prev = ():IteratorResultImpl => this._prev();
 }

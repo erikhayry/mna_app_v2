@@ -65,7 +65,7 @@ export class Result {
 	addIgnoreListItem = (album:IteratorResultImpl): void => {
 		console.log('Result.addIgnoreListItem', album)
 
-		this.albumService.ignore(album.value)
+		this.albumService.ignore(album)
 			.then(album => this.onSuccess(album), error => this.onError(error))
 	};
 

@@ -29,6 +29,8 @@ export class AlbumService{
 			new Promise<IteratorResultImpl>((resolve) => resolve(album)) :
 			this.audioInfo.getAlbum(album.value.albumPersistentID)
 				.then(albumData => {
+					//TODO lodash merge
+					albumData.tracks = album.value.tracks;
 					album.value = albumData;
 					return new Promise<IteratorResultImpl>((resolve) => resolve(album));
 				});
@@ -68,13 +70,10 @@ export class AlbumService{
 		return !this.albums ? this._init() : this._getAlbum(this.albums.prev());
 	};
 
-	ignore = (album:Album):Promise<IteratorResultImpl> => {
-		console.log('AlbumService.ignore', album);
-
+	ignore = (albums:IteratorResultImpl):Promise<IteratorResultImpl> => {
+		console.log('AlbumService.ignore', albums);
+		let album = albums.value;
 		return this.storage.addIgnoreListItem(album.albumPersistentID, album.albumTitle, album.artist)
-			.then(() => {
-				album.ignored = true;
-				return this._getAlbum(this.albums.next());
-			})
+			.then(() => this._getAlbum(this.albums.remove()))
 	}
 }

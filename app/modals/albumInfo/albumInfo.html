@@ -6,6 +6,12 @@
     </ion-buttons>
 </ion-toolbar>
 <ion-content padding>
-    Album Info
-    {{album.albumTitle}}
+    <h1>{{album.artist}} - {{album.albumTitle}}</h1>
+    <ion-list>
+        <ion-item *ngFor="#track of album.tracks">
+            {{track.title}}, {{track.rating}}/5, {{track.playCount}}
+            <br>
+            Score: {{track.score.bayesianEstimate}}
+        </ion-item>
+    </ion-list>
 </ion-content>
