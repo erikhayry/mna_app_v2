@@ -17,7 +17,7 @@
     </div>
 
     <div *ngIf="album" class="l-result-album">
-        <div class="l-result-album-info" type="item-text-wrap" text-center>
+        <div class="l-result-album-info" type="item-text-wrap" text-center (click)="showInfo(album.value)">
             <img [src]="getImage(album.value.image)">
             <h1>{{album.value.albumTitle}} - {{album.value.albumArtist}}</h1>
         </div>

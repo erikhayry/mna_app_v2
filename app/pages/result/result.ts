@@ -2,6 +2,7 @@ import {Page, Modal, NavController, Platform} from 'ionic-angular';
 import {AlbumService} from '../../services/albumService';
 import {Storage} from '../../services/storage/storage';
 import {Settings} from '../../modals/settings/settings';
+import {AlbumInfo} from '../../modals/albumInfo/albumInfo';
 import {Album} from "../../domain/album";
 import {IteratorResultImpl} from "../../domain/iteratorResultImpl";
 import {AlbumIterator} from "../../domain/iterator";
@@ -75,5 +76,11 @@ export class Result {
 		console.log('Result.showSettings');
 		let settingsModal = Modal.create(Settings);
 		this.nav.present(settingsModal);
+	}
+	
+	showInfo(album:Album): void{
+		console.log('Result.showInfo', album);
+		let albumInfoModal = Modal.create(AlbumInfo, {album: album});
+		this.nav.present(albumInfoModal);	
 	}
 }
