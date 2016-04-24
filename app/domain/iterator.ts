@@ -11,6 +11,7 @@ export class AlbumIterator{
     }
 
     private _ret = ():IteratorResultImpl => ({value: this._arr[this._index], prev: this._index > 0, next: this._index < this._arr.length});
+
     private _next = ():IteratorResultImpl => {
         console.log('AlbumIterator._next', this._index, this._arr);
         return this._index == this._arr.length || (this._index < this._arr.length && !this._arr[++this._index].ignored) ?

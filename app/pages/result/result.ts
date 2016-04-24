@@ -43,7 +43,7 @@ export class Result {
 		}*/
 
 		platform.ready().then(() => {
-			this.albumService.getNext()
+			this.albumService.getAlbums()
 				.then(album => this.onSuccess(album), error => this.onError(error))
 		})
 	}
@@ -75,6 +75,15 @@ export class Result {
 	showSettings(): void {
 		console.log('Result.showSettings');
 		let settingsModal = Modal.create(Settings);
+		settingsModal.onDismiss(settingsParams => {
+			if(settingsParams.preferencesUpdated || settingsParams.ignoreListUpdated){
+				console.log('Result.showSettings: preferencesUpdated/ignoreListUpdated');
+				this.album = null;
+				this.albumService.getAlbums()
+					.then(album => this.onSuccess(album), error => this.onError(error))
+			}
+		});
+
 		this.nav.present(settingsModal);
 	}
 	

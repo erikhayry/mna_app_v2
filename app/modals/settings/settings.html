@@ -16,10 +16,10 @@
 <ion-content padding>
     <div [ngSwitch]="currentSegment">
         <ion-list *ngSwitchWhen="'ignoreList'">
-            <button ion-item *ngFor="#ignoredAlbum of ignoredAlbumList" (click)="deleteIgnoreListItem(ignoredAlbum.id)" >
-                <ion-icon name="leaf" item-left></ion-icon>
+            <ion-item *ngFor="#ignoredAlbum of ignoredAlbumList" (click)="deleteIgnoreListItem(ignoredAlbum.id)" >
                 {{ignoredAlbum.title}} - {{ignoredAlbum.artist}}
-            </button>
+                <ion-icon name="ios-close" item-right></ion-icon>
+            </ion-item>
         </ion-list>
         <ion-list *ngSwitchWhen="'preferences'">
             <ion-item *ngFor="#preference of preferences">

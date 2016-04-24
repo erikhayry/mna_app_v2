@@ -53,6 +53,11 @@ export class AlbumService{
 			});
 	}
 
+	getAlbums = ():Promise<IteratorResultImpl> => {
+		console.log('AlbumService.getAlbums', this.albums);
+		return this._init();
+	};
+
 	getNext = ():Promise<IteratorResultImpl> => {
 		console.log('AlbumService.getNext', this.albums);
 		return !this.albums ? this._init() : this._getAlbum(this.albums.next());

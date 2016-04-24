@@ -89,6 +89,7 @@ export class Sort{
 						return track;
 					})
 					.groupBy('albumPersistentID')
+					.filter(tracks => !_.some(_ignoredAlbumList, {'id': tracks[0].albumPersistentID}))
 					.map(tracks => new Album(tracks[0].albumPersistentID, tracks, _.some(_ignoredAlbumList, {'id': tracks[0].albumPersistentID})))
 					.sortBy(album => {
 						if(_considerRating || _considerPlayCount){

@@ -14,6 +14,8 @@ export class Settings{
 	storage: Storage;
 	ignoredAlbumList: Array<IgnoredAlbum>;
 	preferences: Array<Preference>;
+	initalPreferences:Array<Preference>;
+	ignoreListUpdated = false;
 	copy:Object;
 	currentSegment: String;
 
@@ -27,17 +29,21 @@ export class Settings{
 		platform.ready().then(() => {
 			this.storage.getIgnoreList().then(ignoredAlbumList => this.ignoredAlbumList = ignoredAlbumList);
 			this.storage.getPreferences()
-				.then(preferences => this.preferences = Object.keys(preferences).map(key => preferences[key]));
+				.then(preferences => this.preferences = this.initalPreferences = Object.keys(preferences).map(key => preferences[key]));
 		});
 	}
 
 	close(): void {
 		console.log('Settings.close');
-		this.viewCtrl.dismiss();
+		this.viewCtrl.dismiss({
+			preferencesUpdated: !_.isEqual(this.preferences, this.initalPreferences),
+			ignoreListUpdated: this.ignoreListUpdated
+		});
 	}
 
 	deleteIgnoreListItem = (id:String): void => {
 		console.log('Settings.deleteIgnoreListItem', id);
+		this.ignoreListUpdated = true;
 		this.storage.deleteIgnoreListItem(id).then(ignoredAlbumList => this.ignoredAlbumList = ignoredAlbumList)
 	};
 
