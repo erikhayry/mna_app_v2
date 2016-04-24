@@ -6,6 +6,7 @@ import {Preference} from '../../domain/preference';
 import {IgnoredAlbum} from "../../domain/ignoredAlbum";
 import {Sort} from "../sort/sort";
 import {Rows} from "./domain/rows";
+import {Preferences} from "../../domain/preferences";
 
 
 @Injectable()
@@ -114,29 +115,31 @@ export class Storage implements StorageImpl {
         })
     }
 
-    getPreferences():Promise<Array<Preference>> {
+    getPreferences():Promise<Preferences> {
         console.log('Storage.getPreferences');
         let that = this;
         this.db = this._openDB();
 
-        return new Promise<Array<Preference>>((resolve, reject) => {
+        return new Promise<Preferences>((resolve, reject) => {
             this.db.transaction((tx) => {
                 tx.executeSql('SELECT * FROM Settings', [], (tx, res) => {
-                    resolve(this._getItems(res.rows).map(preference => {
+                    let _preferences:Preferences = (<Preferences>{});
+                    (this._getItems(res.rows).forEach(preference => {
                         (<Preference>preference).checked = preference.checked ? true : false;
-                        return preference
+                        _preferences[preference.text] = preference;
                     }));
+                    resolve(_preferences)
                 }, that._errorCB);
             }, this._errorCB);
         })
     }
 
-    setPreferences(key:String, value:Boolean):Promise<Array<Preference>>{
+    setPreferences(key:String, value:Boolean):Promise<Preferences>{
         console.log('Storage.setPreferences', key, value);
         let that = this;
         this.db = this._openDB();
 
-        return new Promise<Array<Preference>>((resolve, reject) => {
+        return new Promise<Preferences>((resolve, reject) => {
             this.db.transaction((tx) => {
                 tx.executeSql('UPDATE Settings SET checked = ? WHERE text = ?', [value ? 1 : 0, key], (tx, res) => {
                     resolve(that.getPreferences());

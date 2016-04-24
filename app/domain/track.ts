@@ -1,18 +1,19 @@
 import {TrackImpl} from "./trackImpl";
+import {Score} from "./score";
 export class Track implements TrackImpl {
-    title:String;
-    albumTitle:String;
-    artist:String;
-    genre:String;
-    persistentID:String;
-    albumPersistentID:String;
-    playCount:String;
-    rating:String;
-    image:String;
+    title:string;
+    albumTitle:string;
+    artist:string;
+    genre:string;
+    persistentID:string;
+    albumPersistentID:string;
+    playCount:string;
+    rating:string;
+    image:string;
     totalRating:number;
-    score: Object;
+    score: Score;
 
-    constructor(title:String, albumTitle:String, artist:String, genre:String, persistentID:String, albumPersistentID:String, rating:String) {
+    constructor(title:string, albumTitle:string, artist:string, genre:string, persistentID:string, albumPersistentID:string, rating:string) {
         this.title = title;
         this.albumTitle = albumTitle;
         this.artist = artist;

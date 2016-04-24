@@ -26,7 +26,8 @@ export class Settings{
 
 		platform.ready().then(() => {
 			this.storage.getIgnoreList().then(ignoredAlbumList => this.ignoredAlbumList = ignoredAlbumList);
-			this.storage.getPreferences().then(preferences => this.preferences = preferences);
+			this.storage.getPreferences()
+				.then(preferences => this.preferences = Object.keys(preferences).map(key => preferences[key]));
 		});
 	}
 
@@ -42,6 +43,7 @@ export class Settings{
 
 	preferenceChanged = (value:Boolean, id:String): void => {
 		console.log('Settings.preferenceChanged', value, id);
-		this.storage.setPreferences(id, value).then(preferences => this.preferences = preferences);
+		this.storage.setPreferences(id, value)
+			.then(preferences => this.preferences = Object.keys(preferences).map(key => preferences[key]));
 	}
 }
