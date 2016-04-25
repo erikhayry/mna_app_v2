@@ -9,7 +9,6 @@ export interface TX{
     executeSql(query:String, values:Array<any>, successCb:SuccessCb, errorCb:ErrorCb)
 }
 
-
 export interface DbItem {
     item:Function
 }

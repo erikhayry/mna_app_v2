@@ -90,7 +90,7 @@ export class Sort{
 					})
 					.groupBy('albumPersistentID')
 					.filter(tracks => !_.some(_ignoredAlbumList, {'id': tracks[0].albumPersistentID}))
-					.map(tracks => new Album(tracks[0].albumPersistentID, tracks, _.some(_ignoredAlbumList, {'id': tracks[0].albumPersistentID})))
+					.map(tracks => new Album(tracks[0].albumPersistentID, tracks))
 					.sortBy(album => {
 						if(_considerRating || _considerPlayCount){
 							return -album.tracks.reduce((prev:number, curr:TrackImpl) => prev + curr.score.bayesianEstimate, 0)

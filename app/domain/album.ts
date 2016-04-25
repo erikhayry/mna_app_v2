@@ -14,12 +14,9 @@ export class Album {
     //MNA data
     totalRating:number;
     tracks:Array<Track>;
-    ignored:Boolean;
 
-
-    constructor(albumPersistentID:String, tracks:Array<Track>, ignored:Boolean) {
+    constructor(albumPersistentID:String, tracks:Array<Track>) {
         this.albumPersistentID = albumPersistentID;
         this.tracks = tracks;
-        this.ignored = ignored;
     }
 }

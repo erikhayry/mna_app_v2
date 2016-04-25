@@ -14,14 +14,14 @@ export class AlbumIterator{
 
     private _next = ():IteratorResultImpl => {
         console.log('AlbumIterator._next', this._index, this._arr);
-        return this._index == this._arr.length || (this._index < this._arr.length && !this._arr[++this._index].ignored) ?
+        return this._index == this._arr.length || (this._index < this._arr.length) ?
             this._ret() : this._next();
 
     };
 
     private _prev = ():IteratorResultImpl => {
         console.log('AlbumIterator._prev', this._index, this._arr);
-        return this._index <= 0 || (this._index > 0 && !this._arr[--this._index].ignored) ?
+        return this._index <= 0 || (this._index > 0 ) ?
             this._ret() : this._prev();
 
     };

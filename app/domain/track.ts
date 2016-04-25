@@ -1,5 +1,5 @@
 import {TrackImpl} from "./trackImpl";
-import {Score} from "./score";
+import {ScoreImpl} from "./scoreImpl";
 export class Track implements TrackImpl {
     title:string;
     albumTitle:string;
@@ -11,7 +11,7 @@ export class Track implements TrackImpl {
     rating:string;
     image:string;
     totalRating:number;
-    score: Score;
+    score: ScoreImpl;
 
     constructor(title:string, albumTitle:string, artist:string, genre:string, persistentID:string, albumPersistentID:string, rating:string) {
         this.title = title;

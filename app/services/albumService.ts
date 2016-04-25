@@ -29,9 +29,7 @@ export class AlbumService{
 			new Promise<IteratorResultImpl>((resolve) => resolve(album)) :
 			this.audioInfo.getAlbum(album.value.albumPersistentID)
 				.then(albumData => {
-					//TODO lodash merge
-					albumData.tracks = album.value.tracks;
-					album.value = albumData;
+					album.value = _.merge(albumData, {tracks: album.value.tracks});
 					return new Promise<IteratorResultImpl>((resolve) => resolve(album));
 				});
 	}

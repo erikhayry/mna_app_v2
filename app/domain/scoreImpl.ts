@@ -1,4 +1,4 @@
-export interface Score{
+export interface ScoreImpl{
     bayesianEstimate:number;
     estimatedTrueValue:number;
     baseNWeightedRatingPlayCount:number;

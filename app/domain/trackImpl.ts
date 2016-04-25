@@ -1,4 +1,4 @@
-import {Score} from "./score";
+import {ScoreImpl} from "./scoreImpl";
 export interface TrackImpl {
     title?:string;
     albumTitle?:string;
@@ -10,5 +10,5 @@ export interface TrackImpl {
     rating?:string;
     image?:string;
     totalRating?:number;
-    score:Score;
+    score:ScoreImpl;
 }
