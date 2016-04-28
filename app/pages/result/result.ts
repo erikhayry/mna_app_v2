@@ -34,18 +34,35 @@ export class Result {
 		this.albumService = albumService;
 		this.storage = storage;
 
-		/*this.album = {
+		this.album = {
 			value: {
 				albumTitle: "Pablo Honey",
-				albumArtist: "Radiohead",
-				image: "https://ukutabs.com/uploads/2012/04/49158523.jpg"
+				artist: "Radiohead",
+				image: "https://ukutabs.com/uploads/2012/04/49158523.jpg",
+				tracks: [
+					{
+						title: 'Track 1',
+						rating: 2,
+						playCount: 10
+					},
+					{
+						title: 'Track 2',
+						rating: 5,
+						playCount: 2
+					},
+					{
+						title: 'Track 3',
+						rating: 0,
+						playCount: 0
+					}
+				]
 			}
-		}*/
+		}
 
-		platform.ready().then(() => {
+/*		platform.ready().then(() => {
 			this.albumService.getAlbums()
 				.then(album => this.onSuccess(album), error => this.onError(error))
-		})
+		})*/
 	}
 
 	getNextAlbum(): void{
@@ -68,8 +85,8 @@ export class Result {
 			.then(album => this.onSuccess(album), error => this.onError(error))
 	};
 
-	getImage = (src:String): String => 'data:image/png;base64,' + src;
-	//getImage = (src:String): String => src;
+	//getImage = (src:String): String => 'data:image/png;base64,' + src;
+	getImage = (src:String): String => src;
 
 	showSettings(): void {
 		console.log('Result.showSettings');

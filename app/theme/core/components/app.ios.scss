@@ -1,0 +1,8 @@
+@each $color-name, $color-base, $color-contrast in get-colors($colors-ios) {
+  h1, h2, h3, h4, h5, h6{
+    &[#{$color-name}] {
+      color: $color-contrast !important;
+      background-color: $color-base !important;
+    }
+  }
+}

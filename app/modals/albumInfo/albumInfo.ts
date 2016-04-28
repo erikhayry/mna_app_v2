@@ -22,4 +22,8 @@ export class AlbumInfo{
         console.log('AlbumInfo.close');
         this.viewCtrl.dismiss();
     }
+
+    getStars(rating:number):Array<any>{
+        return new Array(rating ? rating - 1 : 0)
+    }
 }
