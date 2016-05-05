@@ -33,8 +33,8 @@ export class Result {
 		this.nav = nav;
 		this.albumService = albumService;
 		this.storage = storage;
-/*
-		this.album = {
+
+/*		this.album = {
 			value: {
 				albumTitle: "Pablo Honey",
 				artist: "Radiohead",

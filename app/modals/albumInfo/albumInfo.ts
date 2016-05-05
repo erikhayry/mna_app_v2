@@ -23,11 +23,17 @@ export class AlbumInfo{
         this.storage = storage;
         this.viewCtrl = viewCtrl;
 
+/*        this.showCompleteAlbum = false;
+        this.showRating = true;
+        this.showPlayCount = false;
+        this.album = params.get('album');
+        this.copy = copy.en;*/
+
         this.storage.getPreferences()
             .then(preferences => {
                 this.showCompleteAlbum = preferences['relevance.number-of-items'].checked;
-                this.showRating = preferences['relevance.play-count'].checked;
-                this.showPlayCount = preferences['relevance.rating'].checked;
+                this.showPlayCount = preferences['relevance.play-count'].checked;
+                this.showRating = preferences['relevance.rating'].checked;
 
                 this.album = params.get('album');      
                 this.copy = copy.en;
