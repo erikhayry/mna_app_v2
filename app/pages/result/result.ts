@@ -33,7 +33,7 @@ export class Result {
 		this.nav = nav;
 		this.albumService = albumService;
 		this.storage = storage;
-
+/*
 		this.album = {
 			value: {
 				albumTitle: "Pablo Honey",
@@ -57,12 +57,12 @@ export class Result {
 					}
 				]
 			}
-		}
+		}*/
 
-/*		platform.ready().then(() => {
+		platform.ready().then(() => {
 			this.albumService.getAlbums()
 				.then(album => this.onSuccess(album), error => this.onError(error))
-		})*/
+		})
 	}
 
 	getNextAlbum(): void{
@@ -85,8 +85,8 @@ export class Result {
 			.then(album => this.onSuccess(album), error => this.onError(error))
 	};
 
-	//getImage = (src:String): String => 'data:image/png;base64,' + src;
-	getImage = (src:String): String => src;
+	getImage = (src:String): String => 'data:image/png;base64,' + src;
+	//getImage = (src:String): String => src;
 
 	showSettings(): void {
 		console.log('Result.showSettings');
