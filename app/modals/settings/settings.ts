@@ -2,6 +2,7 @@ import {Page, ViewController, Platform} from 'ionic-angular';
 import {Storage} from "../../services/storage/storage";
 import {IgnoredAlbum} from "../../domain/ignoredAlbum";
 import {Preference} from "../../domain/preference";
+import {Preferences} from "../../domain/preferences";
 import {Copy} from "../../services/copy";
 import {SettingsSegment} from "./domain/settingsSegment";
 
@@ -52,4 +53,6 @@ export class Settings{
 		this.storage.setPreferences(id, value)
 			.then(preferences => this.preferences = Object.keys(preferences).map(key => preferences[key]));
 	}
+
+	disableSetting = (preference: Preference, preferences: Preferences): boolean => preference.checked && Object.keys(preferences).filter(key => preferences[key].checked).length < 2
 }

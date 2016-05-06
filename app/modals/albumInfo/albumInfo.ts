@@ -31,7 +31,7 @@ export class AlbumInfo{
 
         this.storage.getPreferences()
             .then(preferences => {
-                this.showCompleteAlbum = preferences['relevance.number-of-items'].checked;
+                this.showCompleteAlbum = preferences['relevance.number-of-items'].checked || preferences['relevance.play-count'].checked;
                 this.showPlayCount = preferences['relevance.play-count'].checked;
                 this.showRating = preferences['relevance.rating'].checked;
 
