@@ -7,11 +7,13 @@
 // By default each design mode includes these shared imports.
 // App Shared Sass variables belong in app.variables.scss.
 
-//Layours
+//Layouts
+@import "layouts/box";
 @import "../pages/result/result";
 @import "../modals/albumInfo/albumInfo";
 
 
 //Modules
-@import "modules/badge"
+@import "modules/badge";
+@import "modules/loader";
 

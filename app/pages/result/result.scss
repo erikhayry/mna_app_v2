@@ -1,4 +1,21 @@
 .l-result {
+  &-loader{
+    display: flex;
+    flex-flow: column;
+    height: 100%;
+    &-top{
+      flex: 1;
+        display: flex;
+  align-items: center;
+  justify-content: center;
+    }
+
+    &-bottom{
+      flex: inherit;
+      height: 100px
+    }
+  }
+
   &-album{
     display: flex;
     flex-flow: column;

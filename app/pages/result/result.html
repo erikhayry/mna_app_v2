@@ -11,17 +11,21 @@
         <p>{{error}}</p>
     </div>
 
-    <div *ngIf="!album" text-center>
-        <loader></loader>
-        <h1 class="text-center">Getting Data</h1>
+    <div *ngIf="!album" text-center class="l-result-loader l-box">
+        <div class="l-result-loader-top">
+            <div class="loader"></div>            
+        </div>
+        <div class="l-result-loader-bottom">
+            <h1 text-center primary-clear padding>Getting Data</h1>            
+        </div>
     </div>
     <div *ngIf="album" class="l-result-album">
         <a class="l-result-album-info" type="item-text-wrap" text-center (click)="showInfo(album.value)">
             <img [src]="getImage(album.value.image)">
-            <h1>{{album.value.albumTitle}} - {{album.value.artist}}</h1>
+            <h2 primary-dark padding>{{album.value.albumTitle}} <i>{{album.value.artist}}</i></h2>
         </a>
 
-        <ion-buttons class="l-result-album-btns">
+        <ion-buttons class="l-result-album-btns l-box">
             <button class="l-result-album-btn" (click)="getNextAlbum()" full primary-dark [disabled]="!album.next">Show me next</button>
             <button class="l-result-album-btn" (click)="getPrevAlbum()" full secondary [disabled]="!album.prev" >Show me previous</button>
             <button class="l-result-album-btn" (click)="addIgnoreListItem(album)" full tertiary>Add to ignore list</button>
