@@ -76,8 +76,8 @@ export class Sort{
 
 				let _sortedAlbums = _.chain(tracks)
 					.map(track => {
-						let _playCount: number = track.playCount ? parseInt(track.playCount) + 1 : 1;
-						let _rating: number = track.rating ? parseInt(track.rating) + 1 : 1;
+						let _playCount: number = _considerPlayCount && track.playCount ? parseInt(track.playCount) + 1 : 1;
+						let _rating: number = _considerRating && track.rating ? parseInt(track.rating) + 1 : 1;
 
 						track.score = {
 							bayesianEstimate: (_playCount / (_playCount + _limit)) * _rating + (_limit / (_playCount + _limit)) * _ratingAvg,

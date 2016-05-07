@@ -1,0 +1,33 @@
+$primaryColors:	map-get($colors, primary);
+
+.stripeList{
+	&-item{
+
+		.item-inner{
+			padding-bottom: 15px;
+			padding-top: 15px;			
+		}
+
+		&:nth-child(1n){
+			.item-inner{
+				border-color: map-get($primaryColors, base)				
+			}
+		}
+
+		&:nth-child(2n){
+			.item-inner{
+				border-color: map-get($colors, secondary);				
+			}
+		}
+
+		&:nth-child(3n){
+			.item-inner{
+				border-color: map-get($colors, tertiary);			
+			}
+		}		
+	}
+
+	&-icon{
+		font-size: 4rem !important;
+	}
+}
