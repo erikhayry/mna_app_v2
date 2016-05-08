@@ -6,8 +6,8 @@ export interface TrackImpl {
     genre?:string;
     persistentID?:string;
     albumPersistentID?:string;
-    playCount?:string;
-    rating?:string;
+    playCount?:number;
+    rating?:number;
     image?:string;
     totalRating?:number;
     score:ScoreImpl;

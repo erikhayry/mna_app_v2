@@ -64,10 +64,10 @@ export class Sort{
 				let _considerRating = _preferences['relevance.rating'].checked;
 
 				let _limit = 1,
-					_ratingAvg = tracks.reduce((prev: number, curr: TrackImpl) => prev + parseInt(curr.rating), 0) / tracks.length,
-					_ratingMax = Math.max(...tracks.map(track => parseInt(track.rating))),
-					_playCountAvg = tracks.reduce((prev: number, curr: TrackImpl) => prev + parseInt(curr.playCount), 0) / tracks.length,
-					_playCountMax = Math.max(...tracks.map(track => parseInt(track.playCount)));
+					_ratingAvg = tracks.reduce((prev: number, curr: TrackImpl) => prev + curr.rating, 0) / tracks.length,
+					_ratingMax = Math.max(...tracks.map(track => track.rating)),
+					_playCountAvg = tracks.reduce((prev: number, curr: TrackImpl) => prev + curr.playCount, 0) / tracks.length,
+					_playCountMax = Math.max(...tracks.map(track => track.playCount));
 
 				console.log('_ratingAvg', _ratingAvg);
 				console.log('_ratingMax', _ratingMax);
@@ -76,8 +76,8 @@ export class Sort{
 
 				let _sortedAlbums = _.chain(tracks)
 					.map(track => {
-						let _playCount: number = _considerPlayCount && track.playCount ? parseInt(track.playCount) + 1 : 1;
-						let _rating: number = _considerRating && track.rating ? parseInt(track.rating) + 1 : 1;
+						let _playCount: number = _considerPlayCount && track.playCount ? track.playCount + 1 : 1;
+						let _rating: number = _considerRating && track.rating ? track.rating + 1 : 1;
 
 						track.score = {
 							bayesianEstimate: (_playCount / (_playCount + _limit)) * _rating + (_limit / (_playCount + _limit)) * _ratingAvg,
@@ -91,7 +91,7 @@ export class Sort{
 					.groupBy('albumPersistentID')
 					.filter(tracks => {
 						return !_.some(_ignoredAlbumList, { 'id': tracks[0].albumPersistentID }) &&
-							!(!_considerNumberOfItems && !_considerPlayCount && parseInt(tracks[0].rating) === 0)
+							!(!_considerNumberOfItems && !_considerPlayCount && tracks[0].rating === 0)
 					}
 						
 					)

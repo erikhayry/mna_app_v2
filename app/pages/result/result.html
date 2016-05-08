@@ -20,15 +20,23 @@
         </div>
     </div>
     <div *ngIf="album" class="l-result-album">
-        <a class="l-result-album-info" type="item-text-wrap" text-center (click)="showInfo(album.value)">
-            <img [src]="getImage(album.value.image)" class="cover">
-            <h2 primary-dark padding><i>{{album.value.artist}}</i> {{album.value.albumTitle}}</h2>
+        <a text-center class="l-result-album-info" type="item-text-wrap" (click)="showInfo(album.value)">
+            <img [src]="getImage(album.value.image)" class="cover">            
+            <div>
+                <h2 class="paddedTitle" primary><span><i>{{album.value.artist}}</i> {{album.value.albumTitle}}</span></h2>            
+            </div>
         </a>
 
-        <ion-buttons class="l-result-album-btns l-box">
+<!--         <ion-buttons class="l-result-album-btns l-box">
             <button class="l-result-album-btn" (click)="getNextAlbum()" full primary-dark [disabled]="!album.next">Show me next</button>
             <button class="l-result-album-btn" (click)="getPrevAlbum()" full secondary [disabled]="!album.prev" >Show me previous</button>
             <button class="l-result-album-btn" (click)="addIgnoreListItem(album)" full tertiary>Add to ignore list</button>
+        </ion-buttons> -->
+
+        <ion-buttons class="l-result-album-btns l-box">
+            <button (click)="getPrevAlbum()" [disabled]="!album.prev" clean><ion-icon secondary name="ios-arrow-dropleft-circle"></ion-icon></button>
+            <button (click)="addIgnoreListItem(album)" clean><ion-icon tertiary name="ios-checkmark-circle"></ion-icon></button>
+            <button (click)="getNextAlbum()" [disabled]="!album.next" clean><ion-icon primary name="ios-arrow-dropright-circle"></ion-icon></button>
         </ion-buttons>
     </div>
 </ion-content>

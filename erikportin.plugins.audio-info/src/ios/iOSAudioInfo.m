@@ -51,28 +51,27 @@
 - (void) getAlbum:(CDVInvokedUrlCommand *)command
 {
     [self.commandDelegate runInBackground:^{
-      NSString *persistentAlbumID = [command argumentAtIndex:0];
+        NSString *persistentAlbumID = [command argumentAtIndex:0];
+        if(persistentAlbumID == nil){
+            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"No ID found"];
+        } else {
+            MPMediaItem *album;
+            MPMediaPropertyPredicate *predicate;
+            MPMediaQuery *albumQuery;
 
-    if(persistentAlbumID == nil){
-      pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"No ID found"];
-    } else {
-      MPMediaItem *album;
-      MPMediaPropertyPredicate *predicate;
-      MPMediaQuery *albumQuery;
+            predicate = [MPMediaPropertyPredicate predicateWithValue: persistentAlbumID forProperty:MPMediaItemPropertyAlbumPersistentID];
+            albumQuery = [[MPMediaQuery alloc] init];
+            [albumQuery addFilterPredicate: predicate];
 
-      predicate = [MPMediaPropertyPredicate predicateWithValue: persistentAlbumID forProperty:MPMediaItemPropertyAlbumPersistentID];
-      albumQuery = [[MPMediaQuery alloc] init];
-    [albumQuery addFilterPredicate: predicate];
+            if (albumQuery.items.count > 0){
+                album = [albumQuery.items objectAtIndex:0];
+                pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:[self buildInfo:album:YES:YES]];
+            } else {
+              pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"album not found"];
+            }
+        }
 
-    if (albumQuery.items.count > 0){
-      album = [albumQuery.items objectAtIndex:0];
-    pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:[self buildInfo:album:YES:YES]];
-    } else {
-      pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"album not found"];
-    }
-    }
-
-    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
     }];
 }
 
@@ -122,12 +121,12 @@
         [info setObject:[NSString stringWithFormat:@"%@", albumPersistentID] forKey:@"albumPersistentID"];
     }
     if(playCount !=nil) {
-        [info setObject:[NSString stringWithFormat:@"%@", playCount] forKey:@"playCount"];
+        [info setObject:[NSNumber numberWithInteger: [playCount intValue]] forKey:@"playCount"];
     }
     if(rating !=nil) {
-        [info setObject:[NSString stringWithFormat:@"%@", rating] forKey:@"rating"];
+        [info setObject:[NSNumber numberWithInteger: [rating intValue]] forKey:@"rating"];
     } else {
-        [info setObject:[NSString stringWithFormat:@"%@", @"-1"] forKey:@"rating"];
+        [info setObject:[NSNumber numberWithInteger: -1] forKey:@"rating"];
     }
 
     if(addImage){

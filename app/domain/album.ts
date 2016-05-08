@@ -6,8 +6,8 @@ export class Album {
     genre:String;
     persistentID:String;
     albumPersistentID:String;
-    playCount:String;
-    rating:String;
+    playCount:number;
+    rating:number;
     image:String;
     albumTitle:String;
 

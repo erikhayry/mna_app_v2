@@ -41,6 +41,13 @@ $button-ios-small-icon-font-size:     1.3em !default;
   }
 }
 
+.button[clean] {
+  &.activated {
+    background-color: transparent;
+    opacity: 1;
+  }
+}
+
 
 // iOS Default Button Color Mixin
 // --------------------------------------------------

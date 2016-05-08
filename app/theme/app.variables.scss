@@ -39,6 +39,7 @@ $colors: (
 
 $background-color: rgb(255, 254, 250);
 $toolbar-background: map-get($colors, light);
+$toast-ios-background: map-get($colors, tertiary);
 
 $navbar-ios-height:	26px;
 

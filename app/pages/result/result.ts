@@ -1,4 +1,4 @@
-import {Page, Modal, NavController, Platform} from 'ionic-angular';
+import {Page, Modal, NavController, Platform, Toast} from 'ionic-angular';
 import {AlbumService} from '../../services/albumService';
 import {Storage} from '../../services/storage/storage';
 import {Settings} from '../../modals/settings/settings';
@@ -36,8 +36,8 @@ export class Result {
 
 /*		this.album = {
 			value: {
-				albumTitle: "Pablo Honey",
-				artist: "Radiohead",
+				albumTitle: "Pablo Honey Live in Lodond",
+				artist: "Radiohead on the UK tour 2015",
 				image: "https://ukutabs.com/uploads/2012/04/49158523.jpg",
 				tracks: [
 					{
@@ -81,8 +81,11 @@ export class Result {
 
 	addIgnoreListItem = (album:IteratorResultImpl): void => {
 		console.log('Result.addIgnoreListItem', album);
+		this.presentToast(album.value);
 		this.albumService.ignore(album)
-			.then(album => this.onSuccess(album), error => this.onError(error))
+			.then(album => {
+				this.onSuccess(album), error => this.onError(error)
+			});			
 	};
 
 	getImage = (src:String): String => 'data:image/png;base64,' + src;
@@ -108,4 +111,19 @@ export class Result {
 		let albumInfoModal = Modal.create(AlbumInfo, {album: album});
 		this.nav.present(albumInfoModal);	
 	}
+
+	presentToast(album:Album) {
+		console.log('Result.presentToast', album);
+		let toast = Toast.create({
+			message: album.albumTitle + ' added to Ignore List',
+			duration: 1500
+		});
+
+		toast.onDismiss(() => {
+			console.log('Result.presentToast: onDismiss');
+		});
+
+		this.nav.present(toast);
+	}
+
 }

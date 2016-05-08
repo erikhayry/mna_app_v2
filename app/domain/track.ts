@@ -7,13 +7,13 @@ export class Track implements TrackImpl {
     genre:string;
     persistentID:string;
     albumPersistentID:string;
-    playCount:string;
-    rating:string;
+    playCount:number;
+    rating:number;
     image:string;
     totalRating:number;
     score: ScoreImpl;
 
-    constructor(title:string, albumTitle:string, artist:string, genre:string, persistentID:string, albumPersistentID:string, rating:string) {
+    constructor(title:string, albumTitle:string, artist:string, genre:string, persistentID:string, albumPersistentID:string, rating:number) {
         this.title = title;
         this.albumTitle = albumTitle;
         this.artist = artist;

@@ -1,0 +1,9 @@
+.paddedTitle{
+  	display: inline;
+	@each $color-name, $color-base, $color-contrast in get-colors($colors) {
+	    &[#{$color-name}] {
+			background: $color-base;
+			box-shadow: 10px 0 0 $color-base, -10px 0 0 $color-base;
+	    }
+	}
+}
