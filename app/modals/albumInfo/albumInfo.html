@@ -6,7 +6,10 @@
     </ion-buttons>
 </ion-toolbar>
 <ion-content padding text-uppercase *ngIf="album" class="l-albumInfo">
-    <h1 primary-dark text-center padding><i>{{album.artist}}</i> {{album.albumTitle}}</h1>
+    <div text-center padding>
+        <h2 class="paddedTitle" primary><span><i>{{album.artist}}</i> {{album.albumTitle}}</span></h2>            
+    </div>
+
     <ion-list no-lines>
         <ion-item *ngFor="#track of album.tracks | withRating: showCompleteAlbum" >
             <h2 text-center>{{track.title}} <span *ngIf="showPlayCount" class="badge" primary>{{track.playCount}}</span></h2>

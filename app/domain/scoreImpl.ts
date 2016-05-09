@@ -3,4 +3,5 @@ export interface ScoreImpl{
     estimatedTrueValue:number;
     baseNWeightedRatingPlayCount:number;
     baseNWeightedPlayCountRating:number;
+    playCountRatingNormalised: number;
 }

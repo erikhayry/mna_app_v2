@@ -2,6 +2,7 @@ import {Page, Modal, NavController, Platform, Toast} from 'ionic-angular';
 import {AlbumService} from '../../services/albumService';
 import {Storage} from '../../services/storage/storage';
 import {Settings} from '../../modals/settings/settings';
+import {IgnoreList} from '../../modals/ignoreList/ignoreList';
 import {AlbumInfo} from '../../modals/albumInfo/albumInfo';
 import {Album} from "../../domain/album";
 import {IteratorResultImpl} from "../../domain/iteratorResultImpl";
@@ -27,6 +28,13 @@ export class Result {
 		console.error('Result.onError', error);
         console.timeEnd('getAlbum');
     }
+
+	private getAlbums(): void {
+		console.log('Result.getAlbums');
+		this.album = null;
+		this.albumService.getAlbums()
+			.then(album => this.onSuccess(album), error => this.onError(error))
+	}
 
 	constructor(nav: NavController, platform: Platform, albumService: AlbumService, storage:Storage){
 		console.log('Result.constructor');
@@ -59,10 +67,7 @@ export class Result {
 			}
 		}*/
 
-		platform.ready().then(() => {
-			this.albumService.getAlbums()
-				.then(album => this.onSuccess(album), error => this.onError(error))
-		})
+		platform.ready().then(() => this.getAlbums())
 	}
 
 	getNextAlbum(): void{
@@ -97,13 +102,24 @@ export class Result {
 		settingsModal.onDismiss(settingsParams => {
 			if(settingsParams.preferencesUpdated || settingsParams.ignoreListUpdated){
 				console.log('Result.showSettings: preferencesUpdated/ignoreListUpdated');
-				this.album = null;
-				this.albumService.getAlbums()
-					.then(album => this.onSuccess(album), error => this.onError(error))
+				this.getAlbums();
 			}
 		});
 
 		this.nav.present(settingsModal);
+	}
+
+	showIgnoreList(): void {
+		console.log('Result.showIgnoreList');
+		let ignoreListModal = Modal.create(IgnoreList);
+		ignoreListModal.onDismiss(settingsParams => {
+			if (settingsParams.ignoreListUpdated) {
+				console.log('Result.showIgnoreList: preferencesUpdated/ignoreListUpdated');
+				this.getAlbums();
+			}
+		});
+
+		this.nav.present(ignoreListModal);
 	}
 	
 	showInfo(album:Album): void{

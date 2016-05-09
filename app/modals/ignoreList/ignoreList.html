@@ -1,0 +1,18 @@
+<ion-toolbar>
+    <ion-buttons left>
+        <button (click)="close()">
+            <ion-icon name="ios-close" item-left></ion-icon>
+        </button>
+    </ion-buttons>
+</ion-toolbar>
+<ion-content padding>
+    <div text-center>
+        <h2 class="paddedTitle" primary>Ignored Albums</h2>            
+    </div>
+    <ion-list>
+        <ion-item *ngFor="#ignoredAlbum of ignoredAlbumList" (click)="deleteIgnoreListItem(ignoredAlbum.id)" class="stripeList-item" padding>
+            {{ignoredAlbum.title}} - {{ignoredAlbum.artist}}
+            <ion-icon name="ios-close-outline" item-right tertiary class="stripeList-icon"></ion-icon>
+        </ion-item>
+    </ion-list>    
+</ion-content>

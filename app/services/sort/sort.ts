@@ -3,6 +3,8 @@ import {Injectable} from 'angular2/core';
 import * as _ from 'lodash';
 import {TrackImpl} from "../../domain/trackImpl";
 import {Album} from "../../domain/album";
+import {IgnoredAlbum} from "../../domain/ignoredAlbum";
+import {ScoreImpl} from "../../domain/scoreImpl";
 import {Storage} from "../../services/storage/storage";
 
 @Injectable()
@@ -41,6 +43,54 @@ export class Sort{
  	http://stackoverflow.com/questions/1411199/what-is-a-better-way-to-sort-by-a-5-star-rating
 
  */
+
+	_getScore(playCount: number, playCountMax: number, rating: number, ratingAvg: number): ScoreImpl {
+		let _limit = 1,
+			_playCountFactor = playCountMax > 0 ? playCountMax / 5 : 1;
+
+		return {
+			bayesianEstimate: (playCount / (playCount + _limit)) * rating + (_limit / (playCount + _limit)) * ratingAvg,
+			estimatedTrueValue: (playCount / playCountMax * rating) + ((1 - (playCount / playCountMax)) * ratingAvg),
+			baseNWeightedRatingPlayCount: 1000 * rating + 100 * playCount,
+			baseNWeightedPlayCountRating: 1000 * playCount + 100 * rating,
+			playCountRatingNormalised: (rating * _playCountFactor) + playCount
+		}
+ 	}
+
+	_sort(tracks: Array<TrackImpl>, _ignoredAlbumList:any, considerNumberOfItems: boolean, considerPlayCount: boolean, considerRating: boolean): Array<Album> {
+		  let _ratingAvg = tracks.reduce((prev: number, curr: TrackImpl) => prev + curr.rating, 0) / tracks.length,
+			  _ratingMax = Math.max(...tracks.map(track => track.rating)),
+			  _playCountAvg = tracks.reduce((prev: number, curr: TrackImpl) => prev + curr.playCount, 0) / tracks.length,
+			  _playCountMax = Math.max(...tracks.map(track => track.playCount));
+
+		  console.log('_ratingAvg', _ratingAvg);
+		  console.log('_ratingMax', _ratingMax);
+		  console.log('_playCountAvg', _playCountAvg);
+		  console.log('_playCountMax', _playCountMax);
+
+		  return _.chain(tracks)
+			  .map(track => {
+				  let _playCount: number = considerPlayCount && track.playCount ? track.playCount : 0;
+				  let _rating: number = considerRating && track.rating ? track.rating : 0;
+				  return _.merge(track, { score: this._getScore(_playCount, _playCountMax, _rating, _ratingAvg) });
+			  })
+			  .groupBy('albumPersistentID')
+			  .filter(tracks => {
+				  return !_.some(_ignoredAlbumList, { 'id': tracks[0].albumPersistentID }) &&
+					  !(!considerNumberOfItems && !considerPlayCount && tracks[0].rating === 0)
+			  })
+			  .map(tracks => new Album(tracks[0].albumPersistentID, tracks))
+			  .sortBy(album => {
+				  if (considerRating || considerPlayCount) {
+					  return -album.tracks.reduce((prev: number, curr: TrackImpl) => prev + curr.score.playCountRatingNormalised, 0)
+				  }
+
+				  return -album.tracks.length
+			  })
+			  .value();
+ 	}
+
+
 	sortToAlbums(tracks:Array<TrackImpl>):Promise<Array<Album>> {
 		console.log('Sort.sortToAlbums', tracks);
 
@@ -63,49 +113,7 @@ export class Sort{
 				let _considerPlayCount = _preferences['relevance.play-count'].checked;
 				let _considerRating = _preferences['relevance.rating'].checked;
 
-				let _limit = 1,
-					_ratingAvg = tracks.reduce((prev: number, curr: TrackImpl) => prev + curr.rating, 0) / tracks.length,
-					_ratingMax = Math.max(...tracks.map(track => track.rating)),
-					_playCountAvg = tracks.reduce((prev: number, curr: TrackImpl) => prev + curr.playCount, 0) / tracks.length,
-					_playCountMax = Math.max(...tracks.map(track => track.playCount));
-
-				console.log('_ratingAvg', _ratingAvg);
-				console.log('_ratingMax', _ratingMax);
-				console.log('_playCountAvg', _playCountAvg);
-				console.log('_playCountMax', _playCountMax);
-
-				let _sortedAlbums = _.chain(tracks)
-					.map(track => {
-						let _playCount: number = _considerPlayCount && track.playCount ? track.playCount + 1 : 1;
-						let _rating: number = _considerRating && track.rating ? track.rating + 1 : 1;
-
-						track.score = {
-							bayesianEstimate: (_playCount / (_playCount + _limit)) * _rating + (_limit / (_playCount + _limit)) * _ratingAvg,
-							estimatedTrueValue: (_playCount / _playCountMax * _rating) + ((1 - (_playCount / _playCountMax)) * _ratingAvg),
-							baseNWeightedRatingPlayCount: 1000 * _rating + 100 * _playCount,
-							baseNWeightedPlayCountRating: 1000 * _playCount + 100 * _rating
-						};
-
-						return track;
-					})
-					.groupBy('albumPersistentID')
-					.filter(tracks => {
-						return !_.some(_ignoredAlbumList, { 'id': tracks[0].albumPersistentID }) &&
-							!(!_considerNumberOfItems && !_considerPlayCount && tracks[0].rating === 0)
-					}
-						
-					)
-					.map(tracks => new Album(tracks[0].albumPersistentID, tracks))
-					.sortBy(album => {
-						if(_considerRating || _considerPlayCount){
-							return -album.tracks.reduce((prev:number, curr:TrackImpl) => prev + curr.score.bayesianEstimate, 0)
-						}
-						
-						return -album.tracks.length
-					})
-					.value();
-
-				resolve(_sortedAlbums);
+				resolve(this._sort(tracks, _ignoredAlbumList, _considerNumberOfItems, _considerPlayCount, _considerRating));
 
 			}, (error) => {
 				reject(error);
