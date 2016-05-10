@@ -10,7 +10,7 @@
         <h2 class="paddedTitle" primary>Ignored Albums</h2>            
     </div>
     <ion-list>
-        <ion-item *ngFor="#ignoredAlbum of ignoredAlbumList" (click)="deleteIgnoreListItem(ignoredAlbum.id)" class="stripeList-item" padding>
+        <ion-item *ngFor="#ignoredAlbum of ignoredAlbumList" (click)="deleteIgnoreListItem(ignoredAlbum)" class="stripeList-item" padding>
             {{ignoredAlbum.title}} - {{ignoredAlbum.artist}}
             <ion-icon name="ios-close-outline" item-right tertiary class="stripeList-icon"></ion-icon>
         </ion-item>

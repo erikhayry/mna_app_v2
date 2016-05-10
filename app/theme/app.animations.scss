@@ -1,0 +1,35 @@
+.animation-fadeIn{
+	animation-name: fadeIn;
+	animation-duration: 2s;
+	animation-iteration-count: 1;
+	animation-fill-mode: forwards;  
+	animation-direction: alternate;
+}
+
+.animation-pulsate{
+    animation-name: pulsate;
+    animation-duration: 1.5s;
+    animation-iteration-count: infinite;
+    animation-fill-mode: forwards;  
+    animation-direction: alternate;
+}
+
+@keyframes pulsate {
+    from {
+        transform: scale(0.9);        
+        opacity: 0.7;
+    }
+    to {
+        transform: scale(1.00);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeIn {
+    from {
+    	opacity: 0;
+    }
+    to {
+    	opacity: 1;
+    }
+}

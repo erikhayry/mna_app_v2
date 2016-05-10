@@ -4,7 +4,7 @@
     display: inline-block;
     width: 20px;
     height: 20px;
-    line-height: 14px;
+    line-height: 16px;
     font-size: 12px;
     text-align: center;
 	@each $color-name, $color-base, $color-contrast in get-colors($colors) {

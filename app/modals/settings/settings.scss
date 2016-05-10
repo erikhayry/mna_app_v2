@@ -1,0 +1,15 @@
+.l-settings {
+  scroll-content{
+    display: flex;
+    flex-flow: column;
+  }
+  
+  &-top{
+    flex: 1;
+  }
+
+  &-bottom{
+    flex: inherit;
+    opacity: 0.5;
+  }
+}

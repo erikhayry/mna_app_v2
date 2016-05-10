@@ -1,7 +1,6 @@
 .cover{
-	//width: 300px;
 	clip-path: circle(45% at center);
-	//animation-name: clip;
+	animation-name: clip;
 	animation-duration: 2s;
 	animation-iteration-count: 1;
 	animation-fill-mode: forwards;  
@@ -17,6 +16,6 @@
     to {
     	opacity: 1;
     	transform: scale(1.00);
-    	clip-path: circle(200px at center);
+    	clip-path: circle(45% at center);
     }
 }

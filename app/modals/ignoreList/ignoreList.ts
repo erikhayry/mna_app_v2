@@ -1,4 +1,4 @@
-import {Page, ViewController, Platform} from 'ionic-angular';
+import {Page, ViewController, NavController, Platform, Toast} from 'ionic-angular';
 import {Storage} from "../../services/storage/storage";
 import {IgnoredAlbum} from "../../domain/ignoredAlbum";
 
@@ -7,13 +7,29 @@ import {IgnoredAlbum} from "../../domain/ignoredAlbum";
 })
 
 export class IgnoreList {
+	nav: NavController;
 	viewCtrl: ViewController;
 	storage: Storage;
 	ignoredAlbumList: Array<IgnoredAlbum>;
 	ignoreListUpdated = false;
 
-	constructor(viewCtrl: ViewController, storage: Storage, platform: Platform) {
+	private presentToast(album: IgnoredAlbum) {
+		console.log('IgnoreList.presentToast', album);
+		let toast = Toast.create({
+			message: album.title + ' removed from Ignore List',
+			duration: 1500
+		});
+
+		toast.onDismiss(() => {
+			console.log('IgnoreList.presentToast: onDismiss');
+		});
+
+		this.nav.present(toast);
+	}
+
+	constructor(nav: NavController, viewCtrl: ViewController, storage: Storage, platform: Platform) {
 		console.log('IgnoreList.constructor');
+		this.nav = nav;
 		this.viewCtrl = viewCtrl;
 		this.storage = storage;
 
@@ -29,9 +45,10 @@ export class IgnoreList {
 		});
 	}
 
-	deleteIgnoreListItem = (id: String): void => {
-		console.log('IgnoreList.deleteIgnoreListItem', id);
+	deleteIgnoreListItem = (album: IgnoredAlbum): void => {
+		console.log('IgnoreList.deleteIgnoreListItem', album);
 		this.ignoreListUpdated = true;
-		this.storage.deleteIgnoreListItem(id).then(ignoredAlbumList => this.ignoredAlbumList = ignoredAlbumList)
-	};
+		this.presentToast(album);
+		this.storage.deleteIgnoreListItem(album.id).then(ignoredAlbumList => this.ignoredAlbumList = ignoredAlbumList)
+	}
 }

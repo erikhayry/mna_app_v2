@@ -6,13 +6,16 @@
     </ion-buttons>
 </ion-toolbar>
 <ion-content padding text-uppercase *ngIf="album" class="l-albumInfo">
+    <div text-center>
+        <img [src]="getImage(album.image)" class="l-albumInfo-cover">    
+    </div>
     <div text-center padding>
         <h2 class="paddedTitle" primary><span><i>{{album.artist}}</i> {{album.albumTitle}}</span></h2>            
     </div>
 
     <ion-list no-lines>
         <ion-item *ngFor="#track of album.tracks | withRating: showCompleteAlbum" >
-            <h2 text-center>{{track.title}} <span *ngIf="showPlayCount" class="badge" primary>{{track.playCount}}</span></h2>
+            <h2 text-center>{{track.title}} <span *ngIf="showPlayCount" class="badge" secondary>{{track.playCount}}</span></h2>
             <div text-center>
                 <ion-icon *ngIf="showRating && getStars(track.rating).length > 0" name="ios-star" *ngFor="#star of getStars(track.rating)" tertiary></ion-icon>                    
             </div>

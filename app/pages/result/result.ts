@@ -36,37 +36,25 @@ export class Result {
 			.then(album => this.onSuccess(album), error => this.onError(error))
 	}
 
+	private presentToast(album: Album) {
+		console.log('Result.presentToast', album);
+		let toast = Toast.create({
+			message: album.albumTitle + ' added to Ignore List',
+			duration: 1500
+		});
+
+		toast.onDismiss(() => {
+			console.log('Result.presentToast: onDismiss');
+		});
+
+		this.nav.present(toast);
+	}
+
 	constructor(nav: NavController, platform: Platform, albumService: AlbumService, storage:Storage){
 		console.log('Result.constructor');
 		this.nav = nav;
 		this.albumService = albumService;
 		this.storage = storage;
-
-/*		this.album = {
-			value: {
-				albumTitle: "Pablo Honey Live in Lodond",
-				artist: "Radiohead on the UK tour 2015",
-				image: "https://ukutabs.com/uploads/2012/04/49158523.jpg",
-				tracks: [
-					{
-						title: 'Track 1',
-						rating: 2,
-						playCount: 10
-					},
-					{
-						title: 'Track 2',
-						rating: 5,
-						playCount: 2
-					},
-					{
-						title: 'Track 3',
-						rating: 0,
-						playCount: 0
-					}
-				]
-			}
-		}*/
-
 		platform.ready().then(() => this.getAlbums())
 	}
 
@@ -94,7 +82,6 @@ export class Result {
 	};
 
 	getImage = (src:String): String => 'data:image/png;base64,' + src;
-	//getImage = (src:String): String => src;
 
 	showSettings(): void {
 		console.log('Result.showSettings');
@@ -127,19 +114,4 @@ export class Result {
 		let albumInfoModal = Modal.create(AlbumInfo, {album: album});
 		this.nav.present(albumInfoModal);	
 	}
-
-	presentToast(album:Album) {
-		console.log('Result.presentToast', album);
-		let toast = Toast.create({
-			message: album.albumTitle + ' added to Ignore List',
-			duration: 1500
-		});
-
-		toast.onDismiss(() => {
-			console.log('Result.presentToast: onDismiss');
-		});
-
-		this.nav.present(toast);
-	}
-
 }

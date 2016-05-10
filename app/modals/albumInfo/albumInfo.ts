@@ -48,4 +48,6 @@ export class AlbumInfo{
     getStars(rating:number):Array<any>{
         return new Array(rating && rating > 0 ? rating - 1 : 0)
     }
+
+    getImage = (src: String): String => 'data:image/png;base64,' + src;
 }

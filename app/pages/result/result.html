@@ -18,7 +18,7 @@
 
     <div *ngIf="!album" text-center class="l-result-loader l-box">
         <div class="l-result-loader-top">
-            <div class="loader"></div>            
+            <div class="loader animation-pulsate"></div>            
         </div>
         <div class="l-result-loader-bottom">
             <h1 text-center primary-clear padding>Getting Data</h1>            
@@ -26,9 +26,9 @@
     </div>
     <div *ngIf="album" class="l-result-album">
         <a text-center class="l-result-album-info" type="item-text-wrap" (click)="showInfo(album.value)">
-            <img [src]="getImage(album.value.image)" class="cover">            
-            <div>
-                <h2 class="paddedTitle" primary><span><i>{{album.value.artist}}</i> {{album.value.albumTitle}}</span></h2>            
+            <img [src]="getImage(album.value.image)" class="l-result-album-cover cover">            
+            <div class="animation-fadeIn">
+                <h1 class="paddedTitle" primary><span><i>{{album.value.artist}}</i> {{album.value.albumTitle}}</span></h1>            
             </div>
         </a>
 
