@@ -70,7 +70,7 @@ export class AlbumService{
 
 	ignore = (albums: IteratorResult): Promise<IteratorResult> => {
 		console.log('AlbumService.ignore', albums);
-		let album = albums.value;
+		let album = (<Album>albums.value);
 		return this.storage.addIgnoreListItem(album.albumPersistentID, album.albumTitle, album.artist)
 			.then(() => this._getAlbum(this.albums.remove()))
 	}

@@ -4,7 +4,7 @@ import {Preference} from "../../domain/preference";
 import {Preferences} from "../../domain/preferences";
 
 import {Storage} from "../../services/storage/storage";
-import {Copy} from "../../services/copy";
+import {Copy} from "../../services/copy/copy";
 
 @Page({
   templateUrl: 'build/modals/settings/settings.html',

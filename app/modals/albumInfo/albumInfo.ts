@@ -1,6 +1,5 @@
 import {Page, ViewController, NavParams} from 'ionic-angular';
 
-import {Copy} from "../../services/copy";
 import {Storage} from "../../services/storage/storage";
 
 import {Album} from "../../domain/album";
@@ -15,13 +14,12 @@ import {WithRatingPipe} from "../../pipes/withRating";
 export class AlbumInfo{
     viewCtrl: ViewController;
     storage: Storage;
-    copy:Object;
     album:Album;
     showCompleteAlbum: boolean;
     showRating: boolean;
     showPlayCount: boolean;
 
-    constructor(viewCtrl: ViewController, params: NavParams, copy:Copy, storage:Storage) {
+    constructor(viewCtrl: ViewController, params: NavParams, storage:Storage) {
         console.log('AlbumInfo.constructor', params.get('album'));
         this.storage = storage;
         this.viewCtrl = viewCtrl;
@@ -30,8 +28,8 @@ export class AlbumInfo{
                 this.showCompleteAlbum = preferences['relevance.number-of-items'].checked || preferences['relevance.play-count'].checked;
                 this.showPlayCount = preferences['relevance.play-count'].checked;
                 this.showRating = preferences['relevance.rating'].checked;
-                this.album = params.get('album');      
-                this.copy = copy.en;
+                
+                this.album = params.get('album');
             });
     }
 

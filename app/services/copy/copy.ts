@@ -1,4 +1,4 @@
-import {CopyLangImpl} from "../domain/copyLangImpl";
+import {CopyLangImpl} from "./domain/copyLangImpl";
 
 export class Copy{
     en:CopyLangImpl = {

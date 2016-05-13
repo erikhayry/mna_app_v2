@@ -7,7 +7,6 @@ import {Track} from "../../domain/track";
 import {Album} from "../../domain/album";
 import {IgnoredAlbum} from "../../domain/ignoredAlbum";
 import {Preferences} from "../../domain/preferences";
-import {ScoreImpl as Score} from "../../domain/scoreImpl";
 
 import {Storage} from "../../services/storage/storage";
 

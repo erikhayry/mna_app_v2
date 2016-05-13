@@ -1,6 +1,5 @@
-import {Album} from "./album";
 export interface IteratorResultImpl{
-    value:Album;
+    value:any;
     next:Boolean;
     prev:Boolean;
 }

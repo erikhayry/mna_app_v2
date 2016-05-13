@@ -6,7 +6,7 @@ import {Sort} from './services/sort/sort';
 import {AudioInfo} from "./services/audioInfo/audioInfo";
 import {Storage} from "./services/storage/storage";
 import {Result} from "./pages/result/result";
-import {Copy} from "./services/copy";
+import {Copy} from "./services/copy/copy";
 
 
 @App({
