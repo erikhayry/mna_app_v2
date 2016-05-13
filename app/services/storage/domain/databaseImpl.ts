@@ -21,6 +21,11 @@ export interface DbError {
     code:String
 }
 
+export interface Rows {
+    length: Number;
+    item(index: number): any;
+}
+
 interface ErrorCb {
     (error: DbError): void;
 }

@@ -10,5 +10,5 @@ export interface TrackImpl {
     rating?:number;
     image?:string;
     totalRating?:number;
-    score:ScoreImpl;
+    score:number;
 }

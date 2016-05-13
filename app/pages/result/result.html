@@ -12,11 +12,11 @@
 </ion-toolbar>
 
 <ion-content padding class="l-result padding-vertical">
-    <div type="item-text-wrap" *ngIf="error" class="text-center">
-        <p>{{error}}</p>
+    <div *ngIf="!album && !isLoading" text-center class="l-box">
+        <h2 class="paddedTitle" tertiary><span>No albums found on your device. Please add some music to get sugestions</span></h2>
     </div>
 
-    <div *ngIf="!album" text-center class="l-result-loader l-box">
+    <div *ngIf="isLoading" text-center class="l-result-loader l-box">
         <div class="l-result-loader-top">
             <div class="loader animation-pulsate"></div>            
         </div>
@@ -31,12 +31,6 @@
                 <h1 class="paddedTitle" primary><span><i>{{album.value.artist}}</i> {{album.value.albumTitle}}</span></h1>            
             </div>
         </a>
-
-<!--         <ion-buttons class="l-result-album-btns l-box">
-            <button class="l-result-album-btn" (click)="getNextAlbum()" full primary-dark [disabled]="!album.next">Show me next</button>
-            <button class="l-result-album-btn" (click)="getPrevAlbum()" full secondary [disabled]="!album.prev" >Show me previous</button>
-            <button class="l-result-album-btn" (click)="addIgnoreListItem(album)" full tertiary>Add to ignore list</button>
-        </ion-buttons> -->
 
         <ion-buttons class="l-result-album-btns l-box">
             <button (click)="getPrevAlbum()" [disabled]="!album.prev" clean><ion-icon secondary name="ios-arrow-dropleft-circle"></ion-icon></button>

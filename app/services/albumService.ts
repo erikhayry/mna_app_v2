@@ -2,7 +2,7 @@ import {Injectable} from 'angular2/core';
 import {AudioInfo} from './audioInfo/audioInfo';
 import {Sort} from './sort/sort';
 import {Album} from "../domain/album";
-import {TrackImpl as Track} from "../domain/trackImpl";
+import {Track} from "../domain/track";
 import {IteratorResultImpl} from "../domain/iteratorResultImpl";
 import {AlbumIterator} from "../domain/iterator";
 import {Storage} from './storage/storage';

@@ -17,21 +17,22 @@ export class Result {
 	private nav: NavController;
 	private albumService: AlbumService;
 	private storage: Storage;
+	private isLoading: boolean = true;
 
 	private onSuccess(album:IteratorResultImpl): void{
         console.log('Result.onSuccess', album);
-        console.timeEnd('getAlbum');
         this.album = album;
+        this.isLoading = false;
     }
 
     private onError(error:String): void{
 		console.error('Result.onError', error);
-        console.timeEnd('getAlbum');
     }
 
 	private getAlbums(): void {
 		console.log('Result.getAlbums');
 		this.album = null;
+		this.isLoading = true;
 		this.albumService.getAlbums()
 			.then(album => this.onSuccess(album), error => this.onError(error))
 	}
@@ -60,14 +61,12 @@ export class Result {
 
 	getNextAlbum(): void{
 		console.log('Result.getNextAlbum');
-		console.time('getAlbum');
 		this.albumService.getNext()
 			.then(album => this.onSuccess(album), error => this.onError(error))
 	};
 
 	getPrevAlbum(): void{
 		console.log('Result.getPrevAlbum');
-		console.time('getAlbum');
 		this.albumService.getPrev()
 			.then(album => this.onSuccess(album), error => this.onError(error))
 	};
