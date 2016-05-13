@@ -1,5 +1,6 @@
 import {App, Platform} from 'ionic-angular';
 import {StatusBar} from 'ionic-native';
+
 import {AlbumService} from './services/albumService';
 import {Sort} from './services/sort/sort';
 import {AudioInfo} from "./services/audioInfo/audioInfo";
@@ -19,8 +20,6 @@ export class MnaApp {
 
   constructor(platform: Platform) {
     platform.ready().then(() => {
-      // Okay, so the platform is ready and our plugins are available.
-      // Here you can do any higher level native things you might need.
       StatusBar.hide();
     });
   }

@@ -1,11 +1,10 @@
-import {Album} from "./album";
 import {IteratorResultImpl} from "./iteratorResultImpl";
-export class AlbumIterator{
-    private _arr:Array<Album>;
+export class Iterator{
+    private _arr:Array<any>;
     private _index:number;
     
-    constructor(arr:Array<Album>) {
-        console.log('AlbumIterator', arr);
+    constructor(arr:Array<any>) {
+        console.log('Iterator', arr);
         this._arr = arr;
         this._index = -1;
     }
@@ -17,12 +16,12 @@ export class AlbumIterator{
     });
 
     private _next = ():IteratorResultImpl => {
-        console.log('AlbumIterator._next', this._index, this._arr);       
+        console.log('Iterator._next', this._index, this._arr);       
         return this._index < this._arr.length ? this._ret(++this._index) : this._ret(this._index);
     };
 
     private _prev = ():IteratorResultImpl => {
-        console.log('AlbumIterator._prev', this._index, this._arr);        
+        console.log('Iterator._prev', this._index, this._arr);        
         return this._index >= 0 ? this._ret(--this._index) : this._ret(this._index);
 
     };

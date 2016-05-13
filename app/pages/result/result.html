@@ -13,7 +13,7 @@
 
 <ion-content padding class="l-result padding-vertical">
     <div *ngIf="!album && !isLoading" text-center class="l-box">
-        <h2 class="paddedTitle" tertiary><span>No albums found on your device. Please add some music to get sugestions</span></h2>
+        <h2 class="paddedTitle" tertiary>No albums found on your device. Please add some music to get sugestions</h2>
     </div>
 
     <div *ngIf="isLoading" text-center class="l-result-loader l-box">
@@ -26,9 +26,9 @@
     </div>
     <div *ngIf="album" class="l-result-album">
         <a text-center class="l-result-album-info" type="item-text-wrap" (click)="showInfo(album.value)">
-            <img [src]="getImage(album.value.image)" class="l-result-album-cover cover">            
+            <img [src]="toBase64Uri(album.value.image)" class="l-result-album-cover cover">            
             <div class="animation-fadeIn">
-                <h1 class="paddedTitle" primary><span><i>{{album.value.artist}}</i> {{album.value.albumTitle}}</span></h1>            
+                <h1 class="paddedTitle" primary><i>{{album.value.artist}}</i> {{album.value.albumTitle}}</h1>            
             </div>
         </a>
 

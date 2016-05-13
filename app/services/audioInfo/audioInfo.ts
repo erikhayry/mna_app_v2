@@ -5,7 +5,7 @@ import {AudioInfoImpl} from './audioInfoImpl';
 
 import {iOSAudioInfoImpl as iOSAudioInfo} from "../../domain/iOSAudioInfoImpl";
 import {CordovaWindowImpl as CordovaWindow} from "../../domain/CordovaWindowImpl";
-import {TrackImpl as Track} from "../../domain/trackImpl";
+import {Track} from "../../domain/track";
 import {Album} from "../../domain/album";
 
 @Injectable()

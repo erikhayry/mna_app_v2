@@ -1,4 +1,4 @@
-import {TrackImpl as Track} from "../../domain/trackImpl";
+import {Track} from "../../domain/track";
 import {Album} from "../../domain/album";
 
 export interface AudioInfoImpl {

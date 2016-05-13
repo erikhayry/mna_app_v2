@@ -1,6 +1,4 @@
-import {TrackImpl} from "./trackImpl";
-import {ScoreImpl} from "./scoreImpl";
-export class Track implements TrackImpl {
+export class Track{
     title:string;
     albumTitle:string;
     artist:string;

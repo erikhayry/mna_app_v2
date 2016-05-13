@@ -1,15 +1,17 @@
 import {Injectable} from 'angular2/core';
+
 import {AudioInfo} from './audioInfo/audioInfo';
 import {Sort} from './sort/sort';
+import {Storage} from './storage/storage';
+
 import {Album} from "../domain/album";
 import {Track} from "../domain/track";
-import {IteratorResultImpl} from "../domain/iteratorResultImpl";
-import {AlbumIterator} from "../domain/iterator";
-import {Storage} from './storage/storage';
+import {IteratorResultImpl as IteratorResult} from "../domain/iteratorResultImpl";
+import {Iterator} from "../domain/iterator";
 
 @Injectable()
 export class AlbumService{
-	albums:AlbumIterator;
+	albums:Iterator;
 	audioInfo: AudioInfo;
 	sort: Sort;
 	storage:Storage;
@@ -21,16 +23,16 @@ export class AlbumService{
 		this.storage = storage;
 	}
 
-	private _getAlbum(album:IteratorResultImpl):Promise<IteratorResultImpl> {
+	private _getAlbum(album: IteratorResult): Promise<IteratorResult> {
 		console.log('AlbumService._getAlbum', album);
 
-		//TODO better way to decide if album is already fetched
 		return album.value.image ?
-			new Promise<IteratorResultImpl>((resolve) => resolve(album)) :
+			new Promise<IteratorResult>(resolve => resolve(album)) :
 			this.audioInfo.getAlbum(album.value.albumPersistentID)
-				.then(albumData => {
+				.then((albumData:Album) => {
 					album.value = _.merge(albumData, {tracks: album.value.tracks});
-					return new Promise<IteratorResultImpl>((resolve) => resolve(album));
+					
+					return new Promise<IteratorResult>(resolve => resolve(album));
 				});
 	}
 
@@ -39,36 +41,34 @@ export class AlbumService{
 		return this.sort.sortToAlbums(trackData)
 	}
 
-	private _init():Promise<IteratorResultImpl>{
+	private _init(): Promise<IteratorResult> {
 		console.log('AlbumService._init');
-		let that = this;
-
 		return this.audioInfo.getTracks()
-			.then((tracks) => that._sortToAlbums((<Array<Track>>tracks)))
-			.then((albums) => {
-				that.albums = new AlbumIterator(<Array<Album>>albums);
-				return that._getAlbum(that.albums.next())
-			}, error => {
-				console.log(error)
+			.then(tracks => 
+				this._sortToAlbums(tracks)
+			)
+			.then(albums => {
+				this.albums = new Iterator(albums);
+				return this._getAlbum(this.albums.next())
 			});
 	}
 
-	getAlbums = ():Promise<IteratorResultImpl> => {
+	getAlbums = (): Promise<IteratorResult> => {
 		console.log('AlbumService.getAlbums', this.albums);
 		return this._init();
 	};
 
-	getNext = ():Promise<IteratorResultImpl> => {
+	getNext = (): Promise<IteratorResult> => {
 		console.log('AlbumService.getNext', this.albums);
 		return !this.albums ? this._init() : this._getAlbum(this.albums.next());
 	};
 
-	getPrev = ():Promise<IteratorResultImpl> => {
+	getPrev = ():Promise<IteratorResult> => {
 		console.log('AlbumService.getPrev', this.albums);
 		return !this.albums ? this._init() : this._getAlbum(this.albums.prev());
 	};
 
-	ignore = (albums:IteratorResultImpl):Promise<IteratorResultImpl> => {
+	ignore = (albums: IteratorResult): Promise<IteratorResult> => {
 		console.log('AlbumService.ignore', albums);
 		let album = albums.value;
 		return this.storage.addIgnoreListItem(album.albumPersistentID, album.albumTitle, album.artist)

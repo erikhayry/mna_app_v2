@@ -1,4 +1,4 @@
-import { Pipe, PipeTransform } from 'angular2/core';
+import {Pipe, PipeTransform} from 'angular2/core';
 import {Track} from '../domain/track';
 
 @Pipe({ name: 'withRating' })

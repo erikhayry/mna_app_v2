@@ -1,5 +1,5 @@
 export interface IgnoredAlbum{
     id: String;
-    title: String;
+    albumTitle: String;
     artist: String;
 }

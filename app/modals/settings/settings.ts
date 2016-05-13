@@ -1,7 +1,9 @@
 import {Page, ViewController, Platform} from 'ionic-angular';
-import {Storage} from "../../services/storage/storage";
+
 import {Preference} from "../../domain/preference";
 import {Preferences} from "../../domain/preferences";
+
+import {Storage} from "../../services/storage/storage";
 import {Copy} from "../../services/copy";
 
 @Page({
@@ -24,7 +26,9 @@ export class Settings{
 
 		platform.ready().then(() => {
 			this.storage.getPreferences()
-				.then(preferences => this.preferences = this.initalPreferences = Object.keys(preferences).map(key => preferences[key]));
+				.then(preferences => 
+					this.preferences = this.initalPreferences = Object.keys(preferences).map(key => preferences[key])
+				);
 		});
 	}
 
@@ -41,5 +45,6 @@ export class Settings{
 			.then(preferences => this.preferences = Object.keys(preferences).map(key => preferences[key]));
 	}
 
-	disableSetting = (preference: Preference, preferences: Preferences): boolean => preference.checked && Object.keys(preferences).filter(key => preferences[key].checked).length < 2
+	disableSetting = (preference: Preference, preferences: Preferences): boolean => 
+		preference.checked && Object.keys(preferences).filter(key => preferences[key].checked).length < 2
 }

@@ -10,21 +10,15 @@ export class IgnoreList {
 	nav: NavController;
 	viewCtrl: ViewController;
 	storage: Storage;
-	ignoredAlbumList: Array<IgnoredAlbum>;
+	ignoredAlbumList: Array<IgnoredAlbum> = [];
 	ignoreListUpdated = false;
 
 	private presentToast(album: IgnoredAlbum) {
 		console.log('IgnoreList.presentToast', album);
-		let toast = Toast.create({
-			message: album.title + ' removed from Ignore List',
+		this.nav.present(Toast.create({
+			message: album.albumTitle + ' removed from Ignore List',
 			duration: 1500
-		});
-
-		toast.onDismiss(() => {
-			console.log('IgnoreList.presentToast: onDismiss');
-		});
-
-		this.nav.present(toast);
+		}));
 	}
 
 	constructor(nav: NavController, viewCtrl: ViewController, storage: Storage, platform: Platform) {

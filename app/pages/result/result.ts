@@ -1,54 +1,50 @@
 import {Page, Modal, NavController, Platform, Toast} from 'ionic-angular';
+
 import {AlbumService} from '../../services/albumService';
 import {Storage} from '../../services/storage/storage';
+
 import {Settings} from '../../modals/settings/settings';
 import {IgnoreList} from '../../modals/ignoreList/ignoreList';
 import {AlbumInfo} from '../../modals/albumInfo/albumInfo';
+
 import {Album} from "../../domain/album";
-import {IteratorResultImpl} from "../../domain/iteratorResultImpl";
-import {AlbumIterator} from "../../domain/iterator";
+import {IteratorResultImpl as IteratorResult} from "../../domain/iteratorResultImpl";
 
 @Page({
   templateUrl: 'build/pages/result/result.html',
 })
 
 export class Result {
-	private album: IteratorResultImpl;
+	private album: IteratorResult;
 	private nav: NavController;
 	private albumService: AlbumService;
 	private storage: Storage;
 	private isLoading: boolean = true;
 
-	private onSuccess(album:IteratorResultImpl): void{
-        console.log('Result.onSuccess', album);
+	private _onSuccess(album: IteratorResult): void {
+        console.log('Result._onSuccess', album);
         this.album = album;
         this.isLoading = false;
     }
 
-    private onError(error:String): void{
-		console.error('Result.onError', error);
+    private _onError(error:String): void{
+		console.error('Result._onError', error);
     }
 
-	private getAlbums(): void {
-		console.log('Result.getAlbums');
+	private _getAlbums(): void {
+		console.log('Result._getAlbums');
 		this.album = null;
 		this.isLoading = true;
 		this.albumService.getAlbums()
-			.then(album => this.onSuccess(album), error => this.onError(error))
+			.then(album => this._onSuccess(album), error => this._onError(error))
 	}
 
-	private presentToast(album: Album) {
-		console.log('Result.presentToast', album);
-		let toast = Toast.create({
+	private _presentToast(album: Album) {
+		console.log('Result._presentToast', album);
+		this.nav.present(Toast.create({
 			message: album.albumTitle + ' added to Ignore List',
 			duration: 1500
-		});
-
-		toast.onDismiss(() => {
-			console.log('Result.presentToast: onDismiss');
-		});
-
-		this.nav.present(toast);
+		}));
 	}
 
 	constructor(nav: NavController, platform: Platform, albumService: AlbumService, storage:Storage){
@@ -56,31 +52,31 @@ export class Result {
 		this.nav = nav;
 		this.albumService = albumService;
 		this.storage = storage;
-		platform.ready().then(() => this.getAlbums())
+		platform.ready().then(() => this._getAlbums())
 	}
 
 	getNextAlbum(): void{
 		console.log('Result.getNextAlbum');
 		this.albumService.getNext()
-			.then(album => this.onSuccess(album), error => this.onError(error))
+			.then(album => this._onSuccess(album), error => this._onError(error))
 	};
 
 	getPrevAlbum(): void{
 		console.log('Result.getPrevAlbum');
 		this.albumService.getPrev()
-			.then(album => this.onSuccess(album), error => this.onError(error))
+			.then(album => this._onSuccess(album), error => this._onError(error))
 	};
 
-	addIgnoreListItem = (album:IteratorResultImpl): void => {
+	addIgnoreListItem = (album:IteratorResult): void => {
 		console.log('Result.addIgnoreListItem', album);
-		this.presentToast(album.value);
+		this._presentToast(album.value);
 		this.albumService.ignore(album)
 			.then(album => {
-				this.onSuccess(album), error => this.onError(error)
+				this._onSuccess(album), error => this._onError(error)
 			});			
 	};
 
-	getImage = (src:String): String => 'data:image/png;base64,' + src;
+	toBase64Uri = (src:String): String => 'data:image/png;base64,' + src;
 
 	showSettings(): void {
 		console.log('Result.showSettings');
@@ -88,7 +84,7 @@ export class Result {
 		settingsModal.onDismiss(settingsParams => {
 			if(settingsParams.preferencesUpdated || settingsParams.ignoreListUpdated){
 				console.log('Result.showSettings: preferencesUpdated/ignoreListUpdated');
-				this.getAlbums();
+				this._getAlbums();
 			}
 		});
 
@@ -101,7 +97,7 @@ export class Result {
 		ignoreListModal.onDismiss(settingsParams => {
 			if (settingsParams.ignoreListUpdated) {
 				console.log('Result.showIgnoreList: preferencesUpdated/ignoreListUpdated');
-				this.getAlbums();
+				this._getAlbums();
 			}
 		});
 
@@ -110,7 +106,6 @@ export class Result {
 	
 	showInfo(album:Album): void{
 		console.log('Result.showInfo', album);
-		let albumInfoModal = Modal.create(AlbumInfo, {album: album});
-		this.nav.present(albumInfoModal);	
+		this.nav.present(Modal.create(AlbumInfo, {album: album}));	
 	}
 }
