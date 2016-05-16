@@ -26,8 +26,10 @@ export class Settings{
 
 		platform.ready().then(() => {
 			this.storage.getPreferences()
-				.then(preferences => 
-					this.preferences = this.initalPreferences = Object.keys(preferences).map(key => preferences[key])
+				.then(preferences => {
+					console.log(preferences)
+					this.preferences = this.initalPreferences = Object.keys(preferences).map(key => preferences[key])					
+				}
 				);
 		});
 	}

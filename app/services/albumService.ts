@@ -26,7 +26,7 @@ export class AlbumService{
 	private _getAlbum(album: IteratorResult): Promise<IteratorResult> {
 		console.log('AlbumService._getAlbum', album);
 
-		return album.value.image ?
+		return !album.value || album.value.image ?
 			new Promise<IteratorResult>(resolve => resolve(album)) :
 			this.audioInfo.getAlbum(album.value.albumPersistentID)
 				.then((albumData:Album) => {

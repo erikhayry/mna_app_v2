@@ -3,6 +3,8 @@ import {Page, Modal, NavController, Platform, Toast} from 'ionic-angular';
 import {AlbumService} from '../../services/albumService';
 import {Storage} from '../../services/storage/storage';
 
+import {HandleEmptyStringPipe} from "../../pipes/handleEmptyString";
+
 import {Settings} from '../../modals/settings/settings';
 import {IgnoreList} from '../../modals/ignoreList/ignoreList';
 import {AlbumInfo} from '../../modals/albumInfo/albumInfo';
@@ -12,6 +14,7 @@ import {IteratorResultImpl as IteratorResult} from "../../domain/iteratorResultI
 
 @Page({
   templateUrl: 'build/pages/result/result.html',
+  pipes: [HandleEmptyStringPipe]
 })
 
 export class Result {
@@ -19,12 +22,10 @@ export class Result {
 	private nav: NavController;
 	private albumService: AlbumService;
 	private storage: Storage;
-	private isLoading: boolean = true;
 
 	private _onSuccess(album: IteratorResult): void {
         console.log('Result._onSuccess', album);
         this.album = album;
-        this.isLoading = false;
     }
 
     private _onError(error:String): void{
@@ -34,15 +35,18 @@ export class Result {
 	private _getAlbums(): void {
 		console.log('Result._getAlbums');
 		this.album = null;
-		this.isLoading = true;
 		this.albumService.getAlbums()
-			.then(album => this._onSuccess(album), error => this._onError(error))
+			.then(album => 
+				this._onSuccess(album), 
+				error => this._onError(error)
+			)
 	}
 
 	private _presentToast(album: Album) {
 		console.log('Result._presentToast', album);
+		let albumTitle = album.albumTitle || 'Unknown';
 		this.nav.present(Toast.create({
-			message: album.albumTitle + ' added to Ignore List',
+			message: albumTitle + ' added to Ignore List',
 			duration: 1500
 		}));
 	}

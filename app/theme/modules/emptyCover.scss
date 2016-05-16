@@ -1,0 +1,7 @@
+.emptyCover{
+	display: inline-block;
+	width: 100%;
+	padding-top: 100%;
+	border-radius: 50%;
+	background: repeating-radial-gradient(circle, map-get($colors, light), map-get($colors, light) 1px, map-get($colors, secondary) 1px, map-get($colors, secondary) 5px);
+}

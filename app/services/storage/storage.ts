@@ -30,7 +30,7 @@ export class Storage{
     }
 
     private _onError(error:DbError):void {
-        console.error('Storage._onError', error.code);
+        console.error('Storage._onError', error);
     }
 
     private _onSuccess():void {
@@ -41,14 +41,14 @@ export class Storage{
 
     private _populateDB(tx:TX):void {
         console.log('Storage._populateDB', tx);
-        //tx.executeSql('DROP TABLE Settings')
+        //tx.executeSql('DROP TABLE IF EXISTS Settings')
         (<TX>tx).executeSql('CREATE TABLE IF NOT EXISTS Settings (text PRIMARY KEY, checked BOOLEAN NOT NULL)', this._onError, (tx, res) => {
             tx.executeSql('INSERT OR IGNORE INTO Settings (text, checked) VALUES(?, ?)', ['relevance.rating', 0]);
             tx.executeSql('INSERT OR IGNORE INTO Settings (text, checked) VALUES(?, ?)', ['relevance.play-count', 0]);
             tx.executeSql('INSERT OR IGNORE INTO Settings (text, checked) VALUES(?, ?)', ['relevance.number-of-items', 1]);
         });
 
-        //tx.executeSql('DROP TABLE Ignore')
+        //tx.executeSql('DROP TABLE IF EXISTS Ignore')
         tx.executeSql('CREATE TABLE IF NOT EXISTS Ignore (id TEXT PRIMARY KEY, albumTitle TEXT, artist TEXT)')
     }
 
@@ -63,13 +63,14 @@ export class Storage{
     }
 
     private _getItems(rows:Rows):Array<any>{
-        let _len = rows.length,
-            _ret = [];
-        for (let i = 0; i < _len; i++) {
-            _ret.push(rows.item(i))
+        let len = rows.length,
+            ret = [];
+
+        for (let i = 0; i < len; i++) {
+            ret.push(rows.item(i))
         }
 
-        return _ret;
+        return ret;
     }
 
     getIgnoreList(): Promise<Array<IgnoredAlbum>>{

@@ -12,6 +12,9 @@
             Add albums by tapping
         </h2>
         <h2><ion-icon tertiary name="ios-checkmark-circle"></ion-icon></h2>
+        <h2 class="paddedTitle" primary>
+            underneath the album cover.
+        </h2>
     </div>
 
     <div *ngIf="ignoredAlbumList.length > 0">
@@ -20,7 +23,7 @@
         </div>
         <ion-list>
             <ion-item *ngFor="#ignoredAlbum of ignoredAlbumList" (click)="deleteIgnoreListItem(ignoredAlbum)" class="stripeList-item" padding>
-                {{ignoredAlbum.albumTitle}} - {{ignoredAlbum.artist}}
+                {{ignoredAlbum.albumTitle | handleEmptyString}} - {{ignoredAlbum.artist | handleEmptyString: 'Artist'}}
                 <ion-icon name="ios-close-outline" item-right tertiary class="stripeList-icon"></ion-icon>
             </ion-item>
         </ion-list>    

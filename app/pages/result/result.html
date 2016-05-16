@@ -1,22 +1,22 @@
 <ion-toolbar position="top" primary>
     <ion-buttons start>
         <button (click)="showIgnoreList($event)" light>
-            <ion-icon name="ios-list-outline"></ion-icon>
+            <ion-icon name="ios-checkbox-outline"></ion-icon>
         </button>
     </ion-buttons>
     <ion-buttons end>
         <button (click)="showSettings($event)" light>
-            <ion-icon name="ios-settings"></ion-icon>
+            <ion-icon name="ios-options"></ion-icon>
         </button>
     </ion-buttons>
 </ion-toolbar>
 
 <ion-content padding class="l-result padding-vertical">
-    <div *ngIf="!album && !isLoading" text-center class="l-box">
-        <h2 class="paddedTitle" tertiary>No albums found on your device. Please add some music to get sugestions</h2>
+    <div *ngIf="album && !album.value" text-center class="l-box">
+        <h2 class="paddedTitle" tertiary>No albums found on your device. Please add some music to get suggestions</h2>
     </div>
 
-    <div *ngIf="isLoading" text-center class="l-result-loader l-box">
+    <div *ngIf="!album" text-center class="l-result-loader l-box">
         <div class="l-result-loader-top">
             <div class="loader animation-pulsate"></div>            
         </div>
@@ -24,11 +24,18 @@
             <h1 text-center primary-clear padding>Getting Data</h1>            
         </div>
     </div>
-    <div *ngIf="album" class="l-result-album">
+
+    <div *ngIf="album && album.value" class="l-result-album">
         <a text-center class="l-result-album-info" type="item-text-wrap" (click)="showInfo(album.value)">
-            <img [src]="toBase64Uri(album.value.image)" class="l-result-album-cover cover">            
-            <div class="animation-fadeIn">
-                <h1 class="paddedTitle" primary><i>{{album.value.artist}}</i> {{album.value.albumTitle}}</h1>            
+            
+            <img *ngIf="album.value.image" [src]="toBase64Uri(album.value.image)" class="l-result-album-cover cover">            
+            <div *ngIf="!album.value.image" class="l-result-album-cover emptyCover"></div>
+
+            <div class="animation-fadeIn l-result-album-title">
+                <h3 class="paddedTitle" primary>
+                    <i>{{album.value.artist | handleEmptyString: 'Artist'}}</i> 
+                    {{album.value.albumTitle | handleEmptyString}}
+                </h3>            
             </div>
         </a>
 

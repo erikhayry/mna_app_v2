@@ -1,9 +1,11 @@
 import {Page, ViewController, NavController, Platform, Toast} from 'ionic-angular';
 import {Storage} from "../../services/storage/storage";
 import {IgnoredAlbum} from "../../domain/ignoredAlbum";
+import {HandleEmptyStringPipe} from "../../pipes/handleEmptyString";
 
 @Page({
 	templateUrl: 'build/modals/ignoreList/ignoreList.html',
+	pipes: [HandleEmptyStringPipe]
 })
 
 export class IgnoreList {
@@ -15,8 +17,9 @@ export class IgnoreList {
 
 	private presentToast(album: IgnoredAlbum) {
 		console.log('IgnoreList.presentToast', album);
+		let albumTitle = album.albumTitle || 'Unknown';
 		this.nav.present(Toast.create({
-			message: album.albumTitle + ' removed from Ignore List',
+			message: albumTitle + ' removed from Ignore List',
 			duration: 1500
 		}));
 	}
