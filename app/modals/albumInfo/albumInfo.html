@@ -6,7 +6,7 @@
     </ion-buttons>
 </ion-toolbar>
 <ion-content padding text-uppercase *ngIf="album" class="l-albumInfo">
-    <div text-center>
+    <div text-center *ngIf="album.image">
         <img [src]="toBase64Uri(album.image)" class="l-albumInfo-cover">    
     </div>
     <div text-center padding>
