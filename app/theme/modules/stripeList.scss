@@ -1,5 +1,3 @@
-$primaryColors:	map-get($colors, primary);
-
 .stripeList{
 	&-item{
 
@@ -16,13 +14,13 @@ $primaryColors:	map-get($colors, primary);
 
 		&:nth-child(2n){
 			.item-inner{
-				border-color: map-get($colors, secondary);				
+				border-color: map-get($secondaryColors, base);
 			}
 		}
 
 		&:nth-child(3n){
 			.item-inner{
-				border-color: map-get($colors, tertiary);			
+				border-color: map-get($tertiaryColors, base);
 			}
 		}		
 	}
