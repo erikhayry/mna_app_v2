@@ -27,9 +27,11 @@
 
     <div *ngIf="album && album.value" class="l-result-album">
         <a text-center class="l-result-album-info" type="item-text-wrap" (click)="showInfo(album.value)">
-            
-            <img *ngIf="album.value.image" [src]="toBase64Uri(album.value.image)" class="l-result-album-cover cover">            
-            <div *ngIf="!album.value.image" class="l-result-album-cover emptyCover"></div>
+        
+            <div class="l-result-album-cover-wrapper">
+                <img *ngIf="album.value.image" [src]="toBase64Uri(album.value.image)" class="l-result-album-cover cover">     
+                <div *ngIf="!album.value.image" class="l-result-album-cover emptyCover"></div>       
+            </div>
 
             <div class="animation-fadeIn l-result-album-title">
                 <h3 class="paddedTitle" primary>

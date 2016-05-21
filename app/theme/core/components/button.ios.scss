@@ -42,6 +42,7 @@ $button-ios-small-icon-font-size:     1.3em !default;
 }
 
 .button[clean] {
+  border-bottom-width: 0;
   &.activated {
     background-color: transparent;
     opacity: 1;
