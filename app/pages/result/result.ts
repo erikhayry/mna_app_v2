@@ -75,9 +75,7 @@ export class Result {
 		console.log('Result.addIgnoreListItem', album);
 		this._presentToast(album.value);
 		this.albumService.ignore(album)
-			.then(album => {
-				this._onSuccess(album), error => this._onError(error)
-			});			
+			.then(album => this._onSuccess(album), error => this._onError(error));
 	};
 
 	toBase64Uri = (src:String): String => 'data:image/png;base64,' + src;

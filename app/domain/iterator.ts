@@ -4,7 +4,6 @@ export class Iterator{
     private _index:number;
     
     constructor(arr:Array<any>) {
-        console.log('Iterator', arr);
         this._arr = arr;
         this._index = -1;
     }
@@ -12,22 +11,24 @@ export class Iterator{
     private _ret = (index: number): IteratorResultImpl => ({ 
         value: this._arr[index], 
         prev: index > 0, 
-        next: index < this._arr.length 
+        next: index < this._arr.length - 1
     });
 
-    private _next = ():IteratorResultImpl => {
-        console.log('Iterator._next', this._index, this._arr);       
-        return this._index < this._arr.length ? this._ret(++this._index) : this._ret(this._index);
-    };
+    private _next = ():IteratorResultImpl => this._index < this._arr.length - 1 ? this._ret(++this._index) : this._ret(this._index);
 
-    private _prev = ():IteratorResultImpl => {
-        console.log('Iterator._prev', this._index, this._arr);        
-        return this._index >= 0 ? this._ret(--this._index) : this._ret(this._index);
-
-    };
+    private _prev = ():IteratorResultImpl => this._index >= 0 ? this._ret(--this._index) : this._ret(this._index);
 
     remove = ():IteratorResultImpl => {
         this._arr.splice(this._index, 1);
+
+        if(this._index >= this._arr.length){
+            this._index = this._arr.length - 1
+        }
+
+        if(this._index < 0){
+            this._index = 0
+        }
+
         return this._ret(this._index);
     };
 
