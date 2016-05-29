@@ -17,7 +17,6 @@ export class Sort{
 	storage: Storage;
 
 	constructor(storage:Storage) {
-		console.log('Sort.constructor');
 		this.storage = storage;
 	}
 
@@ -65,8 +64,6 @@ export class Sort{
  	}
 
 	sortToAlbums(tracks:Array<Track>):Promise<Array<Album>> {
-		console.log('Sort.sortToAlbums', tracks);
-
 		if(tracks.length == 0){
 			return new Promise<Array<Album>>((resolve) => resolve([]))
 		}

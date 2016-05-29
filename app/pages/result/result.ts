@@ -24,7 +24,6 @@ export class Result {
 	private storage: Storage;
 
 	private _onSuccess(album: IteratorResult): void {
-        console.log('Result._onSuccess', album);
         this.album = album;
     }
 
@@ -33,17 +32,15 @@ export class Result {
     }
 
 	private _getAlbums(): void {
-		console.log('Result._getAlbums');
 		this.album = null;
 		this.albumService.getAlbums()
 			.then(album => 
 				this._onSuccess(album), 
 				error => this._onError(error)
-			)
+			);
 	}
 
 	private _presentToast(album: Album) {
-		console.log('Result._presentToast', album);
 		let albumTitle = album.albumTitle || 'Unknown';
 		this.nav.present(Toast.create({
 			message: albumTitle + ' added to Ignore List',
@@ -52,7 +49,6 @@ export class Result {
 	}
 
 	constructor(nav: NavController, platform: Platform, albumService: AlbumService, storage:Storage){
-		console.log('Result.constructor');
 		this.nav = nav;
 		this.albumService = albumService;
 		this.storage = storage;
@@ -60,34 +56,27 @@ export class Result {
 	}
 
 	getNextAlbum(): void{
-		console.log('Result.getNextAlbum');
 		this.albumService.getNext()
 			.then(album => this._onSuccess(album), error => this._onError(error))
 	};
 
 	getPrevAlbum(): void{
-		console.log('Result.getPrevAlbum');
 		this.albumService.getPrev()
 			.then(album => this._onSuccess(album), error => this._onError(error))
 	};
 
 	addIgnoreListItem = (album:IteratorResult): void => {
-		console.log('Result.addIgnoreListItem', album);
 		this._presentToast(album.value);
 		this.albumService.ignore(album)
-			.then(album => {
-				this._onSuccess(album), error => this._onError(error)
-			});			
+			.then(album => this._onSuccess(album), error => this._onError(error));			
 	};
 
 	toBase64Uri = (src:String): String => 'data:image/png;base64,' + src;
 
 	showSettings(): void {
-		console.log('Result.showSettings');
 		let settingsModal = Modal.create(Settings);
 		settingsModal.onDismiss(settingsParams => {
 			if(settingsParams.preferencesUpdated || settingsParams.ignoreListUpdated){
-				console.log('Result.showSettings: preferencesUpdated/ignoreListUpdated');
 				this._getAlbums();
 			}
 		});
@@ -96,11 +85,9 @@ export class Result {
 	}
 
 	showIgnoreList(): void {
-		console.log('Result.showIgnoreList');
 		let ignoreListModal = Modal.create(IgnoreList);
 		ignoreListModal.onDismiss(settingsParams => {
 			if (settingsParams.ignoreListUpdated) {
-				console.log('Result.showIgnoreList: preferencesUpdated/ignoreListUpdated');
 				this._getAlbums();
 			}
 		});
@@ -109,7 +96,6 @@ export class Result {
 	}
 	
 	showInfo(album:Album): void{
-		console.log('Result.showInfo', album);
 		this.nav.present(Modal.create(AlbumInfo, {album: album}));	
 	}
 }

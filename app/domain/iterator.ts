@@ -1,36 +1,28 @@
-import {IteratorResultImpl} from "./iteratorResultImpl";
+import {IteratorResultImpl as IteratorResult} from "./iteratorResultImpl";
 export class Iterator{
     private _arr:Array<any>;
     private _index:number;
     
     constructor(arr:Array<any>) {
-        console.log('Iterator', arr);
         this._arr = arr;
         this._index = -1;
     }
 
-    private _ret = (index: number): IteratorResultImpl => ({ 
+    private _ret = (index: number):IteratorResult => ({ 
         value: this._arr[index], 
         prev: index > 0, 
-        next: index < this._arr.length 
+        next: index < this._arr.length - 1
     });
 
-    private _next = ():IteratorResultImpl => {
-        console.log('Iterator._next', this._index, this._arr);       
-        return this._index < this._arr.length ? this._ret(++this._index) : this._ret(this._index);
-    };
+    private _next = ():IteratorResult => this._index < this._arr.length - 1 ? this._ret(++this._index) : this._ret(this._index);
 
-    private _prev = ():IteratorResultImpl => {
-        console.log('Iterator._prev', this._index, this._arr);        
-        return this._index >= 0 ? this._ret(--this._index) : this._ret(this._index);
+    private _prev = ():IteratorResult => this._index >= 0 ? this._ret(--this._index) : this._ret(this._index);
 
-    };
-
-    remove = ():IteratorResultImpl => {
+    remove = ():IteratorResult => {
         this._arr.splice(this._index, 1);
         return this._ret(this._index);
     };
 
-    next = ():IteratorResultImpl => this._next();
-    prev = ():IteratorResultImpl => this._prev();
+    next = ():IteratorResult => this._next();
+    prev = ():IteratorResult => this._prev();
 }

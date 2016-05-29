@@ -27,13 +27,11 @@
 
     <div *ngIf="album && album.value" class="l-result-album">
         <a text-center class="l-result-album-info" type="item-text-wrap" (click)="showInfo(album.value)">
-        
-            <div class="l-result-album-cover-wrapper">
-                <img *ngIf="album.value.image" [src]="toBase64Uri(album.value.image)" class="l-result-album-cover cover">     
-                <div *ngIf="!album.value.image" class="l-result-album-cover emptyCover"></div>       
-            </div>
+            
+            <img *ngIf="album.value.image" [src]="toBase64Uri(album.value.image)" class="l-result-album-cover cover">            
+            <div *ngIf="!album.value.image" class="l-result-album-cover emptyCover"></div>
 
-            <div class="animation-fadeIn l-result-album-title">
+            <div class="l-result-album-title">
                 <h3 class="paddedTitle" primary>
                     <i>{{album.value.artist | handleEmptyString: 'Artist'}}</i> 
                     {{album.value.albumTitle | handleEmptyString}}
@@ -42,9 +40,9 @@
         </a>
 
         <ion-buttons class="l-result-album-btns l-box">
-            <button (click)="getPrevAlbum()" [disabled]="!album.prev" clean><ion-icon secondary name="ios-arrow-dropleft-circle"></ion-icon></button>
-            <button (click)="addIgnoreListItem(album)" clean><ion-icon tertiary name="ios-checkmark-circle"></ion-icon></button>
-            <button (click)="getNextAlbum()" [disabled]="!album.next" clean><ion-icon primary name="ios-arrow-dropright-circle"></ion-icon></button>
+            <button (click)="getPrevAlbum()" [disabled]="!album.prev" secondary large badge><ion-icon dark name="ios-arrow-dropleft"></ion-icon></button>
+            <button (click)="addIgnoreListItem(album)" tertiary large badge><ion-icon dark name="ios-checkmark-circle-outline"></ion-icon></button>
+            <button (click)="getNextAlbum()" [disabled]="!album.next" primary large badge><ion-icon dark name="ios-arrow-dropright"></ion-icon></button>
         </ion-buttons>
     </div>
 </ion-content>

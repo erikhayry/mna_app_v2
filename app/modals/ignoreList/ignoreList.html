@@ -1,7 +1,7 @@
 <ion-toolbar>
     <ion-buttons left>
         <button (click)="close()">
-            <ion-icon name="ios-close" item-left></ion-icon>
+            <ion-icon dark name="ios-close" item-left></ion-icon>
         </button>
     </ion-buttons>
 </ion-toolbar>
@@ -11,7 +11,7 @@
             No ignored albums added. <br>
             Add albums by tapping
         </h2>
-        <h2><ion-icon tertiary name="ios-checkmark-circle"></ion-icon></h2>
+        <h2><ion-icon dark name="ios-checkmark-circle-outline"></ion-icon></h2>
         <h2 class="paddedTitle" primary>
             underneath the album cover.
         </h2>
@@ -24,7 +24,7 @@
         <ion-list>
             <ion-item *ngFor="#ignoredAlbum of ignoredAlbumList" (click)="deleteIgnoreListItem(ignoredAlbum)" class="stripeList-item" padding>
                 {{ignoredAlbum.albumTitle | handleEmptyString}} - {{ignoredAlbum.artist | handleEmptyString: 'Artist'}}
-                <ion-icon name="ios-close-outline" item-right tertiary class="stripeList-icon"></ion-icon>
+                <ion-icon name="ios-close-circle-outline" item-right dark class="stripeList-icon"></ion-icon>
             </ion-item>
         </ion-list>    
     </div>    

@@ -20,7 +20,6 @@ export class AlbumInfo{
     showPlayCount: boolean;
 
     constructor(viewCtrl: ViewController, params: NavParams, storage:Storage) {
-        console.log('AlbumInfo.constructor', params.get('album'));
         this.storage = storage;
         this.viewCtrl = viewCtrl;
         this.storage.getPreferences()
@@ -34,7 +33,6 @@ export class AlbumInfo{
     }
 
     close(): void {
-        console.log('AlbumInfo.close');
         this.viewCtrl.dismiss();
     }
 

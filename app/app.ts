@@ -8,10 +8,10 @@ import {Storage} from "./services/storage/storage";
 import {Result} from "./pages/result/result";
 import {Copy} from "./services/copy/copy";
 
-
 @App({
   template: '<ion-nav [root]="rootPage"></ion-nav>',
-  config: {}, // http://ionicframework.com/docs/v2/api/config/Config/
+  config: {}, // http://ionicframework.com/docs/v2/api/config/Config/,
+  prodMode: true,
   providers: [AlbumService, AudioInfo, Sort, Storage, Copy]
 })
 

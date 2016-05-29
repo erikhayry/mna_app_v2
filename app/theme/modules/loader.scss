@@ -2,5 +2,5 @@
 	width: 200px;
 	height: 200px;
 	border-radius: 50%;
-	background: repeating-radial-gradient(circle, map-get($colors, light), map-get($colors, light) 1px, map-get($colors, tertiary) 1px, map-get($colors, tertiary) 5px);
+	background: repeating-radial-gradient(circle, map-get($colors, light), map-get($colors, light) 1px, map-get($tertiaryColors, base) 1px, map-get($tertiaryColors, base) 5px);
 }

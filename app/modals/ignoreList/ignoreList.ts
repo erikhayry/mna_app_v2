@@ -16,7 +16,6 @@ export class IgnoreList {
 	ignoreListUpdated = false;
 
 	private presentToast(album: IgnoredAlbum) {
-		console.log('IgnoreList.presentToast', album);
 		let albumTitle = album.albumTitle || 'Unknown';
 		this.nav.present(Toast.create({
 			message: albumTitle + ' removed from Ignore List',
@@ -25,7 +24,6 @@ export class IgnoreList {
 	}
 
 	constructor(nav: NavController, viewCtrl: ViewController, storage: Storage, platform: Platform) {
-		console.log('IgnoreList.constructor');
 		this.nav = nav;
 		this.viewCtrl = viewCtrl;
 		this.storage = storage;
@@ -36,14 +34,12 @@ export class IgnoreList {
 	}
 
 	close(): void {
-		console.log('IgnoreList.close');
 		this.viewCtrl.dismiss({
 			ignoreListUpdated: this.ignoreListUpdated
 		});
 	}
 
 	deleteIgnoreListItem = (album: IgnoredAlbum): void => {
-		console.log('IgnoreList.deleteIgnoreListItem', album);
 		this.ignoreListUpdated = true;
 		this.presentToast(album);
 		this.storage.deleteIgnoreListItem(album.id).then(ignoredAlbumList => this.ignoredAlbumList = ignoredAlbumList)

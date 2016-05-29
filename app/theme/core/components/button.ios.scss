@@ -64,6 +64,28 @@ $button-ios-small-icon-font-size:     1.3em !default;
     background-color: transparent;
     border-bottom-color: $background-color;
 
+    &[badge]{
+      border-bottom-width: 0;
+      background-color: $background-color;
+      border-radius: 50%;
+      padding: 0;
+      width: 3rem;
+      height: 3rem;
+
+      &.activated {
+        opacity: 0.5;
+      }
+
+      &.button-icon-only ion-icon{
+          padding: 0;
+      }
+
+      &[large]{
+          width: 4rem;
+          height: 4rem;
+      }
+    }
+
     &.activated {
       border-bottom-color: $background-color-activated;
       background-color: transparent;

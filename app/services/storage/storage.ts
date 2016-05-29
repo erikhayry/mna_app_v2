@@ -12,56 +12,43 @@ export class Storage{
     private db:Database;
 
     constructor(platform:Platform) {
-        console.log('Storage.constructor');
         platform.ready().then(() => {
             this._onDeviceReady()
         })
     }
 
-    private _openDB = ():Database => {
-        console.log('Storage._openDB');
-        return (<any>window).sqlitePlugin.openDatabase({name: 'mna.db', iosDatabaseLocation: 'default'});
-    };
+    private _openDB = ():Database => (<any>window).sqlitePlugin.openDatabase({name: 'mna.db', iosDatabaseLocation: 'default'});    
 
     private _onDeviceReady():void {
-        console.log('Storage.constructor');
         this.db = this._openDB();
         this.db.transaction(this._populateDB, this._onError, this._onSuccess);
     }
 
     private _onError(error:DbError):void {
-        console.error('Storage._onError', error);
+        console.error(error);
     }
 
     private _onSuccess():void {
-        console.log('Storage._onSuccess');
         this.db = this._openDB();
         this.db.transaction(this._queryDB, this._onError);
     }
 
     private _populateDB(tx:TX):void {
-        console.log('Storage._populateDB', tx);
-        //tx.executeSql('DROP TABLE IF EXISTS Settings')
         (<TX>tx).executeSql('CREATE TABLE IF NOT EXISTS Settings (text PRIMARY KEY, checked BOOLEAN NOT NULL)', this._onError, (tx, res) => {
             tx.executeSql('INSERT OR IGNORE INTO Settings (text, checked) VALUES(?, ?)', ['relevance.rating', 0]);
-            tx.executeSql('INSERT OR IGNORE INTO Settings (text, checked) VALUES(?, ?)', ['relevance.play-count', 0]);
-            tx.executeSql('INSERT OR IGNORE INTO Settings (text, checked) VALUES(?, ?)', ['relevance.number-of-items', 1]);
+            tx.executeSql('INSERT OR IGNORE INTO Settings (text, checked) VALUES(?, ?)', ['relevance.play-count', 1]);
+            tx.executeSql('INSERT OR IGNORE INTO Settings (text, checked) VALUES(?, ?)', ['relevance.number-of-items', 0]);
         });
 
-        //tx.executeSql('DROP TABLE IF EXISTS Ignore')
         tx.executeSql('CREATE TABLE IF NOT EXISTS Ignore (id TEXT PRIMARY KEY, albumTitle TEXT, artist TEXT)')
     }
 
     private _queryDB(tx:TX):void {
-        console.log('Storage._queryDB', tx);
         tx.executeSql('SELECT * FROM Settings', [], this._querySuccess, this._onError);
     }
 
-    private _querySuccess(tx:TX, results)     {
-        console.log('Storage._querySuccess', tx, results);
-        return results;
-    }
-
+    private _querySuccess = (tx:TX, results):TX => results
+  
     private _getItems(rows:Rows):Array<any>{
         let len = rows.length,
             ret = [];
@@ -74,7 +61,6 @@ export class Storage{
     }
 
     getIgnoreList(): Promise<Array<IgnoredAlbum>>{
-        console.log('Storage.getIgnoreList');
         this.db = this._openDB();
 
         return new Promise<Array<IgnoredAlbum>>((resolve, reject) => {
@@ -87,7 +73,6 @@ export class Storage{
     }
 
     addIgnoreListItem(id: String, albumTitle: String, artist: String): Promise<Array<IgnoredAlbum>> {
-        console.log('Storage.addIgnoreListItem', id, albumTitle, artist);
         this.db = this._openDB();
 
         return new Promise<Array<IgnoredAlbum>>((resolve, reject) => {
@@ -100,7 +85,6 @@ export class Storage{
     }
 
     deleteIgnoreListItem(id:String):Promise<Array<IgnoredAlbum>> {
-        console.log('Storage.deleteIgnoreListItem', id);
         this.db = this._openDB();
         
         return new Promise<Array<IgnoredAlbum>>((resolve, reject) => {
@@ -113,7 +97,6 @@ export class Storage{
     }
 
     getPreferences():Promise<Preferences> {
-        console.log('Storage.getPreferences');
         this.db = this._openDB();
 
         return new Promise<Preferences>((resolve, reject) => {
@@ -131,7 +114,6 @@ export class Storage{
     }
 
     setPreferences(key:String, value:Boolean):Promise<Preferences>{
-        console.log('Storage.setPreferences', key, value);
         this.db = this._openDB();
 
         return new Promise<Preferences>((resolve, reject) => {
