@@ -68,11 +68,7 @@ export class Result {
 	addIgnoreListItem = (album:IteratorResult): void => {
 		this._presentToast(album.value);
 		this.albumService.ignore(album)
-<<<<<<< HEAD
-			.then(album => this._onSuccess(album), error => this._onError(error));			
-=======
 			.then(album => this._onSuccess(album), error => this._onError(error));
->>>>>>> 6c1d763a112d1827dd2c2a29a7d8af05052a24c4
 	};
 
 	toBase64Uri = (src:String): String => 'data:image/png;base64,' + src;
