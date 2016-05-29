@@ -20,6 +20,15 @@ export class Iterator{
 
     remove = ():IteratorResult => {
         this._arr.splice(this._index, 1);
+
+        if(this._index >= this._arr.length){
+            this._index = this._arr.length - 1
+        }
+
+        if(this._index < 0){
+            this._index = 0
+        }
+
         return this._ret(this._index);
     };
 
