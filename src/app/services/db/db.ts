@@ -88,7 +88,7 @@ export class DB{
         })
     }
 
-    addIgnoreListItem(id: String, albumTitle: String, artist: String): Promise<Array<IgnoredAlbum>> {
+    addIgnoreListItem(id: string, albumTitle: string, artist: string): Promise<Array<IgnoredAlbum>> {
         this.db = this._openDB();
 
         return new Promise<Array<IgnoredAlbum>>((resolve, reject) => {
@@ -100,7 +100,7 @@ export class DB{
         })
     }
 
-    deleteIgnoreListItem(id:String):Promise<Array<IgnoredAlbum>> {
+    deleteIgnoreListItem(id:string):Promise<Array<IgnoredAlbum>> {
         this.db = this._openDB();
 
         return new Promise<Array<IgnoredAlbum>>((resolve, reject) => {
@@ -128,15 +128,7 @@ export class DB{
         });
     }
 
-    setPreferences(key:String, value:Boolean):Promise<Preferences>{
-        this.db = this._openDB();
-
-        return new Promise<Preferences>((resolve, reject) => {
-            this.db.transaction((tx) => {
-                tx.executeSql('UPDATE Settings SET checked = ? WHERE text = ?', [value ? 1 : 0, key], (tx, res) => {
-                    resolve(this.getPreferences());
-                }, this._onError);
-            }, this._onError);
-        })
+    setPreferences(key:string, value:boolean):Promise<Preferences>{
+        return this.settingsDb.set(key, value).then(() => this.getPreferences())
     }
 }

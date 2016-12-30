@@ -79,7 +79,8 @@ export class ResultPage {
 	showSettings(): void {
 		let settingsModal = this.modalCtrl.create(Settings);
 		settingsModal.onDidDismiss(settingsParams => {
-			if(settingsParams.preferencesUpdated || settingsParams.ignoreListUpdated){
+			//TODO handle all dismisses
+			if(settingsParams && (settingsParams.preferencesUpdated || settingsParams.ignoreListUpdated)){
 				this._getAlbums();
 			}
 		});

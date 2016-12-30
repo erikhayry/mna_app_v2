@@ -2,20 +2,20 @@ import {Track} from "./track";
 
 export class Album {
     //iOSAudioInfo data
-    artist:String;
-    genre:String;
-    persistentID:String;
-    albumPersistentID:String;
+    artist:string;
+    genre:string;
+    persistentID:string;
+    albumPersistentID:string;
     playCount:number;
     rating:number;
-    image:String;
-    albumTitle:String;
+    image:string;
+    albumTitle:string;
 
     //MNA data
     totalRating:number;
     tracks:Array<Track>;
 
-    constructor(albumPersistentID:String, tracks:Array<Track>) {
+    constructor(albumPersistentID:string, tracks:Array<Track>) {
         this.albumPersistentID = albumPersistentID;
         this.tracks = tracks;
     }

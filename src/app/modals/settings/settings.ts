@@ -25,6 +25,7 @@ export class Settings{
 		this.viewCtrl = viewCtrl;
 		this.db = db;
 		this.copy = copy.en;
+
 		this.db.getPreferences()
 			.then(preferences => {
 				console.log(preferences)
@@ -39,7 +40,8 @@ export class Settings{
 		});
 	}
 
-	preferenceChanged = (value:Boolean, id:String): void => {
+
+	preferenceChanged = (value:boolean, id:string): void => {
 		this.db.setPreferences(id, value)
 			.then(preferences => {
 				console.log(preferences)
