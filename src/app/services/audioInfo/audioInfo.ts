@@ -13,6 +13,16 @@ export class AudioInfo{
 	constructor(platform: Platform){
 		platform.ready().then(() => {
 			//this.iOSAudioInfo = (<CordovaWindow>window).plugins.iOSAudioInfo;
+			if(this.iOSAudioInfo){
+				this.iOSAudioInfo.getTracks(tracks => {
+					console.log(tracks)
+				}, error => {
+					console.log(error)
+				})
+			}
+			else{
+				return {}
+			}
 
 		})
 	}

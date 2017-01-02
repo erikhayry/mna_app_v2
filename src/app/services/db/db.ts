@@ -115,7 +115,6 @@ export class DB{
     getPreferences():Promise<Preferences> {
         return new Promise<Preferences>((resolve, reject) => {
             let _preferences:Preferences = (<Preferences>{});
-
             this.settingsDb.forEach((value, key, iterationNumber) => {
                 console.log(!!value, key)
                 _preferences[key] = {

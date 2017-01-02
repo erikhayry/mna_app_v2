@@ -23,14 +23,21 @@ export class AlbumService{
 	}
 
 	private _getAlbum(album: IteratorResult): Promise<IteratorResult> {
-		return !album.value || album.value.image ?
-			new Promise<IteratorResult>(resolve => resolve(album)) :
+		if(!album.value || album.value.image){
+			return new Promise<IteratorResult>(resolve => resolve(album));
+		}
+		else if(this.audioInfo){
 			this.audioInfo.getAlbum(album.value.albumPersistentID)
 				.then((albumData:Album) => {
 					album.value = _.merge(albumData, {tracks: album.value.tracks});
-					
+
 					return new Promise<IteratorResult>(resolve => resolve(album));
 				});
+		}
+
+		return null
+
+
 	}
 
 	private _sortToAlbums = (trackData:Array<Track>):Promise<Array<Album>> => this.sort.sortToAlbums(trackData)
