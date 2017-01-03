@@ -23,13 +23,15 @@ export class ResultPage {
 	private modalCtrl: ModalController;
 	private albumService: AlbumService;
 	private db: DB;
+	private error: string;
 
 	private _onSuccess(album: IteratorResult): void {
         this.album = album;
     }
 
-    private _onError(error:String): void{
+    private _onError(error:string): void{
 		console.error('Result._onError', error);
+		this.error = error;
     }
 
 	private _getAlbums(): void {
@@ -74,7 +76,7 @@ export class ResultPage {
 			.then(album => this._onSuccess(album), error => this._onError(error));
 	};
 
-	toBase64Uri = (src:String): String => 'data:image/png;base64,' + src;
+	toBase64Uri = (src:string): string => 'data:image/png;base64,' + src;
 
 	showSettings(): void {
 		let settingsModal = this.modalCtrl.create(Settings);

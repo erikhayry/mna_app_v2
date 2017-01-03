@@ -12,39 +12,35 @@ export class AudioInfo{
 
 	constructor(platform: Platform){
 		platform.ready().then(() => {
-			//this.iOSAudioInfo = (<CordovaWindow>window).plugins.iOSAudioInfo;
-			if(this.iOSAudioInfo){
-				this.iOSAudioInfo.getTracks(tracks => {
-					console.log(tracks)
-				}, error => {
-					console.log(error)
-				})
+			if((<CordovaWindow>window).plugins){
+				this.iOSAudioInfo = (<CordovaWindow>window).plugins.iOSAudioInfo;
 			}
-			else{
-				return {}
-			}
-
 		})
 	}
 	
 	getTrack(id:String){
 		return new Promise<Track>((resolve, reject) => {
-			//this.iOSAudioInfo.getTrack(track => resolve(track), error => reject(error), id)
-			return {};
+			if(this.iOSAudioInfo){
+				this.iOSAudioInfo.getTrack(track => resolve(track), error => reject(error), id)
+			}
+			reject('Unable to get track');
 		})
 	}
 
 	getAlbum(id:String){
 		return new Promise<Album>((resolve, reject) => {
-			//this.iOSAudioInfo.getAlbum(album => resolve(album), error => reject(error), id)
-			return {};
+			if(this.iOSAudioInfo){this.iOSAudioInfo.getAlbum(album => resolve(album), error => reject(error), id)
+			}
+			reject('Unable to get album');
 		})
 	}
 	
 	getTracks():Promise<Array<Track>>{
 		return new Promise<Array<Track>>((resolve, reject) => {
-			//this.iOSAudioInfo.getTracks(tracks => resolve(tracks), error => reject(error))
-			return {};
+			if(this.iOSAudioInfo) {
+				this.iOSAudioInfo.getTracks(tracks => resolve(tracks), error => reject(error))
+			}
+			reject('Unable to get tracks');
 		})
 	}
 }

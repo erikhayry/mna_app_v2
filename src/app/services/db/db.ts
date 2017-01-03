@@ -11,11 +11,10 @@ import { Storage } from '@ionic/storage';
 
 @Injectable()
 export class DB{
-    private db:Database;
     private settingsDb:Storage;
     private ignoreDb:Storage;
 
-    constructor(platform:Platform, storage: Storage) {
+    constructor() {
         this.settingsDb = new Storage(['sqlite', 'websql', 'indexeddb'], { name: '__settingsDb' });
         this.ignoreDb = new Storage(['sqlite', 'websql', 'indexeddb'], { name: '__ignoreDb' });
 
@@ -32,98 +31,37 @@ export class DB{
         });
     }
 
-    private _openDB = ():Database => (<any>window).sqlitePlugin.openDatabase({name: 'mna.db', iosDatabaseLocation: 'default'});
-
-    private _onDeviceReady():void {
-        //this.db = this._openDB();
-        //this.db.transaction(this._populateDB, this._onError, this._onSuccess);
-    }
-
-    private _onError(error:DbError):void {
-        console.error(error);
-    }
-
-    private _onSuccess():void {
-        //this.db = this._openDB();
-        //this.db.transaction(this._queryDB, this._onError);
-    }
-
-    private _populateDB(tx:TX):void {
-        (<TX>tx).executeSql('CREATE TABLE IF NOT EXISTS ' +
-            ' (text PRIMARY KEY, checked BOOLEAN NOT NULL)', this._onError, (tx, res) => {
-            tx.executeSql('INSERT OR IGNORE INTO Settings (text, checked) VALUES(?, ?)', ['relevance.rating', 0]);
-            tx.executeSql('INSERT OR IGNORE INTO Settings (text, checked) VALUES(?, ?)', ['relevance.play-count', 1]);
-            tx.executeSql('INSERT OR IGNORE INTO Settings (text, checked) VALUES(?, ?)', ['relevance.number-of-items', 0]);
-        });
-
-        tx.executeSql('CREATE TABLE IF NOT EXISTS Ignore (id TEXT PRIMARY KEY, albumTitle TEXT, artist TEXT)')
-    }
-
-    private _queryDB(tx:TX):void {
-        tx.executeSql('SELECT * FROM Settings', [], this._querySuccess, this._onError);
-    }
-
-    private _querySuccess = (tx:TX, results):TX => results
-
-    private _getItems(rows:Rows):Array<any>{
-        let len = rows.length,
-            ret = [];
-
-        for (let i = 0; i < len; i++) {
-            ret.push(rows.item(i))
-        }
-
-        return ret;
-    }
-
     getIgnoreList(): Promise<Array<IgnoredAlbum>>{
-        this.db = this._openDB();
-
         return new Promise<Array<IgnoredAlbum>>((resolve, reject) => {
-            this.db.transaction((tx) => {
-                tx.executeSql('SELECT * FROM Ignore', [], (tx, res) => {
-                    resolve(this._getItems(res.rows));
-                }, this._onError);
-            }, this._onError);
-        })
+            let _ignoredAlbums:Array<IgnoredAlbum> = [];
+            this.ignoreDb.forEach((value, key, iterationNumber) => {
+                _ignoredAlbums.push(value)
+
+            }).then(() => (resolve(_ignoredAlbums)));
+        });
     }
 
     addIgnoreListItem(id: string, albumTitle: string, artist: string): Promise<Array<IgnoredAlbum>> {
-        this.db = this._openDB();
-
-        return new Promise<Array<IgnoredAlbum>>((resolve, reject) => {
-            this.db.transaction((tx) => {
-                tx.executeSql('INSERT OR IGNORE INTO Ignore (id, albumTitle, artist) VALUES(?, ?, ?)', [id, albumTitle, artist], (tx, res) => {
-                    resolve(this.getIgnoreList());
-                }, this._onError);
-            }, this._onError);
-        })
+        return this.ignoreDb.set(id, {
+            albumTitle: albumTitle,
+            artist: artist
+        }).then(() => this.getIgnoreList())
     }
 
     deleteIgnoreListItem(id:string):Promise<Array<IgnoredAlbum>> {
-        this.db = this._openDB();
-
-        return new Promise<Array<IgnoredAlbum>>((resolve, reject) => {
-            this.db.transaction((tx) => {
-                tx.executeSql('DELETE FROM Ignore WHERE id = ?', [id], (tx, res) => {
-                    resolve(this.getIgnoreList());
-                }, this._onError);
-            }, this._onError);
-        })
+        return this.ignoreDb.remove(id).then(() => this.getIgnoreList())
     }
 
     getPreferences():Promise<Preferences> {
         return new Promise<Preferences>((resolve, reject) => {
             let _preferences:Preferences = (<Preferences>{});
             this.settingsDb.forEach((value, key, iterationNumber) => {
-                console.log(!!value, key)
                 _preferences[key] = {
                     checked : value ? true : false,
                     label: key
                 };
 
             }).then(() => (resolve(_preferences)));
-
         });
     }
 

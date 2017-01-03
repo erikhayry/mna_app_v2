@@ -1,10 +1,16 @@
-<ion-toolbar>
-    <ion-buttons left>
-        <button (click)="close()">
-            <ion-icon dark name="ios-close" item-left></ion-icon>
-        </button>
-    </ion-buttons>
-</ion-toolbar>
+<ion-header>
+    <ion-toolbar>
+        <ion-title>
+            Ignor List
+        </ion-title>
+        <ion-buttons start>
+            <button ion-button (click)="close()">
+                <ion-icon dark class="dark" name="ios-close"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
 <ion-content padding>
     <div *ngIf="ignoredAlbumList.length === 0" text-center class="l-box">
         <h2 class="paddedTitle" primary>
