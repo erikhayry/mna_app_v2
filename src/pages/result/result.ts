@@ -10,6 +10,7 @@ import {AlbumInfo} from '../../app/modals/albumInfo/albumInfo';
 
 import {IteratorResultImpl as IteratorResult} from "../../app/domain/iteratorResultImpl";
 import {Album} from "../../app/domain/album";
+import {Config} from "../../app/services/config/config";
 
 @Component({
 	selector: 'page-result',
@@ -30,11 +31,11 @@ export class ResultPage {
     }
 
     private _onError(error:string): void{
-		console.error('Result._onError', error);
 		this.error = error;
     }
 
 	private _getAlbums(): void {
+		this.error = null;
 		this.album = null;
 		this.albumService.getAlbums()
 			.then(album => 
@@ -79,9 +80,8 @@ export class ResultPage {
 	toBase64Uri = (src:string): string => 'data:image/png;base64,' + src;
 
 	showSettings(): void {
-		let settingsModal = this.modalCtrl.create(Settings);
+		let settingsModal = this.modalCtrl.create(Settings, null, Config.modalOptions);
 		settingsModal.onDidDismiss(settingsParams => {
-			//TODO handle all dismisses
 			if(settingsParams && (settingsParams.preferencesUpdated || settingsParams.ignoreListUpdated)){
 				this._getAlbums();
 			}
@@ -91,9 +91,9 @@ export class ResultPage {
 	}
 
 	showIgnoreList(): void {
-		let ignoreListModal = this.modalCtrl.create(IgnoreList);
+		let ignoreListModal = this.modalCtrl.create(IgnoreList, null, Config.modalOptions);
 		ignoreListModal.onDidDismiss(settingsParams => {
-			if (settingsParams.ignoreListUpdated) {
+			if (settingsParams && settingsParams.ignoreListUpdated) {
 				this._getAlbums();
 			}
 		});

@@ -21,6 +21,11 @@ export class Settings{
 	ignoreListUpdated = false;
 	copy:Object;
 
+	private toSortedArray(preferences:Preferences){
+		return _.sortBy(Object.keys(preferences)
+			.map(key => preferences[key]), 'label');
+	}
+
 	constructor(viewCtrl: ViewController, db:DB, platform:Platform, copy:Copy) {
 		this.viewCtrl = viewCtrl;
 		this.db = db;
@@ -28,9 +33,7 @@ export class Settings{
 
 		this.db.getPreferences()
 			.then(preferences => {
-				console.log(preferences)
-				this.preferences = this.initalPreferences = Object.keys(preferences).map(key => preferences[key])
-				console.log(this.preferences)
+				this.preferences = this.initalPreferences = this.toSortedArray(preferences);
 			});
 	}
 
@@ -44,10 +47,9 @@ export class Settings{
 	preferenceChanged = (value:boolean, id:string): void => {
 		this.db.setPreferences(id, value)
 			.then(preferences => {
-				console.log(preferences)
-				this.preferences = Object.keys(preferences).map(key => preferences[key])
+				this.preferences = this.toSortedArray(preferences);
 			});
-	}
+	};
 
 	disableSetting = (preference: Preference, preferences: Preferences): boolean =>
 	preference.checked && Object.keys(preferences).filter(key => preferences[key].checked).length < 2

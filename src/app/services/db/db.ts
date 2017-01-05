@@ -1,9 +1,5 @@
-import {Platform} from 'ionic-angular';
 import {Injectable} from '@angular/core';
 
-import {Database, DbError, TX, Rows} from './domain/databaseImpl';
-
-import {Preference} from '../../domain/preference';
 import {IgnoredAlbum} from "../../domain/ignoredAlbum";
 import {Preferences} from "../../domain/preferences";
 
@@ -44,7 +40,8 @@ export class DB{
     addIgnoreListItem(id: string, albumTitle: string, artist: string): Promise<Array<IgnoredAlbum>> {
         return this.ignoreDb.set(id, {
             albumTitle: albumTitle,
-            artist: artist
+            artist: artist,
+            id: id
         }).then(() => this.getIgnoreList())
     }
 
@@ -60,7 +57,6 @@ export class DB{
                     checked : value ? true : false,
                     label: key
                 };
-
             }).then(() => (resolve(_preferences)));
         });
     }
