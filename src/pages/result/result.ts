@@ -27,19 +27,24 @@ export class ResultPage {
 	private error: string;
 
 	private _onSuccess(album: IteratorResult): void {
+		this.error = null;
         this.album = album;
     }
 
     private _onError(error:string): void{
+		console.log('ResultPage._onError', error);
 		this.error = error;
     }
 
 	private _getAlbums(): void {
+		console.log('ResultPage._getAlbums')
 		this.error = null;
 		this.album = null;
 		this.albumService.getAlbums()
-			.then(album => 
-				this._onSuccess(album), 
+			.then(album => {
+				console.log('ResultPage._getAlbum', album)
+				return this._onSuccess(album)
+			},
 				error => this._onError(error)
 			);
 	}

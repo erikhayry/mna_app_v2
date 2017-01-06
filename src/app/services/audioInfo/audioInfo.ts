@@ -23,24 +23,35 @@ export class AudioInfo{
 			if(this.iOSAudioInfo){
 				this.iOSAudioInfo.getTrack(track => resolve(track), error => reject(error), id)
 			}
-			reject('Unable to get track');
+			else{
+				reject('Unable to get track');
+			}
 		})
 	}
 
 	getAlbum(id:String){
 		return new Promise<Album>((resolve, reject) => {
-			if(this.iOSAudioInfo){this.iOSAudioInfo.getAlbum(album => resolve(album), error => reject(error), id)
+			if(this.iOSAudioInfo){
+				this.iOSAudioInfo.getAlbum(album => resolve(album), error => reject(error), id)
 			}
-			reject('Unable to get album');
+			else{
+				reject('Unable to get album');
+			}
 		})
 	}
 	
 	getTracks():Promise<Array<Track>>{
 		return new Promise<Array<Track>>((resolve, reject) => {
 			if(this.iOSAudioInfo) {
-				this.iOSAudioInfo.getTracks(tracks => resolve(tracks), error => reject(error))
+				console.log('AudioInfo.getTracks')
+				this.iOSAudioInfo.getTracks(tracks => {
+					console.log(tracks);
+					resolve(tracks)
+				}, error => reject(error))
 			}
-			reject('Unable to get tracks');
+			else {
+				reject('Unable to get tracks');
+			}
 		})
 	}
 }

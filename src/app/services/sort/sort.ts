@@ -63,6 +63,7 @@ export class Sort{
  	}
 
 	sortToAlbums(tracks:Array<Track>):Promise<Array<Album>> {
+		console.log('sortToAlbums', tracks)
 		if(tracks.length == 0){
 			return new Promise<Array<Album>>((resolve) => resolve([]))
 		}

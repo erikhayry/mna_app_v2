@@ -23,34 +23,39 @@ export class AlbumService{
 	}
 
 	private _getAlbum(album: IteratorResult): Promise<IteratorResult> {
+		console.log('AlbumService._getAlbum', album);
 		if(!album.value || album.value.image){
 			return new Promise<IteratorResult>(resolve => resolve(album));
 		}
 		else if(this.audioInfo){
-			this.audioInfo.getAlbum(album.value.albumPersistentID)
+			return this.audioInfo.getAlbum(album.value.albumPersistentID)
 				.then((albumData:Album) => {
 					album.value = _.merge(albumData, {tracks: album.value.tracks});
-
+					console.log('AlbumService._getAlbum 2', album, albumData);
 					return new Promise<IteratorResult>(resolve => resolve(album));
 				});
 		}
-
-		return null
-
+		//TODO promise reject
+/*		else{
+			return null
+		}*/
 
 	}
 
 	private _sortToAlbums = (trackData:Array<Track>):Promise<Array<Album>> => this.sort.sortToAlbums(trackData)
 
 	private _init = (): Promise<IteratorResult> => this.audioInfo.getTracks()
-			.then(tracks => 
-				this._sortToAlbums(tracks)
-			)
-			.then(albums => {
-				this.albums = new Iterator(albums);
-				return this._getAlbum(this.albums.next())
-			});
-	
+		.then(tracks => {
+				console.log('init 1', tracks)
+				return this._sortToAlbums(tracks)
+			}
+		)
+		.then(albums => {
+			console.log('init 2', albums)
+			this.albums = new Iterator(albums);
+			return this._getAlbum(this.albums.next())
+		});
+
 
 
 	getAlbums = (): Promise<IteratorResult> => this._init();
