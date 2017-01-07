@@ -107,7 +107,7 @@ export class ResultPage {
 	}
 	
 	showInfo(album:Album): void{
-		let infoModal = this.modalCtrl.create(AlbumInfo, {album: album})
+		let infoModal = this.modalCtrl.create(AlbumInfo, {album: album}, Config.modalOptions);
 		infoModal.present();
 	}
 }

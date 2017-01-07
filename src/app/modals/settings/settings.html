@@ -4,8 +4,8 @@
             Settings
         </ion-title>
         <ion-buttons start>
-            <button ion-button (click)="close()">
-                <ion-icon class="dark" name="ios-close"></ion-icon>
+            <button (click)="close()" ion-button icon-only clear round>
+                <ion-icon ion-text color="dark" name="ios-close"></ion-icon>
             </button>
         </ion-buttons>
     </ion-toolbar>
@@ -13,8 +13,8 @@
 
 <ion-content padding class="l-settings">
     <div class="l-settings-top">
-        <div text-center>
-            <h2 class="paddedTitle primary">Settings</h2>
+        <div text-center padding>
+            <h2 class="paddedTitle" ion-text color="primary">Settings</h2>
         </div>
         <ion-list>
             <ion-item *ngFor="let preference of preferences" class="stripeList-item">
@@ -23,7 +23,7 @@
             </ion-item>
         </ion-list>
     </div>
-    <div text-center class="l-settings-bottom">
-        <h3 class="paddedTitle" primary>Made by <br><i>Ellen Portin</i> &amp; <i>Erik Portin</i> <br>Åbo / Stockholm 2016</h3>
+    <div text-center padding class="l-settings-bottom">
+        <h3 class="paddedTitle" ion-text color="primary">Made by <br><i>Ellen Portin</i> &amp; <i>Erik Portin</i> <br>Åbo / Stockholm 2016</h3>
     </div>
 </ion-content>

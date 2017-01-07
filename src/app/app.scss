@@ -22,8 +22,8 @@
 
 //Pages
 @import "../pages/result/result";
-//@import "../theme/modals/albumInfo/albumInfo";
-//@import "../theme/modals/settings/settings";
+@import "modals/albumInfo/albumInfo";
+@import "modals/settings/settings";
 
 
 //Modules
@@ -31,5 +31,5 @@
 @import "../theme/modules/loader";
 @import "../theme/modules/stripeList";
 @import "../theme/modules/cover";
-@import "../theme/modules/paddedTitle";
 @import "../theme/modules/emptyCover";
+@import "../theme/modules/paddedTitle";

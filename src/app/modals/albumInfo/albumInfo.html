@@ -1,23 +1,33 @@
 <ion-toolbar>
-    <ion-buttons left>
-        <button (click)="close()">
-            <ion-icon dark name="ios-close" item-left></ion-icon>
-        </button>
-    </ion-buttons>
+
 </ion-toolbar>
+
+<ion-header>
+    <ion-toolbar>
+        <ion-title>
+            Album Info
+        </ion-title>
+        <ion-buttons start>
+            <button (click)="close()" ion-button icon-only clear round>
+                <ion-icon ion-text color="dark" name="ios-close"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
 <ion-content padding text-uppercase *ngIf="album" class="l-albumInfo">
     <div text-center *ngIf="album.image">
         <img [src]="toBase64Uri(album.image)" class="l-albumInfo-cover">    
     </div>
     <div text-center padding>
-        <h2 class="paddedTitle" primary><span><i>{{album.artist}}</i> {{album.albumTitle}}</span></h2>            
+        <h2 class="paddedTitle" ion-text color="primary"><span><i>{{album.artist}}</i> {{album.albumTitle}}</span></h2>
     </div>
 
     <ion-list no-lines>
         <ion-item *ngFor="let track of album.tracks | withRating: showCompleteAlbum" >
-            <h2 text-center>{{track.title}} <span *ngIf="showPlayCount" class="badge" secondary>{{track.playCount}}</span></h2>
-            <div text-center *ngIf="showRating && getStars(track.rating).length > 0" name="ios-star" >
-                <ion-icon *ngFor="let star of getStars(track.rating)" tertiary></ion-icon>
+            <h2 text-center>{{track.title}} <span *ngIf="showPlayCount" class="badge" color="secondary">{{track.playCount}}</span></h2>
+            <div text-center *ngIf="showRating && getStars(track.rating).length > 0">
+                <ion-icon *ngFor="let star of getStars(track.rating)" color="tertiary" name="star"></ion-icon>
             </div>
         </ion-item>
     </ion-list>

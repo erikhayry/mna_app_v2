@@ -8,7 +8,7 @@
     font-size: 12px;
     text-align: center;
 	@each $color-name, $color-base, $color-contrast in get-colors($colors) {
-	    &[#{$color-name}] {
+	    &[color=#{$color-name}] {
 	      color: $color-contrast !important;
 	      background-color: $color-base !important;
 	    }
