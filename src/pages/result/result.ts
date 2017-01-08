@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import {Platform, ToastController, ModalController} from 'ionic-angular';
+import {Component} from '@angular/core';
+import {Platform, ToastController, ModalController, ActionSheetController} from 'ionic-angular';
 
 import {AlbumService} from "../../app/services/albumService";
 import {DB} from '../../app/services/db/db';
@@ -13,101 +13,143 @@ import {Album} from "../../app/domain/album";
 import {Config} from "../../app/services/config/config";
 
 @Component({
-	selector: 'page-result',
-	templateUrl: 'result.html',
-	providers: [AlbumService, AlbumInfo]
+    selector: 'page-result',
+    templateUrl: 'result.html',
+    providers: [AlbumService, AlbumInfo]
 })
 
 export class ResultPage {
-	private album: IteratorResult;
-	private toastCtrl: ToastController;
-	private modalCtrl: ModalController;
-	private albumService: AlbumService;
-	private db: DB;
-	private error: string;
+    private album: IteratorResult;
+    private toastCtrl: ToastController;
+    private modalCtrl: ModalController;
+    private albumService: AlbumService;
+    //private actionSheetCtrl: ActionSheetController;
+    private db: DB;
+    private error: string;
 
-	private _onSuccess(album: IteratorResult): void {
-		this.error = null;
+    private _onSuccess(album: IteratorResult): void {
+        this.error = null;
         this.album = album;
     }
 
-    private _onError(error:string): void{
-		console.log('ResultPage._onError', error);
-		this.error = error;
+    private _onError(error: string): void {
+        console.log('ResultPage._onError', error);
+        this.error = error;
     }
 
-	private _getAlbums(): void {
-		console.log('ResultPage._getAlbums')
-		this.error = null;
-		this.album = null;
-		this.albumService.getAlbums()
-			.then(album => {
-				console.log('ResultPage._getAlbum', album)
-				return this._onSuccess(album)
-			},
-				error => this._onError(error)
-			);
-	}
+    private _getAlbums(): void {
+        console.log('ResultPage._getAlbums')
+        this.error = null;
+        this.album = null;
+        this.albumService.getAlbums()
+            .then(album => {
+                    console.log('ResultPage._getAlbum', album)
+                    return this._onSuccess(album)
+                },
+                error => this._onError(error)
+            );
+    }
 
-	private _presentToast(album: Album) {
-		let albumTitle = album.albumTitle || 'Unknown';
-		let toast = this.toastCtrl.create({
-			message: albumTitle + ' added to Ignore List',
-			duration: 1500
-		});
-		toast.present();
-	}
+    private _presentToast(album: Album) {
+        let albumTitle = album.albumTitle || 'Unknown';
+        let toast = this.toastCtrl.create({
+            message: albumTitle + ' added to Ignore List',
+            duration: 1500
+        });
+        toast.present();
+    }
 
-	constructor(toastCtrl: ToastController, modalCtrl: ModalController, platform: Platform, albumService: AlbumService, db:DB){
-		this.toastCtrl = toastCtrl;
-		this.modalCtrl = modalCtrl;
-		this.albumService = albumService;
-		this.db = db;
-		platform.ready().then(() => this._getAlbums())
-	}
+    constructor(public actionSheetCtrl: ActionSheetController, toastCtrl: ToastController, modalCtrl: ModalController, platform: Platform, albumService: AlbumService, db: DB) {
+        this.toastCtrl = toastCtrl;
+        this.modalCtrl = modalCtrl;
+        this.albumService = albumService;
+        this.db = db;
+        platform.ready().then(() => this._getAlbums())
+    }
 
-	getNextAlbum(): void{
-		this.albumService.getNext()
-			.then(album => this._onSuccess(album), error => this._onError(error))
-	};
+    getNextAlbum(): void {
+        this.albumService.getNext()
+            .then(album => this._onSuccess(album), error => this._onError(error))
+    };
 
-	getPrevAlbum(): void{
-		this.albumService.getPrev()
-			.then(album => this._onSuccess(album), error => this._onError(error))
-	};
+    getPrevAlbum(): void {
+        this.albumService.getPrev()
+            .then(album => this._onSuccess(album), error => this._onError(error))
+    };
 
-	addIgnoreListItem = (album:IteratorResult): void => {
-		this._presentToast(album.value);
-		this.albumService.ignore(album)
-			.then(album => this._onSuccess(album), error => this._onError(error));
-	};
+    toBase64Uri = (src: string): string => 'data:image/png;base64,' + src;
 
-	toBase64Uri = (src:string): string => 'data:image/png;base64,' + src;
+    showSettings(): void {
+        let settingsModal = this.modalCtrl.create(Settings, null, Config.modalOptions);
+        settingsModal.onDidDismiss(settingsParams => {
+            if (settingsParams && (settingsParams.preferencesUpdated || settingsParams.ignoreListUpdated)) {
+                this._getAlbums();
+            }
+        });
 
-	showSettings(): void {
-		let settingsModal = this.modalCtrl.create(Settings, null, Config.modalOptions);
-		settingsModal.onDidDismiss(settingsParams => {
-			if(settingsParams && (settingsParams.preferencesUpdated || settingsParams.ignoreListUpdated)){
-				this._getAlbums();
-			}
-		});
+        settingsModal.present();
+    }
 
-		settingsModal.present();
-	}
+    showIgnoreList(): void {
+        let ignoreListModal = this.modalCtrl.create(IgnoreList, null, Config.modalOptions);
+        ignoreListModal.onDidDismiss(settingsParams => {
+            if (settingsParams && settingsParams.ignoreListUpdated) {
+                this._getAlbums();
+            }
+        });
 
-	showIgnoreList(): void {
-		let ignoreListModal = this.modalCtrl.create(IgnoreList, null, Config.modalOptions);
-		ignoreListModal.onDidDismiss(settingsParams => {
-			if (settingsParams && settingsParams.ignoreListUpdated) {
-				this._getAlbums();
-			}
-		});
+        ignoreListModal.present();
+    }
 
-		ignoreListModal.present();
-	}
-	
-	showInfo(album:Album): void{
-		let infoModal = this.modalCtrl.create(AlbumInfo, {album: album}, Config.modalOptions);
-		infoModal.present();
-	}
+    showInfo(album: Album): void {
+        let infoModal = this.modalCtrl.create(AlbumInfo, {album: album}, Config.modalOptions);
+        infoModal.present();
+    }
+
+    showListActionSheet(album: IteratorResult) {
+        let that = this;
+        let actionSheet = this.actionSheetCtrl.create({
+            title: 'Add' + album.value.albumTitle + ' to a list',
+
+        });
+
+        actionSheet.addButton({
+            text: 'I want',
+            handler: () => {
+                console.log('addToIgnore', album)
+                that._presentToast(album.value);
+                that.albumService.ignore(album)
+                    .then(album => that._onSuccess(album), error => that._onError(error));
+            }
+        });
+
+        actionSheet.addButton({
+            text: 'I have',
+            handler: () => {
+                console.log('addToIgnore', album)
+                that._presentToast(album.value);
+                that.albumService.ignore(album)
+                    .then(album => that._onSuccess(album), error => that._onError(error));
+            }
+        });
+
+        actionSheet.addButton({
+            text: 'Ignore ' + album.value.albumTitle,
+            handler: () => {
+                console.log('addToIgnore', album)
+                that._presentToast(album.value);
+                that.albumService.ignore(album)
+                    .then(album => that._onSuccess(album), error => that._onError(error));
+            }
+        });
+
+        actionSheet.addButton({
+            text: 'Cancel',
+            handler: () => {
+                console.log('Cancel clicked', album);
+            }
+        });
+
+        actionSheet.present();
+    }
 }

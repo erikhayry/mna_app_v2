@@ -34,7 +34,7 @@
     </div>
 
     <div *ngIf="album && album.value" class="l-result-album">
-        <a text-center class="l-result-album-info" type="item-text-wrap" (click)="showInfo(album.value)">
+        <a text-center class="l-result-album-info" type="item-text-wrap" (click)="showInfo(album.value)" swipe>
 
             <img *ngIf="album.value.image" [src]="toBase64Uri(album.value.image)" class="l-result-album-cover cover">
             <div *ngIf="!album.value.image" class="l-result-album-cover emptyCover"></div>
@@ -50,8 +50,8 @@
             <button (click)="getPrevAlbum()" [disabled]="!album.prev" ion-button icon-only clear round>
                 <ion-icon ion-text color="dark" name="ios-arrow-dropleft"></ion-icon>
             </button>
-            <button (click)="addIgnoreListItem(album)" ion-button icon-only clear round>
-                <ion-icon ion-text color="dark" name="ios-checkmark-circle-outline"></ion-icon>
+            <button (click)="showListActionSheet(album)" ion-button icon-only clear round>
+                <ion-icon ion-text color="dark" name="list-box"></ion-icon>
             </button>
             <button (click)="getNextAlbum()" [disabled]="!album.next" ion-button icon-only clear round>
                 <ion-icon ion-text color="dark" name="ios-arrow-dropright"></ion-icon>
