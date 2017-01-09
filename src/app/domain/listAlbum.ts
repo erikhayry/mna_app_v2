@@ -1,4 +1,4 @@
-export interface IgnoredAlbum{
+export interface ListAlbum{
     id: string;
     albumTitle: string;
     artist: string;

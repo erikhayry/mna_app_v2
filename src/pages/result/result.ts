@@ -3,14 +3,15 @@ import {Platform, ToastController, ModalController, ActionSheetController} from 
 
 import {AlbumService} from "../../app/services/albumService";
 import {DB} from '../../app/services/db/db';
+import {Config} from "../../app/services/config/config";
 
 import {Settings} from '../../app/modals/settings/settings';
-import {IgnoreList} from '../../app/modals/ignoreList/ignoreList';
+import {Lists} from '../../app/modals/lists/lists';
 import {AlbumInfo} from '../../app/modals/albumInfo/albumInfo';
 
 import {IteratorResultImpl as IteratorResult} from "../../app/domain/iteratorResultImpl";
+import {ListType} from "../../app/domain/listType";
 import {Album} from "../../app/domain/album";
-import {Config} from "../../app/services/config/config";
 
 @Component({
     selector: 'page-result',
@@ -50,10 +51,22 @@ export class ResultPage {
             );
     }
 
-    private _presentToast(album: Album) {
+    private _presentToast(type:ListType, album: Album) {
         let albumTitle = album.albumTitle || 'Unknown';
+        let messageType = '';
+        switch(type){
+            case ListType.Have:
+                messageType = 'Owned List';
+                break;
+            case ListType.Wanted:
+                messageType = 'Wanted List';
+                break;
+            case ListType.Ignore:
+                messageType = 'Ignored List';
+                break;
+        }
         let toast = this.toastCtrl.create({
-            message: albumTitle + ' added to Ignore List',
+            message: albumTitle + ' added to ' + messageType,
             duration: 1500
         });
         toast.present();
@@ -91,7 +104,7 @@ export class ResultPage {
     }
 
     showIgnoreList(): void {
-        let ignoreListModal = this.modalCtrl.create(IgnoreList, null, Config.modalOptions);
+        let ignoreListModal = this.modalCtrl.create(Lists, null, Config.modalOptions);
         ignoreListModal.onDidDismiss(settingsParams => {
             if (settingsParams && settingsParams.ignoreListUpdated) {
                 this._getAlbums();
@@ -116,9 +129,9 @@ export class ResultPage {
         actionSheet.addButton({
             text: 'I want',
             handler: () => {
-                console.log('addToIgnore', album)
-                that._presentToast(album.value);
-                that.albumService.ignore(album)
+                console.log('addToWantedList', album)
+                that._presentToast(ListType.Wanted, album.value);
+                that.albumService.addToList(ListType.Wanted, album)
                     .then(album => that._onSuccess(album), error => that._onError(error));
             }
         });
@@ -126,19 +139,19 @@ export class ResultPage {
         actionSheet.addButton({
             text: 'I have',
             handler: () => {
-                console.log('addToIgnore', album)
-                that._presentToast(album.value);
-                that.albumService.ignore(album)
+                console.log('addToHaveList', album)
+                that._presentToast(ListType.Have, album.value);
+                that.albumService.addToList(ListType.Have, album)
                     .then(album => that._onSuccess(album), error => that._onError(error));
             }
         });
 
         actionSheet.addButton({
-            text: 'Ignore ' + album.value.albumTitle,
+            text: 'Ignore',
             handler: () => {
                 console.log('addToIgnore', album)
-                that._presentToast(album.value);
-                that.albumService.ignore(album)
+                that._presentToast(ListType.Ignore, album.value);
+                that.albumService.addToList(ListType.Ignore, album)
                     .then(album => that._onSuccess(album), error => that._onError(error));
             }
         });

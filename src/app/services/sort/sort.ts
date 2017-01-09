@@ -4,8 +4,9 @@ import _ from "lodash";
 
 import {Track} from "../../domain/track";
 import {Album} from "../../domain/album";
-import {IgnoredAlbum} from "../../domain/ignoredAlbum";
+import {ListAlbum} from "../../domain/listAlbum";
 import {Preferences} from "../../domain/preferences";
+import {ListType} from "../../domain/listType";
 
 import {DB} from "../db/db";
 
@@ -32,7 +33,7 @@ export class Sort{
 		return _.merge(track, { score: this._getScore(playCount, playCountMax, rating) });
 	}
 
-	private _shouldIncludeTrack(tracks: Array<Track>, ignoredAlbumList: Array<IgnoredAlbum>, considerPlayCount: boolean, considerNumberOfItems: boolean): boolean{
+	private _shouldIncludeTrack(tracks: Array<Track>, ignoredAlbumList: Array<ListAlbum>, considerPlayCount: boolean, considerNumberOfItems: boolean): boolean{
 		return !_.some(ignoredAlbumList, { 'id': tracks[0].albumPersistentID }) &&
 			!(!considerNumberOfItems && !considerPlayCount && tracks[0].rating === 0)
 	}
@@ -42,7 +43,7 @@ export class Sort{
 			-album.tracks.reduce((prev: number, curr: Track) => prev + curr.score, 0) : - album.tracks.length
 	}
 
-	private _sort(tracks: Array<Track>, ignoredAlbumList:Array<IgnoredAlbum>, considerNumberOfItems: boolean, considerPlayCount: boolean, considerRating: boolean): Array<Album> {
+	private _sort(tracks: Array<Track>, ignoredAlbumList:Array<ListAlbum>, considerNumberOfItems: boolean, considerPlayCount: boolean, considerRating: boolean): Array<Album> {
 		  let playCountMax = Math.max(...tracks.map(track => track.playCount));
 
 		  return _.chain(tracks)
@@ -69,12 +70,12 @@ export class Sort{
 		}
 
 		return new Promise<Array<Album>>((resolve, reject) =>{
-			Promise.all<Promise<Preferences> | Promise<Array<IgnoredAlbum>>>([
+			Promise.all<Promise<Preferences> | Promise<Array<ListAlbum>>>([
 				this.db.getPreferences(),
-				this.db.getIgnoreList()
+				this.db.getList(ListType.Ignore)
 			]).then((data: [any, any]) => {
 				let _preferences: Preferences = data[0],
-					ignoredAlbumList: Array<IgnoredAlbum> = data[1],
+					ignoredAlbumList: Array<ListAlbum> = data[1],
 					
 					_considerNumberOfItems = _preferences['relevance.number-of-items'].checked,
 					_considerPlayCount = _preferences['relevance.play-count'].checked,

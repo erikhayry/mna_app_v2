@@ -6,6 +6,7 @@ import {DB} from './db/db';
 
 import {Album} from "../domain/album";
 import {Track} from "../domain/track";
+import {ListType} from "../domain/listType";
 import {IteratorResultImpl as IteratorResult} from "../domain/iteratorResultImpl";
 import {Iterator} from "../domain/iterator";
 
@@ -57,16 +58,15 @@ export class AlbumService{
 		});
 
 
+	addToList = (type:ListType, albums: IteratorResult): Promise<IteratorResult> => {
+		let album = (<Album>albums.value);
+		return this.db.addListItem(type, album.albumPersistentID, album.albumTitle, album.artist)
+			.then(() => this._getAlbum(this.albums.remove()))
+	};
 
 	getAlbums = (): Promise<IteratorResult> => this._init();
 
 	getNext = (): Promise<IteratorResult> => !this.albums ? this._init() : this._getAlbum(this.albums.next());
 
 	getPrev = ():Promise<IteratorResult> => !this.albums ? this._init() : this._getAlbum(this.albums.prev());
-
-	ignore = (albums: IteratorResult): Promise<IteratorResult> => {
-		let album = (<Album>albums.value);
-		return this.db.addIgnoreListItem(album.albumPersistentID, album.albumTitle, album.artist)
-			.then(() => this._getAlbum(this.albums.remove()))
-	}
 }

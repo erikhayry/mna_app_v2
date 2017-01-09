@@ -9,7 +9,10 @@ import {AudioInfo} from "../app/services/audioInfo/audioInfo";
 import {Sort} from "../app/services/sort/sort";
 import {DB} from "../app/services/db/db";
 import {Settings} from "../app/modals/settings/settings";
-import {IgnoreList} from "../app/modals/ignoreList/ignoreList";
+import {Lists} from "../app/modals/lists/lists";
+import {WantedList} from "../app/modals/lists/wantedList";
+import {HaveList} from "../app/modals/lists/haveList";
+import {IgnoreList} from "../app/modals/lists/ignoreList";
 import {AlbumInfo} from "../app/modals/albumInfo/albumInfo";
 
 
@@ -18,6 +21,9 @@ import {AlbumInfo} from "../app/modals/albumInfo/albumInfo";
     MyApp,
     ResultPage,
     Settings,
+    Lists,
+    HaveList,
+    WantedList,
     IgnoreList,
     AlbumInfo,
     WithRatingPipe,
@@ -31,6 +37,9 @@ import {AlbumInfo} from "../app/modals/albumInfo/albumInfo";
     MyApp,
     ResultPage,
     Settings,
+    Lists,
+    HaveList,
+    WantedList,
     IgnoreList,
     AlbumInfo,
   ],

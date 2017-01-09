@@ -1,17 +1,22 @@
 import {Injectable} from '@angular/core';
 
-import {IgnoredAlbum} from "../../domain/ignoredAlbum";
+import {ListAlbum} from "../../domain/listAlbum";
 import {Preferences} from "../../domain/preferences";
+import {ListType} from "../../domain/listType";
 
 import { Storage } from '@ionic/storage';
 
 @Injectable()
 export class DB{
     private settingsDb:Storage;
+    private wantedDb:Storage;
+    private haveDb:Storage;
     private ignoreDb:Storage;
 
     constructor() {
         this.settingsDb = new Storage(['sqlite', 'websql', 'indexeddb'], { name: '__settingsDb' });
+        this.wantedDb = new Storage(['sqlite', 'websql', 'indexeddb'], { name: '__wantedDb' });
+        this.haveDb = new Storage(['sqlite', 'websql', 'indexeddb'], { name: '__haveDb' });
         this.ignoreDb = new Storage(['sqlite', 'websql', 'indexeddb'], { name: '__ignoreDb' });
 
         this.insertOrIgnore(this.settingsDb, 'relevance.rating', 0);
@@ -27,26 +32,44 @@ export class DB{
         });
     }
 
-    getIgnoreList(): Promise<Array<IgnoredAlbum>>{
-        return new Promise<Array<IgnoredAlbum>>((resolve, reject) => {
-            let _ignoredAlbums:Array<IgnoredAlbum> = [];
-            this.ignoreDb.forEach((value, key, iterationNumber) => {
-                _ignoredAlbums.push(value)
+    private getDb(type:ListType):Storage{
+        let db:Storage;
 
-            }).then(() => (resolve(_ignoredAlbums)));
+        switch(type){
+            case ListType.Have:
+                db = this.haveDb;
+                break;
+            case ListType.Wanted:
+                db = this.wantedDb;
+                break;
+            case ListType.Ignore:
+                db = this.ignoreDb;
+                break;
+        }
+
+        return db;
+    }
+
+    getList(type:ListType): Promise<Array<ListAlbum>>{
+        return new Promise<Array<ListAlbum>>((resolve, reject) => {
+            let albums:Array<ListAlbum> = [];
+            this.getDb(type).forEach((value, key, iterationNumber) => {
+                albums.push(value)
+
+            }).then(() => (resolve(albums)));
         });
     }
 
-    addIgnoreListItem(id: string, albumTitle: string, artist: string): Promise<Array<IgnoredAlbum>> {
-        return this.ignoreDb.set(id, {
+    addListItem(type:ListType, id: string, albumTitle: string, artist: string): Promise<Array<ListAlbum>> {
+        return this.getDb(type).set(id, {
             albumTitle: albumTitle,
             artist: artist,
             id: id
-        }).then(() => this.getIgnoreList())
+        }).then(() => this.getList(type))
     }
 
-    deleteIgnoreListItem(id:string):Promise<Array<IgnoredAlbum>> {
-        return this.ignoreDb.remove(id).then(() => this.getIgnoreList())
+    deleteListItem(type:ListType, id:string):Promise<Array<ListAlbum>> {
+        return this.getDb(type).remove(id).then(() => this.getList(type))
     }
 
     getPreferences():Promise<Preferences> {

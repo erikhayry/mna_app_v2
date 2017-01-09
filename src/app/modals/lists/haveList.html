@@ -1,0 +1,31 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-title>
+            Have List
+        </ion-title>
+    </ion-toolbar>
+</ion-header>
+<ion-content padding>
+    <div *ngIf="albumList.length === 0" text-center class="l-box">
+        <h2 class="paddedTitle" primary>
+            No albums added. <br>
+            Add albums by tapping
+        </h2>
+        <h2><ion-icon dark name="ios-checkmark-circle-outline"></ion-icon></h2>
+        <h2 class="paddedTitle primary">
+            underneath the album cover.
+        </h2>
+    </div>
+
+    <div *ngIf="albumList.length > 0">
+        <div text-center padding="">
+            <h2 class="paddedTitle primary">Owned Albums</h2>
+        </div>
+        <ion-list>
+            <ion-item *ngFor="let album of albumList" (click)="deleteListItem(album)" class="stripeList-item" padding>
+                {{album.albumTitle | handleEmptyString}} - {{album.artist | handleEmptyString: 'Artist'}}
+                <ion-icon name="ios-close-circle-outline" item-right dark class="stripeList-icon"></ion-icon>
+            </ion-item>
+        </ion-list>
+    </div>
+</ion-content>
