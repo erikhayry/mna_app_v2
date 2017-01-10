@@ -24,7 +24,6 @@ export class ResultPage {
     private toastCtrl: ToastController;
     private modalCtrl: ModalController;
     private albumService: AlbumService;
-    //private actionSheetCtrl: ActionSheetController;
     private db: DB;
     private error: string;
 
@@ -95,7 +94,7 @@ export class ResultPage {
     showSettings(): void {
         let settingsModal = this.modalCtrl.create(Settings, null, Config.modalOptions);
         settingsModal.onDidDismiss(settingsParams => {
-            if (settingsParams && (settingsParams.preferencesUpdated || settingsParams.ignoreListUpdated)) {
+            if (settingsParams && (settingsParams.preferencesUpdated || settingsParams.listUpdated)) {
                 this._getAlbums();
             }
         });
@@ -103,15 +102,16 @@ export class ResultPage {
         settingsModal.present();
     }
 
-    showIgnoreList(): void {
-        let ignoreListModal = this.modalCtrl.create(Lists, null, Config.modalOptions);
-        ignoreListModal.onDidDismiss(settingsParams => {
-            if (settingsParams && settingsParams.ignoreListUpdated) {
+    showLists(): void {
+        let listModal = this.modalCtrl.create(Lists, null, Config.modalOptions);
+        listModal.onDidDismiss(settingsParams => {
+            console.log('showLists.onDidDismiss', settingsParams);
+            if (settingsParams && settingsParams.listUpdated) {
                 this._getAlbums();
             }
         });
 
-        ignoreListModal.present();
+        listModal.present();
     }
 
     showInfo(album: Album): void {

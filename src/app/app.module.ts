@@ -10,10 +10,8 @@ import {Sort} from "../app/services/sort/sort";
 import {DB} from "../app/services/db/db";
 import {Settings} from "../app/modals/settings/settings";
 import {Lists} from "../app/modals/lists/lists";
-import {WantedList} from "../app/modals/lists/wantedList";
-import {HaveList} from "../app/modals/lists/haveList";
-import {IgnoreList} from "../app/modals/lists/ignoreList";
 import {AlbumInfo} from "../app/modals/albumInfo/albumInfo";
+import {List} from "../app/modals/lists/list";
 
 
 @NgModule({
@@ -22,9 +20,7 @@ import {AlbumInfo} from "../app/modals/albumInfo/albumInfo";
     ResultPage,
     Settings,
     Lists,
-    HaveList,
-    WantedList,
-    IgnoreList,
+    List,
     AlbumInfo,
     WithRatingPipe,
     HandleEmptyStringPipe,
@@ -38,9 +34,7 @@ import {AlbumInfo} from "../app/modals/albumInfo/albumInfo";
     ResultPage,
     Settings,
     Lists,
-    HaveList,
-    WantedList,
-    IgnoreList,
+    List,
     AlbumInfo,
   ],
   providers: [
