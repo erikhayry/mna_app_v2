@@ -57,7 +57,6 @@ export class List {
 	};
 
 	close(): void {
-		console.log('close', this.listUpdated)
 		this.viewCtrl.dismiss({
 			listUpdated: this.listUpdated
 		});

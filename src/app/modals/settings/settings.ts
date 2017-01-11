@@ -1,5 +1,5 @@
 import _ from "lodash";
-import {ViewController, Platform} from 'ionic-angular';
+import {ViewController} from 'ionic-angular';
 
 import {Preference} from "../../domain/preference";
 import {Preferences} from "../../domain/preferences";
@@ -17,7 +17,7 @@ export class Settings{
 	viewCtrl: ViewController;
 	db: DB;
 	preferences: Array<Preference>;
-	initalPreferences:Array<Preference>;
+	initialPreferences:Array<Preference>;
 	ignoreListUpdated = false;
 	copy:Object;
 
@@ -26,20 +26,20 @@ export class Settings{
 			.map(key => preferences[key]), 'label');
 	}
 
-	constructor(viewCtrl: ViewController, db:DB, platform:Platform, copy:Copy) {
+	constructor(viewCtrl: ViewController, db:DB, copy:Copy) {
 		this.viewCtrl = viewCtrl;
 		this.db = db;
 		this.copy = copy.en;
 
 		this.db.getPreferences()
 			.then(preferences => {
-				this.preferences = this.initalPreferences = this.toSortedArray(preferences);
+				this.preferences = this.initialPreferences = this.toSortedArray(preferences);
 			});
 	}
 
 	close(): void {
 		this.viewCtrl.dismiss({
-			preferencesUpdated: !_.isEqual(this.preferences, this.initalPreferences)
+			preferencesUpdated: !_.isEqual(this.preferences, this.initialPreferences)
 		});
 	}
 

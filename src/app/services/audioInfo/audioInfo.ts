@@ -43,9 +43,7 @@ export class AudioInfo{
 	getTracks():Promise<Array<Track>>{
 		return new Promise<Array<Track>>((resolve, reject) => {
 			if(this.iOSAudioInfo) {
-				console.log('AudioInfo.getTracks')
 				this.iOSAudioInfo.getTracks(tracks => {
-					console.log(tracks);
 					resolve(tracks)
 				}, error => reject(error))
 			}

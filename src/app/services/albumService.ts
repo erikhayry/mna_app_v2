@@ -23,8 +23,7 @@ export class AlbumService{
 		this.db = db;
 	}
 
-	private _getAlbum(album: IteratorResult): Promise<IteratorResult> {
-		console.log('AlbumService._getAlbum', album);
+	private getAlbum(album: IteratorResult): Promise<IteratorResult> {
 		if(!album.value || album.value.image){
 			return new Promise<IteratorResult>(resolve => resolve(album));
 		}
@@ -32,7 +31,6 @@ export class AlbumService{
 			return this.audioInfo.getAlbum(album.value.albumPersistentID)
 				.then((albumData:Album) => {
 					album.value = _.merge(albumData, {tracks: album.value.tracks});
-					console.log('AlbumService._getAlbum 2', album, albumData);
 					return new Promise<IteratorResult>(resolve => resolve(album));
 				});
 		}
@@ -47,26 +45,24 @@ export class AlbumService{
 
 	private _init = (): Promise<IteratorResult> => this.audioInfo.getTracks()
 		.then(tracks => {
-				console.log('init 1', tracks)
 				return this._sortToAlbums(tracks)
 			}
 		)
 		.then(albums => {
-			console.log('init 2', albums)
 			this.albums = new Iterator(albums);
-			return this._getAlbum(this.albums.next())
+			return this.getAlbum(this.albums.next())
 		});
 
 
 	addToList = (type:ListType, albums: IteratorResult): Promise<IteratorResult> => {
 		let album = (<Album>albums.value);
 		return this.db.addListItem(type, album.albumPersistentID, album.albumTitle, album.artist)
-			.then(() => this._getAlbum(this.albums.remove()))
+			.then(() => this.getAlbum(this.albums.remove()))
 	};
 
 	getAlbums = (): Promise<IteratorResult> => this._init();
 
-	getNext = (): Promise<IteratorResult> => !this.albums ? this._init() : this._getAlbum(this.albums.next());
+	getNext = (): Promise<IteratorResult> => !this.albums ? this._init() : this.getAlbum(this.albums.next());
 
-	getPrev = ():Promise<IteratorResult> => !this.albums ? this._init() : this._getAlbum(this.albums.prev());
+	getPrev = ():Promise<IteratorResult> => !this.albums ? this._init() : this.getAlbum(this.albums.prev());
 }

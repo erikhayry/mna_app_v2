@@ -2,6 +2,7 @@ import {Component} from '@angular/core';
 import {List} from './list';
 import {ViewController} from "ionic-angular";
 import {ListType} from "../../domain/listType";
+import {ListModalParams} from "./domain/listModalParams";
 
 @Component({
     template: `
@@ -15,27 +16,14 @@ export class Lists {
     list: any;
     viewCtrl: ViewController;
 
-    //TODO
-    have: any;
-    wanted: any;
-    ignore: any;
+    have: ListModalParams;
+    wanted: ListModalParams;
+    ignore: ListModalParams;
 
     constructor(viewCtrl: ViewController) {
         this.list = List;
-
-        this.have = {
-            viewCtrl: viewCtrl,
-            type: ListType.Have
-        };
-
-        this.wanted = {
-            viewCtrl: viewCtrl,
-            type: ListType.Wanted
-        };
-
-        this.ignore = {
-            viewCtrl: viewCtrl,
-            type: ListType.Ignore
-        }
+        this.have = new ListModalParams(viewCtrl, ListType.Have);
+        this.wanted = new ListModalParams(viewCtrl, ListType.Wanted);
+        this.ignore = new ListModalParams(viewCtrl, ListType.Ignore);
     }
 }

@@ -1,17 +1,17 @@
 import {Component} from '@angular/core';
 import {Platform, ToastController, ModalController, ActionSheetController} from 'ionic-angular';
 
-import {AlbumService} from "../../app/services/albumService";
-import {DB} from '../../app/services/db/db';
-import {Config} from "../../app/services/config/config";
+import {AlbumService} from "../../services/albumService";
+import {DB} from '../../services/db/db';
+import {Config} from "../../services/config/config";
 
-import {Settings} from '../../app/modals/settings/settings';
-import {Lists} from '../../app/modals/lists/lists';
-import {AlbumInfo} from '../../app/modals/albumInfo/albumInfo';
+import {Settings} from '../../modals/settings/settings';
+import {Lists} from '../../modals/lists/lists';
+import {AlbumInfo} from '../../modals/albumInfo/albumInfo';
 
-import {IteratorResultImpl as IteratorResult} from "../../app/domain/iteratorResultImpl";
-import {ListType} from "../../app/domain/listType";
-import {Album} from "../../app/domain/album";
+import {IteratorResultImpl as IteratorResult} from "../../domain/iteratorResultImpl";
+import {ListType} from "../../domain/listType";
+import {Album} from "../../domain/album";
 
 @Component({
     selector: 'page-result',
@@ -27,32 +27,30 @@ export class ResultPage {
     private db: DB;
     private error: string;
 
-    private _onSuccess(album: IteratorResult): void {
+    private onSuccess(album: IteratorResult): void {
         this.error = null;
         this.album = album;
     }
 
-    private _onError(error: string): void {
-        console.log('ResultPage._onError', error);
+    private onError(error: string): void {
         this.error = error;
     }
 
-    private _getAlbums(): void {
-        console.log('ResultPage._getAlbums')
+    private getAlbums(): void {
         this.error = null;
         this.album = null;
         this.albumService.getAlbums()
             .then(album => {
-                    console.log('ResultPage._getAlbum', album)
-                    return this._onSuccess(album)
+                    return this.onSuccess(album)
                 },
-                error => this._onError(error)
+                error => this.onError(error)
             );
     }
 
-    private _presentToast(type:ListType, album: Album) {
+    private presentToast(type:ListType, album: Album) {
         let albumTitle = album.albumTitle || 'Unknown';
         let messageType = '';
+        //TODO to copy
         switch(type){
             case ListType.Have:
                 messageType = 'Owned List';
@@ -76,17 +74,17 @@ export class ResultPage {
         this.modalCtrl = modalCtrl;
         this.albumService = albumService;
         this.db = db;
-        platform.ready().then(() => this._getAlbums())
+        platform.ready().then(() => this.getAlbums())
     }
 
     getNextAlbum(): void {
         this.albumService.getNext()
-            .then(album => this._onSuccess(album), error => this._onError(error))
+            .then(album => this.onSuccess(album), error => this.onError(error))
     };
 
     getPrevAlbum(): void {
         this.albumService.getPrev()
-            .then(album => this._onSuccess(album), error => this._onError(error))
+            .then(album => this.onSuccess(album), error => this.onError(error))
     };
 
     toBase64Uri = (src: string): string => 'data:image/png;base64,' + src;
@@ -95,7 +93,7 @@ export class ResultPage {
         let settingsModal = this.modalCtrl.create(Settings, null, Config.modalOptions);
         settingsModal.onDidDismiss(settingsParams => {
             if (settingsParams && (settingsParams.preferencesUpdated || settingsParams.listUpdated)) {
-                this._getAlbums();
+                this.getAlbums();
             }
         });
 
@@ -105,9 +103,8 @@ export class ResultPage {
     showLists(): void {
         let listModal = this.modalCtrl.create(Lists, null, Config.modalOptions);
         listModal.onDidDismiss(settingsParams => {
-            console.log('showLists.onDidDismiss', settingsParams);
             if (settingsParams && settingsParams.listUpdated) {
-                this._getAlbums();
+                this.getAlbums();
             }
         });
 
@@ -129,37 +126,33 @@ export class ResultPage {
         actionSheet.addButton({
             text: 'I want',
             handler: () => {
-                console.log('addToWantedList', album)
-                that._presentToast(ListType.Wanted, album.value);
+                that.presentToast(ListType.Wanted, album.value);
                 that.albumService.addToList(ListType.Wanted, album)
-                    .then(album => that._onSuccess(album), error => that._onError(error));
+                    .then(album => that.onSuccess(album), error => that.onError(error));
             }
         });
 
         actionSheet.addButton({
             text: 'I have',
             handler: () => {
-                console.log('addToHaveList', album)
-                that._presentToast(ListType.Have, album.value);
+                that.presentToast(ListType.Have, album.value);
                 that.albumService.addToList(ListType.Have, album)
-                    .then(album => that._onSuccess(album), error => that._onError(error));
+                    .then(album => that.onSuccess(album), error => that.onError(error));
             }
         });
 
         actionSheet.addButton({
             text: 'Ignore',
             handler: () => {
-                console.log('addToIgnore', album)
-                that._presentToast(ListType.Ignore, album.value);
+                that.presentToast(ListType.Ignore, album.value);
                 that.albumService.addToList(ListType.Ignore, album)
-                    .then(album => that._onSuccess(album), error => that._onError(error));
+                    .then(album => that.onSuccess(album), error => that.onError(error));
             }
         });
 
         actionSheet.addButton({
             text: 'Cancel',
             handler: () => {
-                console.log('Cancel clicked', album);
             }
         });
 

@@ -2,7 +2,7 @@ import { NgModule, ErrorHandler } from '@angular/core';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import { MyApp } from './app.component';
-import { ResultPage } from '../pages/result/result';
+import { ResultPage } from '../app/pages/result/result';
 import {HandleEmptyStringPipe} from "../app/pipes/handleEmptyString";
 import {WithRatingPipe} from "../app/pipes/withRating";
 import {AudioInfo} from "../app/services/audioInfo/audioInfo";
