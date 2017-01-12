@@ -1,5 +1,10 @@
 export interface CopyLangImpl{
-    'relevance.rating':string;
-    'relevance.play-count':string;
-    'relevance.number-of-items':string;
+    'settings_rating':string;
+    'settings_playCount':string;
+    'settings_numberOfItems':string;
+
+    'result_iWant': string;
+    'result_iOwn':string;
+    'result_ignore': string;
+    'result_cancel':string;
 }

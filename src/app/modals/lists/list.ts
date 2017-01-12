@@ -3,19 +3,21 @@ import {DB} from "../../services/db/db";
 import {ListAlbum} from "../../domain/listAlbum";
 import {ListType} from "../../domain/listType";
 import {Component} from "@angular/core";
+import {ListModalParams} from "./domain/listModalParams";
+import {ListStateService} from "../../services/listStateService";
 
 @Component({
-	templateUrl: '../../modals/lists/list.html',
+	templateUrl: '../../modals/lists/list.html'
 })
 
 export class List {
 	toastCtrl: ToastController;
 	db: DB;
 	albumList: Array<ListAlbum> = [];
-	listUpdated = false;
 	viewCtrl:ViewController;
 	title: string;
 	type: ListType;
+	listStateService: ListStateService;
 
 	private presentToast(album: ListAlbum) {
 		let albumTitle = album.albumTitle || 'Unknown';
@@ -27,11 +29,13 @@ export class List {
 		toast.present();
 	}
 
-	constructor(toastCtrl: ToastController, db: DB, platform: Platform, params: NavParams) {
+	constructor(toastCtrl: ToastController, db: DB, platform: Platform, params: NavParams, listStateService: ListStateService) {
 		this.toastCtrl = toastCtrl;
 		this.db = db;
-		this.type = params.data.type;
+		let lisModalParams = (<ListModalParams>params.data);
+		this.type = lisModalParams.type;
 
+		//TODO as copy
 		switch(this.type){
 			case ListType.Have:
 				this.title = 'Have';
@@ -43,7 +47,8 @@ export class List {
 				this.title = 'Ignored';
 				break;
 		}
-		this.viewCtrl = params.data.viewCtrl;
+		this.viewCtrl = lisModalParams.viewCtrl;
+		this.listStateService = listStateService;
 
 		platform.ready().then(() => {
 			this.db.getList(this.type).then(albumList => this.albumList = albumList);
@@ -51,14 +56,15 @@ export class List {
 	}
 
 	deleteListItem = (album: ListAlbum): void => {
-		this.listUpdated = true;
+		this.listStateService.setState(true);
 		this.presentToast(album);
 		this.db.deleteListItem(this.type, album.id).then(albumList => this.albumList = albumList)
 	};
 
 	close(): void {
 		this.viewCtrl.dismiss({
-			listUpdated: this.listUpdated
+			listUpdated: this.listStateService.getState()
 		});
+		this.listStateService.setState(false);
 	}
 }

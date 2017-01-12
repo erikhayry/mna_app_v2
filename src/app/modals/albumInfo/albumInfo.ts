@@ -22,9 +22,9 @@ export class AlbumInfo{
         this.viewCtrl = viewCtrl;
         this.db.getPreferences()
             .then(preferences => {
-                this.showCompleteAlbum = preferences['relevance.number-of-items'].checked || preferences['relevance.play-count'].checked;
-                this.showPlayCount = preferences['relevance.play-count'].checked;
-                this.showRating = preferences['relevance.rating'].checked;
+                this.showCompleteAlbum = preferences.settings_numberOfItems.checked || preferences.settings_playCount.checked;
+                this.showPlayCount = preferences.settings_playCount.checked;
+                this.showRating = preferences.settings_rating.checked;
                 
                 this.album = params.get('album');
             });

@@ -78,9 +78,9 @@ export class Sort{
 				let _preferences: Preferences = data[0],
 					albumList: Array<ListAlbum> = (<Array<ListAlbum>>_.union(data[1], data[2], data[3])),
 					
-					_considerNumberOfItems = _preferences['relevance.number-of-items'].checked,
-					_considerPlayCount = _preferences['relevance.play-count'].checked,
-					_considerRating = _preferences['relevance.rating'].checked;
+					_considerNumberOfItems = _preferences.settings_numberOfItems.checked,
+					_considerPlayCount = _preferences.settings_playCount.checked,
+					_considerRating = _preferences.settings_rating.checked;
 
 				resolve(this._sort(tracks, albumList, _considerNumberOfItems, _considerPlayCount, _considerRating));
 

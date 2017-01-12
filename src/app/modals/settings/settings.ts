@@ -1,4 +1,5 @@
 import _ from "lodash";
+import {Component} from "@angular/core";
 import {ViewController} from 'ionic-angular';
 
 import {Preference} from "../../domain/preference";
@@ -6,11 +7,10 @@ import {Preferences} from "../../domain/preferences";
 
 import {DB} from "../../services/db/db";
 import {Copy} from "../../services/copy/copy";
-import {Component} from "@angular/core";
+import {CopyLangImpl} from "../../services/copy/domain/copyLangImpl";
 
 @Component({
-	templateUrl: '../../modals/settings/settings.html',
-	providers: [Copy]
+	templateUrl: '../../modals/settings/settings.html'
 })
 
 export class Settings{
@@ -19,7 +19,7 @@ export class Settings{
 	preferences: Array<Preference>;
 	initialPreferences:Array<Preference>;
 	ignoreListUpdated = false;
-	copy:Object;
+	copy:CopyLangImpl;
 
 	private toSortedArray(preferences:Preferences){
 		return _.sortBy(Object.keys(preferences)

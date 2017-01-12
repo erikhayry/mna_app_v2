@@ -12,6 +12,8 @@ import {Settings} from "../app/modals/settings/settings";
 import {Lists} from "../app/modals/lists/lists";
 import {AlbumInfo} from "../app/modals/albumInfo/albumInfo";
 import {List} from "../app/modals/lists/list";
+import {ListStateService} from "../app/services/listStateService";
+import {Copy} from "../app/services/copy/copy";
 
 
 @NgModule({
@@ -42,6 +44,8 @@ import {List} from "../app/modals/lists/list";
     Sort,
     Storage,
     DB,
+    Copy,
+    ListStateService,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

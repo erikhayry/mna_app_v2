@@ -19,9 +19,10 @@ export class DB{
         this.haveDb = new Storage(['sqlite', 'websql', 'indexeddb'], { name: '__haveDb' });
         this.ignoreDb = new Storage(['sqlite', 'websql', 'indexeddb'], { name: '__ignoreDb' });
 
-        this.insertOrIgnore(this.settingsDb, 'relevance.rating', 0);
-        this.insertOrIgnore(this.settingsDb, 'relevance.play-count', 1);
-        this.insertOrIgnore(this.settingsDb, 'relevance.number-of-items', 0);
+        //TODO as enum to match preference
+        this.insertOrIgnore(this.settingsDb, 'settings_rating', 0);
+        this.insertOrIgnore(this.settingsDb, 'settings_playCount', 1);
+        this.insertOrIgnore(this.settingsDb, 'settings_numberOfItems', 0);
     }
 
     private insertOrIgnore(db, key, newVal):void{

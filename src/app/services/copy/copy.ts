@@ -2,8 +2,13 @@ import {CopyLangImpl} from "./domain/copyLangImpl";
 
 export class Copy{
     en:CopyLangImpl = {
-        'relevance.rating':'Use rating',
-        'relevance.play-count': 'Use play count',
-        'relevance.number-of-items': 'Use number of items'
+        'settings_rating':'Use rating',
+        'settings_playCount': 'Use play count',
+        'settings_numberOfItems': 'Use number of items',
+
+        'result_iWant': 'I want',
+        'result_iOwn':'I own',
+        'result_ignore': 'Ignore',
+        'result_cancel':'Cancel',
     }
 }

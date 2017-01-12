@@ -4,6 +4,8 @@ import {Platform, ToastController, ModalController, ActionSheetController} from 
 import {AlbumService} from "../../services/albumService";
 import {DB} from '../../services/db/db';
 import {Config} from "../../services/config/config";
+import {Copy} from "../../services/copy/copy";
+import {CopyLangImpl} from "../../services/copy/domain/copyLangImpl";
 
 import {Settings} from '../../modals/settings/settings';
 import {Lists} from '../../modals/lists/lists';
@@ -26,6 +28,7 @@ export class ResultPage {
     private albumService: AlbumService;
     private db: DB;
     private error: string;
+    private copy:CopyLangImpl;
 
     private onSuccess(album: IteratorResult): void {
         this.error = null;
@@ -69,11 +72,12 @@ export class ResultPage {
         toast.present();
     }
 
-    constructor(public actionSheetCtrl: ActionSheetController, toastCtrl: ToastController, modalCtrl: ModalController, platform: Platform, albumService: AlbumService, db: DB) {
+    constructor(public actionSheetCtrl: ActionSheetController, toastCtrl: ToastController, modalCtrl: ModalController, platform: Platform, albumService: AlbumService, db: DB, copy: Copy) {
         this.toastCtrl = toastCtrl;
         this.modalCtrl = modalCtrl;
         this.albumService = albumService;
         this.db = db;
+        this.copy = copy.en;
         platform.ready().then(() => this.getAlbums())
     }
 
@@ -119,12 +123,12 @@ export class ResultPage {
     showListActionSheet(album: IteratorResult) {
         let that = this;
         let actionSheet = this.actionSheetCtrl.create({
-            title: 'Add' + album.value.albumTitle + ' to a list',
+            title: 'Add ' + album.value.albumTitle + ' to a list',
 
         });
 
         actionSheet.addButton({
-            text: 'I want',
+            text: this.copy.result_iWant,
             handler: () => {
                 that.presentToast(ListType.Wanted, album.value);
                 that.albumService.addToList(ListType.Wanted, album)
@@ -133,7 +137,7 @@ export class ResultPage {
         });
 
         actionSheet.addButton({
-            text: 'I have',
+            text: this.copy.result_iOwn,
             handler: () => {
                 that.presentToast(ListType.Have, album.value);
                 that.albumService.addToList(ListType.Have, album)
@@ -142,7 +146,7 @@ export class ResultPage {
         });
 
         actionSheet.addButton({
-            text: 'Ignore',
+            text: this.copy.result_ignore,
             handler: () => {
                 that.presentToast(ListType.Ignore, album.value);
                 that.albumService.addToList(ListType.Ignore, album)
@@ -151,7 +155,7 @@ export class ResultPage {
         });
 
         actionSheet.addButton({
-            text: 'Cancel',
+            text: this.copy.result_cancel,
             handler: () => {
             }
         });
