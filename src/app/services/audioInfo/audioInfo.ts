@@ -24,7 +24,7 @@ export class AudioInfo{
 				this.iOSAudioInfo.getTrack(track => resolve(track), error => reject(error), id)
 			}
 			else{
-				reject('Unable to get track');
+				reject('audioInfo_unableToGetTrack');
 			}
 		})
 	}
@@ -35,7 +35,7 @@ export class AudioInfo{
 				this.iOSAudioInfo.getAlbum(album => resolve(album), error => reject(error), id)
 			}
 			else{
-				reject('Unable to get album');
+				reject('audioInfo_unableToGetAlbum');
 			}
 		})
 	}
@@ -48,7 +48,7 @@ export class AudioInfo{
 				}, error => reject(error))
 			}
 			else {
-				reject('Unable to get tracks');
+				reject('audioInfo_unableToGetTracks');
 			}
 		})
 	}

@@ -5,6 +5,8 @@ import {ListType} from "../../domain/listType";
 import {Component} from "@angular/core";
 import {ListModalParams} from "./domain/listModalParams";
 import {ListStateService} from "../../services/listStateService";
+import {CopyLangImpl} from "../../services/copy/domain/copyLangImpl";
+import {Copy} from "../../services/copy/copy";
 
 @Component({
 	templateUrl: '../../modals/lists/list.html'
@@ -18,33 +20,35 @@ export class List {
 	title: string;
 	type: ListType;
 	listStateService: ListStateService;
+	copy:CopyLangImpl;
+
 
 	private presentToast(album: ListAlbum) {
 		let albumTitle = album.albumTitle || 'Unknown';
 
 		let toast = this.toastCtrl.create({
-			message: albumTitle + ' removed from list',
+			message: this.copy.list_albumRemoved(albumTitle),
 			duration: 1500
 		});
 		toast.present();
 	}
 
-	constructor(toastCtrl: ToastController, db: DB, platform: Platform, params: NavParams, listStateService: ListStateService) {
+	constructor(toastCtrl: ToastController, db: DB, platform: Platform, params: NavParams, listStateService: ListStateService, copy: Copy) {
 		this.toastCtrl = toastCtrl;
 		this.db = db;
 		let lisModalParams = (<ListModalParams>params.data);
 		this.type = lisModalParams.type;
+		this.copy = copy.en;
 
-		//TODO as copy
 		switch(this.type){
-			case ListType.Have:
-				this.title = 'Have';
+			case ListType.Owned:
+				this.title = 'list_titleOwned';
 				break;
 			case ListType.Wanted:
-				this.title = 'Wanted';
+				this.title = 'list_titleWanted';
 				break;
-			case ListType.Ignore:
-				this.title = 'Ignored';
+			case ListType.Ignored:
+				this.title = 'list_titleIgnored';
 				break;
 		}
 		this.viewCtrl = lisModalParams.viewCtrl;

@@ -1,7 +1,7 @@
 <ion-header>
     <ion-toolbar>
         <ion-title>
-            {{title}}
+            {{title | copy}}
         </ion-title>
         <ion-buttons start>
             <button (click)="close()" ion-button icon-only clear round>
@@ -13,12 +13,12 @@
 <ion-content padding>
     <div *ngIf="albumList.length === 0" text-center class="l-box">
         <h2 class="paddedTitle" primary>
-            No albums added. <br>
-            Add albums by tapping
+            {{'list_noAlbumTop1' | copy}} <br>
+            {{'list_noAlbumTop2' | copy}}
         </h2>
         <h2><ion-icon dark name="ios-checkmark-circle-outline"></ion-icon></h2>
         <h2 class="paddedTitle primary">
-            underneath the album cover.
+            {{'list_noAlbumBottom' | copy}}
         </h2>
     </div>
 

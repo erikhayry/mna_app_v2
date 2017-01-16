@@ -10,14 +10,14 @@ import { Storage } from '@ionic/storage';
 export class DB{
     private settingsDb:Storage;
     private wantedDb:Storage;
-    private haveDb:Storage;
-    private ignoreDb:Storage;
+    private ownedDb:Storage;
+    private ignoredDb:Storage;
 
     constructor() {
         this.settingsDb = new Storage(['sqlite', 'websql', 'indexeddb'], { name: '__settingsDb' });
         this.wantedDb = new Storage(['sqlite', 'websql', 'indexeddb'], { name: '__wantedDb' });
-        this.haveDb = new Storage(['sqlite', 'websql', 'indexeddb'], { name: '__haveDb' });
-        this.ignoreDb = new Storage(['sqlite', 'websql', 'indexeddb'], { name: '__ignoreDb' });
+        this.ownedDb = new Storage(['sqlite', 'websql', 'indexeddb'], { name: 'ownedDb' });
+        this.ignoredDb = new Storage(['sqlite', 'websql', 'indexeddb'], { name: '__ignoredDb' });
 
         //TODO as enum to match preference
         this.insertOrIgnore(this.settingsDb, 'settings_rating', 0);
@@ -37,14 +37,14 @@ export class DB{
         let db:Storage;
 
         switch(type){
-            case ListType.Have:
-                db = this.haveDb;
+            case ListType.Owned:
+                db = this.ownedDb;
                 break;
             case ListType.Wanted:
                 db = this.wantedDb;
                 break;
-            case ListType.Ignore:
-                db = this.ignoreDb;
+            case ListType.Ignored:
+                db = this.ignoredDb;
                 break;
         }
 

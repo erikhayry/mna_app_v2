@@ -72,8 +72,8 @@ export class Sort{
 			Promise.all<Promise<Preferences> | Promise<Array<ListAlbum>>>([
 				this.db.getPreferences(),
 				this.db.getList(ListType.Wanted),
-				this.db.getList(ListType.Have),
-				this.db.getList(ListType.Ignore)
+				this.db.getList(ListType.Owned),
+				this.db.getList(ListType.Ignored)
 			]).then((data: [any, any]) => {
 				let _preferences: Preferences = data[0],
 					albumList: Array<ListAlbum> = (<Array<ListAlbum>>_.union(data[1], data[2], data[3])),

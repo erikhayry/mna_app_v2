@@ -15,13 +15,13 @@
 </ion-header>
 <ion-content *ngIf="error" padding class="l-result padding-vertical">
     <div text-center class="l-box">
-        <h2 class="paddedTitle" ion-text color="danger">{{error}}</h2>
+        <h2 class="paddedTitle" ion-text color="danger">{{error | copy}}</h2>
     </div>
 </ion-content>
 <ion-content *ngIf="!error" padding class="l-result padding-vertical">
 
     <div *ngIf="album && !album.value" text-center class="l-box">
-        <h2 class="paddedTitle tertiary">No albums found on your device. Please add some music to get suggestions</h2>
+        <h2 class="paddedTitle tertiary">{{'result_noAlbumFound' | copy}}</h2>
     </div>
 
     <div *ngIf="!album" text-center class="l-result-loader l-box">
@@ -29,12 +29,12 @@
             <div class="loader animation-pulsate"></div>
         </div>
         <div class="l-result-loader-bottom">
-            <h1 text-center class="paddedTitle" ion-text color="primary">Getting Data</h1>
+            <h1 text-center class="paddedTitle" ion-text color="primary">{{'result_loading' | copy}}</h1>
         </div>
     </div>
 
     <div *ngIf="album && album.value" class="l-result-album">
-        <a text-center class="l-result-album-info" type="item-text-wrap" (click)="showInfo(album.value)" swipe>
+        <a text-center class="l-result-album-info" type="item-text-wrap" (click)="showInfo(album.value)">
 
             <img *ngIf="album.value.image" [src]="toBase64Uri(album.value.image)" class="l-result-album-cover cover">
             <div *ngIf="!album.value.image" class="l-result-album-cover emptyCover"></div>

@@ -14,6 +14,7 @@ import {AlbumInfo} from "../app/modals/albumInfo/albumInfo";
 import {List} from "../app/modals/lists/list";
 import {ListStateService} from "../app/services/listStateService";
 import {Copy} from "../app/services/copy/copy";
+import {CopyPipe} from "../app/pipes/copy";
 
 
 @NgModule({
@@ -26,6 +27,7 @@ import {Copy} from "../app/services/copy/copy";
     AlbumInfo,
     WithRatingPipe,
     HandleEmptyStringPipe,
+    CopyPipe,
   ],
   imports: [
     IonicModule.forRoot(MyApp)

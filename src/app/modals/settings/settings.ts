@@ -18,7 +18,6 @@ export class Settings{
 	db: DB;
 	preferences: Array<Preference>;
 	initialPreferences:Array<Preference>;
-	ignoreListUpdated = false;
 	copy:CopyLangImpl;
 
 	private toSortedArray(preferences:Preferences){

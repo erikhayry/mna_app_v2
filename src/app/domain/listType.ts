@@ -1,5 +1,5 @@
 export enum ListType {
-    Have,
+    Owned,
     Wanted,
-    Ignore
+    Ignored
 }

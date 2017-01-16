@@ -51,22 +51,22 @@ export class ResultPage {
     }
 
     private presentToast(type:ListType, album: Album) {
-        let albumTitle = album.albumTitle || 'Unknown';
+        let albumTitle = album.albumTitle || this.copy.result_unknown;
         let messageType = '';
-        //TODO to copy
+
         switch(type){
-            case ListType.Have:
-                messageType = 'Owned List';
+            case ListType.Owned:
+                messageType = this.copy.result_ownedList;
                 break;
             case ListType.Wanted:
-                messageType = 'Wanted List';
+                messageType = this.copy.result_wantedList;
                 break;
-            case ListType.Ignore:
-                messageType = 'Ignored List';
+            case ListType.Ignored:
+                messageType = this.copy.result_ignoredList;
                 break;
         }
         let toast = this.toastCtrl.create({
-            message: albumTitle + ' added to ' + messageType,
+            message: this.copy.result_albumAdded(albumTitle, messageType),
             duration: 1500
         });
         toast.present();
@@ -123,8 +123,7 @@ export class ResultPage {
     showListActionSheet(album: IteratorResult) {
         let that = this;
         let actionSheet = this.actionSheetCtrl.create({
-            title: 'Add ' + album.value.albumTitle + ' to a list',
-
+            title:  this.copy.result_addToListAction(album.value.albumTitle),
         });
 
         actionSheet.addButton({
@@ -139,8 +138,8 @@ export class ResultPage {
         actionSheet.addButton({
             text: this.copy.result_iOwn,
             handler: () => {
-                that.presentToast(ListType.Have, album.value);
-                that.albumService.addToList(ListType.Have, album)
+                that.presentToast(ListType.Owned, album.value);
+                that.albumService.addToList(ListType.Owned, album)
                     .then(album => that.onSuccess(album), error => that.onError(error));
             }
         });
@@ -148,8 +147,8 @@ export class ResultPage {
         actionSheet.addButton({
             text: this.copy.result_ignore,
             handler: () => {
-                that.presentToast(ListType.Ignore, album.value);
-                that.albumService.addToList(ListType.Ignore, album)
+                that.presentToast(ListType.Ignored, album.value);
+                that.albumService.addToList(ListType.Ignored, album)
                     .then(album => that.onSuccess(album), error => that.onError(error));
             }
         });
