@@ -34,10 +34,9 @@ export class AlbumService{
 					return new Promise<IteratorResult>(resolve => resolve(album));
 				});
 		}
-		//TODO promise reject
-/*		else{
-			return null
-		}*/
+		else{
+			return Promise.reject('Getting album failed')
+		}
 
 	}
 

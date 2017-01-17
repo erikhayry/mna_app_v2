@@ -15,6 +15,7 @@ import {List} from "../app/modals/lists/list";
 import {ListStateService} from "../app/services/listStateService";
 import {Copy} from "../app/services/copy/copy";
 import {CopyPipe} from "../app/pipes/copy";
+import {SortByPipe} from "../app/pipes/sortBy";
 
 
 @NgModule({
@@ -28,6 +29,7 @@ import {CopyPipe} from "../app/pipes/copy";
     WithRatingPipe,
     HandleEmptyStringPipe,
     CopyPipe,
+    SortByPipe,
   ],
   imports: [
     IonicModule.forRoot(MyApp)

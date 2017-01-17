@@ -16,7 +16,7 @@
             {{'list_noAlbumTop1' | copy}} <br>
             {{'list_noAlbumTop2' | copy}}
         </h2>
-        <h2><ion-icon dark name="ios-checkmark-circle-outline"></ion-icon></h2>
+        <h2><ion-icon dark name="list-box"></ion-icon></h2>
         <h2 class="paddedTitle primary">
             {{'list_noAlbumBottom' | copy}}
         </h2>
@@ -24,7 +24,7 @@
 
     <div *ngIf="albumList.length > 0">
         <ion-list>
-            <ion-item *ngFor="let album of albumList" (click)="deleteListItem(album)" class="stripeList-item" padding>
+            <ion-item *ngFor="let album of albumList | sortBy : 'artist'" (click)="deleteListItem(album)" class="stripeList-item" padding>
                 {{album.albumTitle | handleEmptyString}} - {{album.artist | handleEmptyString: 'Artist'}}
                 <ion-icon name="ios-close-circle-outline" item-right dark class="stripeList-icon"></ion-icon>
             </ion-item>

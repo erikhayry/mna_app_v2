@@ -4,6 +4,7 @@ import {ViewController} from 'ionic-angular';
 
 import {Preference} from "../../domain/preference";
 import {Preferences} from "../../domain/preferences";
+import {PreferenceType} from "../../domain/preferenceType";
 
 import {DB} from "../../services/db/db";
 import {Copy} from "../../services/copy/copy";
@@ -43,7 +44,7 @@ export class Settings{
 	}
 
 
-	preferenceChanged = (value:boolean, id:string): void => {
+	preferenceChanged = (value:boolean, id:PreferenceType): void => {
 		this.db.setPreferences(id, value)
 			.then(preferences => {
 				this.preferences = this.toSortedArray(preferences);
