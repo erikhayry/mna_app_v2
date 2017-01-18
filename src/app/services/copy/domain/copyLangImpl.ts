@@ -29,6 +29,7 @@ export interface CopyLangImpl{
     'lists_ignored': string
 
     'list_unknown': string
+    'list_filter': string
     'list_titleIgnored': string
     'list_titleWanted': string
     'list_titleOwned': string

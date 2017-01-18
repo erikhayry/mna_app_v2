@@ -32,6 +32,7 @@ export class Copy{
         'lists_ignored': 'Ignored',
 
         'list_unknown': 'Unknown',
+        'list_filter': 'Filter',
         'list_titleIgnored': 'Ignored',
         'list_titleWanted': 'Wanted',
         'list_titleOwned': 'Owned',

@@ -16,7 +16,7 @@ import {ListStateService} from "../app/services/listStateService";
 import {Copy} from "../app/services/copy/copy";
 import {CopyPipe} from "../app/pipes/copy";
 import {SortByPipe} from "../app/pipes/sortBy";
-
+import {FilterPipe} from "../app/pipes/filter";
 
 @NgModule({
   declarations: [
@@ -30,6 +30,7 @@ import {SortByPipe} from "../app/pipes/sortBy";
     HandleEmptyStringPipe,
     CopyPipe,
     SortByPipe,
+    FilterPipe,
   ],
   imports: [
     IonicModule.forRoot(MyApp)

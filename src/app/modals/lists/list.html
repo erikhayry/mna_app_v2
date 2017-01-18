@@ -10,7 +10,9 @@
         </ion-buttons>
     </ion-toolbar>
 </ion-header>
-<ion-content padding>
+<!--https://github.com/driftyco/ionic/issues/8933-->
+<ion-content padding (click)="{}">
+
     <div *ngIf="albumList.length === 0" text-center class="l-box">
         <h2 class="paddedTitle" primary>
             {{'list_noAlbumTop1' | copy}} <br>
@@ -23,11 +25,13 @@
     </div>
 
     <div *ngIf="albumList.length > 0">
+        <ion-searchbar [(ngModel)]="filterTerm" placeholder="{{'list_filter' | copy}}"></ion-searchbar>
         <ion-list>
-            <ion-item *ngFor="let album of albumList | sortBy : 'artist'" (click)="deleteListItem(album)" class="stripeList-item" padding>
-                {{album.albumTitle | handleEmptyString}} - {{album.artist | handleEmptyString: 'Artist'}}
-                <ion-icon name="ios-close-circle-outline" item-right dark class="stripeList-icon"></ion-icon>
+            <ion-item *ngFor="let album of albumList | filter : filterTerm | sortBy : 'artist' " class="stripeList-item">
+                <h2>{{album.artist | handleEmptyString: 'Artist'}}</h2>
+                <h3>{{album.albumTitle | handleEmptyString}}</h3>
+                <ion-icon name="ios-close-circle-outline" item-right dark (click)="deleteListItem(album)"></ion-icon>
             </ion-item>
-        </ion-list>    
+        </ion-list>
     </div>    
 </ion-content>

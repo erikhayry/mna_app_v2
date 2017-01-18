@@ -7,6 +7,7 @@ import {ListModalParams} from "./domain/listModalParams";
 import {ListStateService} from "../../services/listStateService";
 import {CopyLangImpl} from "../../services/copy/domain/copyLangImpl";
 import {Copy} from "../../services/copy/copy";
+import {Keyboard} from "ionic-native";
 
 @Component({
 	templateUrl: '../../modals/lists/list.html'
@@ -21,7 +22,7 @@ export class List {
 	type: ListType;
 	listStateService: ListStateService;
 	copy:CopyLangImpl;
-
+	filterTerm = '';
 
 	private presentToast(album: ListAlbum) {
 		let albumTitle = album.albumTitle || 'Unknown';
@@ -70,5 +71,9 @@ export class List {
 			listUpdated: this.listStateService.getState()
 		});
 		this.listStateService.setState(false);
+	}
+
+	closeKB(){
+		Keyboard.close()
 	}
 }

@@ -1,12 +1,5 @@
 .stripeList{
 	&-item{
-
-		.item-inner{
-			padding-bottom: 15px;
-			padding-top: 15px;
-			border-width: 2px !important; //Overwrite os
-		}
-
 		&:nth-child(1n){
 			.item-inner{
 				border-color: map-get($primaryColors, base)				
@@ -24,9 +17,5 @@
 				border-color: map-get($tertiaryColors, base);
 			}
 		}		
-	}
-
-	&-icon{
-		font-size: 4rem !important;
 	}
 }
