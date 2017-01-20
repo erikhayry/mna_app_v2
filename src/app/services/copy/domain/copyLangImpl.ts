@@ -15,6 +15,7 @@ export interface CopyLangImpl{
     result_addToListAction(albumTitle: string): string
     'result_noAlbumFound': string
     'result_loading': string
+    'result_authorizationStatusDenied': string
 
     'audioInfo_unableToGetTrack': string
     'audioInfo_unableToGetTracks': string

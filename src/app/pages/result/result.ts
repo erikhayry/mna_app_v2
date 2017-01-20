@@ -29,6 +29,19 @@ export class ResultPage {
     private db: DB;
     private error: string;
     private copy:CopyLangImpl;
+    private retries = 0;
+
+    private onAuthorizationStatusDenied(){
+        if(this.retries < 3){
+            this.retries++;
+            setTimeout(() => {
+                this.getAlbums()
+            }, 5000)
+        }
+        else{
+            this.error = this.copy.result_authorizationStatusDenied;
+        }
+    }
 
     private onSuccess(album: IteratorResult): void {
         this.error = null;
@@ -36,7 +49,12 @@ export class ResultPage {
     }
 
     private onError(error: string): void {
-        this.error = error;
+        if(error == 'MPMediaLibraryAuthorizationStatusDenied'){
+            this.onAuthorizationStatusDenied()
+        }
+        else{
+            this.error = error;
+        }
     }
 
     private getAlbums(): void {

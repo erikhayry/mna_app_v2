@@ -18,6 +18,7 @@ export class Copy{
         result_addToListAction: (albumTitle) => 'Add ' + albumTitle + ' to a list',
         'result_noAlbumFound': 'No albums found on your device. Please add some music to get suggestions',
         'result_loading': 'Getting data',
+        'result_authorizationStatusDenied': 'This app needs access to your music to find your favourites',
 
         'audioInfo_unableToGetTrack' : 'Unable to get track',
         'audioInfo_unableToGetTracks' : 'Unable to get tracks',
