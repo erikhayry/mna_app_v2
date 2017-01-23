@@ -46,6 +46,12 @@ export class ResultPage {
     private onSuccess(album: IteratorResult): void {
         this.error = null;
         this.album = album;
+
+        if(!this.album.value){
+            setTimeout(() => {
+                this.getAlbums()
+            }, 2000)
+        }
     }
 
     private onError(error: string): void {
@@ -84,6 +90,7 @@ export class ResultPage {
                 break;
         }
         let toast = this.toastCtrl.create({
+            position: 'top',
             message: this.copy.result_albumAdded(albumTitle, messageType),
             duration: 1500
         });

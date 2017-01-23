@@ -10,5 +10,5 @@ export class CopyPipe implements PipeTransform {
 		this.copy = copy.en;
 	}
 
-	transform = (key:string) => this.copy[key] ? this.copy[key] : ' - ' + key;
+	transform = (key:string) => this.copy[key] ? this.copy[key] : key;
 }
