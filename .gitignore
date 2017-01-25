@@ -12,6 +12,7 @@ css/
 platforms/
 www/lib/
 plugins/
+resources/ios/
 
 ### Node template
 # Logs
