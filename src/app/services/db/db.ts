@@ -20,14 +20,14 @@ export class DB {
         this.ownedDb = new Storage(['sqlite', 'websql', 'indexeddb'], {name: '__ownedDb'});
         this.ignoredDb = new Storage(['sqlite', 'websql', 'indexeddb'], {name: '__ignoredDb'});
 
-        this.insertOrIgnore(this.settingsDb, 'settings_rating', 0);
-        this.insertOrIgnore(this.settingsDb, 'settings_playCount', 1);
-        this.insertOrIgnore(this.settingsDb, 'settings_numberOfItems', 0);
+        this.insertOrIgnore(this.settingsDb, 'settings_rating', false);
+        this.insertOrIgnore(this.settingsDb, 'settings_playCount', true);
+        this.insertOrIgnore(this.settingsDb, 'settings_numberOfItems', false);
     }
 
-    private insertOrIgnore(db: Storage, key: PreferenceType, newVal: number): void {
+    private insertOrIgnore(db: Storage, key: PreferenceType, newVal: boolean): void {
         db.get(key).then((val) => {
-            if (!val) {
+            if (val !== false && val !== true) {
                 db.set(key, newVal);
             }
         });
@@ -78,7 +78,7 @@ export class DB {
             let _preferences: Preferences = (<Preferences>{});
             this.settingsDb.forEach((value, key, iterationNumber) => {
                 _preferences[key] = {
-                    checked: value ? true : false,
+                    checked: value,
                     label: key
                 };
             }).then(() => (resolve(_preferences)));

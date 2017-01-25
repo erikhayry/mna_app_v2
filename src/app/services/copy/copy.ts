@@ -4,7 +4,7 @@ export class Copy{
     en:CopyLangImpl = {
         'settings_rating':'Use rating',
         'settings_playCount': 'Use play count',
-        'settings_numberOfItems': 'Use number of items',
+        'settings_numberOfItems': 'Use number of tracks in album',
 
         'result_unknown': 'Unknown',
         'result_iWant': 'I want',

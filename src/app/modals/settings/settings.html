@@ -16,7 +16,13 @@
         <ion-list>
             <ion-item *ngFor="let preference of preferences" class="stripeList-item">
                 <ion-label>{{preference.label | copy}}</ion-label>
-                <ion-toggle class="tertiary" [(ngModel)]="preference.checked" (ngModelChange)="preferenceChanged($event, preference.label)" [disabled]="disableSetting(preference, preferences)"></ion-toggle>
+                <ion-toggle
+                        class="tertiary"
+                        [disabled]="preference.disabled"
+                        [(ngModel)]="preference.checked"
+                        (ngModelChange)="preferenceChanged($event, preference.label)"
+                >
+                </ion-toggle>
             </ion-item>
         </ion-list>
     </div>

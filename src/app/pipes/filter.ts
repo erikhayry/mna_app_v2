@@ -4,8 +4,6 @@ import {ListAlbum} from "../domain/listAlbum";
 @Pipe({name: 'filter'})
 export class FilterPipe implements PipeTransform {
     transform = (albums: Array<ListAlbum>, filter: string) => {
-        console.log('Filter: ', filter);
-
         if(!filter){
             return albums;
         }

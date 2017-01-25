@@ -26,6 +26,15 @@ export class Settings{
 			.map(key => preferences[key]), 'label');
 	}
 
+	private setPreference(preferences:Preferences){
+		let disableSelected = Object.keys(preferences).filter(key => preferences[key].checked).length === 1;
+		for(let key in preferences){
+			preferences[key].disabled = preferences[key].checked && disableSelected
+		}
+
+		return this.toSortedArray(preferences);
+	}
+
 	constructor(viewCtrl: ViewController, db:DB, copy:Copy) {
 		this.viewCtrl = viewCtrl;
 		this.db = db;
@@ -33,7 +42,7 @@ export class Settings{
 
 		this.db.getPreferences()
 			.then(preferences => {
-				this.preferences = this.initialPreferences = this.toSortedArray(preferences);
+				this.preferences = this.initialPreferences = this.setPreference(preferences);
 			});
 	}
 
@@ -47,10 +56,7 @@ export class Settings{
 	preferenceChanged = (value:boolean, id:PreferenceType): void => {
 		this.db.setPreferences(id, value)
 			.then(preferences => {
-				this.preferences = this.toSortedArray(preferences);
+				this.preferences = this.setPreference(preferences);
 			});
 	};
-
-	disableSetting = (preference: Preference, preferences: Preferences): boolean =>
-	preference.checked && Object.keys(preferences).filter(key => preferences[key].checked).length < 2
 }
