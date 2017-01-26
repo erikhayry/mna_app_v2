@@ -4,7 +4,6 @@ import {ViewController, AlertController} from 'ionic-angular';
 
 import {Preference} from "../../domain/preference";
 import {Preferences} from "../../domain/preferences";
-import {PreferenceType} from "../../domain/preferenceType";
 
 import {DB} from "../../services/db/db";
 import {Copy} from "../../services/copy/copy";
