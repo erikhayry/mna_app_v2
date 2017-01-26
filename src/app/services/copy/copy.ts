@@ -27,6 +27,9 @@ export class Copy{
         'settings_title': 'Settings',
         'settings_madeBy': 'Made by Ellen Portin & Erik Portin',
         'settings_madeIn': 'Åbo / Stockholm 2016',
+        'settings_alertOk': 'Ok',
+        'settings_alertTitle': 'Error',
+        'settings_alertSubTitle': 'One option is required',
 
         'lists_wanted': 'Wanted',
         'lists_owned': 'Owned',

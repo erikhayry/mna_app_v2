@@ -18,9 +18,8 @@
                 <ion-label>{{preference.label | copy}}</ion-label>
                 <ion-toggle
                         class="tertiary"
-                        [disabled]="preference.disabled"
                         [(ngModel)]="preference.checked"
-                        (ngModelChange)="preferenceChanged($event, preference.label)"
+                        (ngModelChange)="preferenceChanged($event, preference)"
                 >
                 </ion-toggle>
             </ion-item>

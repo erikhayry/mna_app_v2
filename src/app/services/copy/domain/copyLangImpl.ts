@@ -24,6 +24,9 @@ export interface CopyLangImpl{
     'settings_title': string
     'settings_madeBy': string
     'settings_madeIn': string
+    'settings_alertOk': string
+    'settings_alertTitle': string
+    'settings_alertSubTitle': string
 
     'lists_wanted': string
     'lists_owned': string
