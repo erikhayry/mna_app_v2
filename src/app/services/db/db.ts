@@ -73,6 +73,11 @@ export class DB {
         return this.getDb(type).remove(id).then(() => this.getList(type))
     }
 
+    moveListItem(oldType:ListType, newType: ListType, album:ListAlbum): Promise<Array<ListAlbum>> {
+        return this.getDb(oldType).remove(album.id)
+            .then(() => this.addListItem(newType, album.id, album.albumTitle, album.artist))
+    }
+
     getPreferences(): Promise<Preferences> {
         return new Promise<Preferences>((resolve, reject) => {
             let _preferences: Preferences = (<Preferences>{});

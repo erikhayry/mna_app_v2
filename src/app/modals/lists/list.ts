@@ -1,4 +1,4 @@
-import {ViewController, Platform, ToastController, NavParams} from 'ionic-angular';
+import {ViewController, Platform, ToastController, NavParams, AlertController} from 'ionic-angular';
 import {DB} from "../../services/db/db";
 import {ListAlbum} from "../../domain/listAlbum";
 import {ListType} from "../../domain/listType";
@@ -7,7 +7,6 @@ import {ListModalParams} from "./domain/listModalParams";
 import {ListStateService} from "../../services/listStateService";
 import {CopyLangImpl} from "../../services/copy/domain/copyLangImpl";
 import {Copy} from "../../services/copy/copy";
-import {Keyboard} from "ionic-native";
 
 @Component({
 	templateUrl: '../../modals/lists/list.html'
@@ -23,6 +22,7 @@ export class List {
 	listStateService: ListStateService;
 	copy:CopyLangImpl;
 	filterTerm = '';
+	alertCtrl: AlertController;
 
 	private presentToast(album: ListAlbum) {
 		let albumTitle = album.albumTitle || 'Unknown';
@@ -34,8 +34,46 @@ export class List {
 		toast.present();
 	}
 
-	constructor(toastCtrl: ToastController, db: DB, platform: Platform, params: NavParams, listStateService: ListStateService, copy: Copy) {
+	private showRadio(album: ListAlbum) {
+		let alert = this.alertCtrl.create();
+		alert.setTitle('Move ' + album.albumTitle);
+
+		alert.addInput({
+			type: 'radio',
+			label: this.copy.lists_wanted,
+			value: ListType.Wanted + '',
+			checked: ListType.Wanted == this.type
+		});
+
+		alert.addInput({
+			type: 'radio',
+			label: this.copy.lists_owned,
+			value: ListType.Owned + '',
+			checked: ListType.Owned == this.type
+		});
+
+		alert.addInput({
+			type: 'radio',
+			label: this.copy.lists_ignored,
+			value: ListType.Ignored + '',
+			checked: ListType.Ignored == this.type
+		});
+
+		alert.addButton('Cancel');
+		alert.addButton({
+			text: 'OK',
+			handler: (listType:ListType) => {
+				if(listType !== this.type){
+					this.db.moveListItem(this.type, listType, album).then(albumList => this.albumList = albumList)
+				}
+			}
+		});
+		alert.present();
+	}
+
+	constructor(toastCtrl: ToastController, alertCtrl: AlertController, db: DB, platform: Platform, params: NavParams, listStateService: ListStateService, copy: Copy) {
 		this.toastCtrl = toastCtrl;
+		this.alertCtrl = alertCtrl;
 		this.db = db;
 		let lisModalParams = (<ListModalParams>params.data);
 		this.type = lisModalParams.type;
@@ -60,6 +98,10 @@ export class List {
 		});
 	}
 
+	moveListItem = (album: ListAlbum): void => {
+		this.showRadio(album);
+	};
+
 	deleteListItem = (album: ListAlbum): void => {
 		this.listStateService.setState(true);
 		this.presentToast(album);
@@ -71,9 +113,5 @@ export class List {
 			listUpdated: this.listStateService.getState()
 		});
 		this.listStateService.setState(false);
-	}
-
-	closeKB(){
-		Keyboard.close()
 	}
 }

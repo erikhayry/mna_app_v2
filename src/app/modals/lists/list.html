@@ -27,11 +27,24 @@
     <div *ngIf="albumList.length > 0">
         <ion-searchbar [(ngModel)]="filterTerm" placeholder="{{'list_filter' | copy}}"></ion-searchbar>
         <ion-list>
-            <ion-item *ngFor="let album of albumList | filter : filterTerm | sortBy : 'artist' " class="stripeList-item">
-                <h2>{{album.artist | handleEmptyString: 'Artist'}}</h2>
-                <h3>{{album.albumTitle | handleEmptyString}}</h3>
-                <ion-icon name="ios-close-circle-outline" item-right dark (click)="deleteListItem(album)"></ion-icon>
-            </ion-item>
+
+            <ion-item-sliding *ngFor="let album of albumList | filter : filterTerm | sortBy : 'artist' " class="stripeList-item">
+                <ion-item>
+                    <h2>{{album.artist | handleEmptyString: 'Artist'}}</h2>
+                    <h3>{{album.albumTitle | handleEmptyString}}</h3>
+
+                </ion-item>
+                <ion-item-options side="right">
+                    <button ion-button color="danger">
+                        <ion-icon name="ios-close-circle-outline" item-right light (click)="deleteListItem(album)"></ion-icon>
+                        Remove
+                    </button>
+                    <button ion-button color="primary">
+                        <ion-icon name="ios-close-circle-outline" item-right light (click)="moveListItem(album)"></ion-icon>
+                        Move
+                    </button>
+                </ion-item-options>
+            </ion-item-sliding>
         </ion-list>
     </div>    
 </ion-content>
